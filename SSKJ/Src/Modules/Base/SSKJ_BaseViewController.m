@@ -107,7 +107,7 @@
     barImageView.alpha = alpha;
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:navigationBackgroundColor] forBarMetrics:UIBarMetricsDefault];
     
-//    [self.navigationController.navigationBar setShadowImage:[[UIImage alloc]init] ];
+    [self.navigationController.navigationBar setShadowImage:[[UIImage alloc]init] ];
     
     self.navigationController.navigationBar.barTintColor = navigationBackgroundColor;
 }

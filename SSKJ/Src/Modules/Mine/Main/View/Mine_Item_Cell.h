@@ -12,9 +12,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface Mine_Item_Cell : UITableViewCell
 
--(void)setDataWithDict:(NSDictionary *)dict;
 
-@property(nonatomic, strong)UILabel *subTitleLabel;
+
+-(void)setIconName:(NSString*)icon title:(NSString*)title desc:(NSString*)desc;
+
+
+
+
 @end
 
 NS_ASSUME_NONNULL_END

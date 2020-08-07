@@ -105,7 +105,7 @@
     [manager.requestSerializer setValue:Token forHTTPHeaderField:@"Authorization"];
     [manager.requestSerializer setValue:@"app" forHTTPHeaderField:@"from"];
     [manager.requestSerializer setValue:kAppVersion forHTTPHeaderField:@"version"];
-    [manager.requestSerializer setValue:languageType forHTTPHeaderField:@"locale"];
+    [manager.requestSerializer setValue:languageType forHTTPHeaderField:@"Lang"];
     //设备唯一标识
     [manager.requestSerializer setValue:Uuid forHTTPHeaderField:@"uuid"];
     
@@ -623,7 +623,7 @@
     [manager.requestSerializer setValue:[NSString stringWithFormat:@"Bearer %@",Token] forHTTPHeaderField:@"Authorization"];
     [manager.requestSerializer setValue:@"app" forHTTPHeaderField:@"from"];
     [manager.requestSerializer setValue:kAppVersion forHTTPHeaderField:@"version"];
-    [manager.requestSerializer setValue:languageType forHTTPHeaderField:@"locale"];
+    [manager.requestSerializer setValue:languageType forHTTPHeaderField:@"Lang"];
     //设备唯一标识
     [manager.requestSerializer setValue:Uuid forHTTPHeaderField:@"uuid"];
     

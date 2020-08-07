@@ -8,91 +8,124 @@
 
 #import "ATEX_SafeCenter_Cell.h"
 
-@interface ATEX_SafeCenter_Cell ()
-@property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, strong) UIImageView *enterImageView;
-@property (nonatomic, strong) UILabel *statusLabel;
-@property (nonatomic, strong) UIImageView *statusImageView;
-
-@end
-
 @implementation ATEX_SafeCenter_Cell
+
+
+
+
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
-    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        self.backgroundColor = [UIColor clearColor];
-        self.contentView.backgroundColor = [UIColor clearColor];
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self)
+    {
+        [self.contentView setBackgroundColor:kBgColor];
+        
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        [self addSubview:self.titleLabel];
-        [self addSubview:self.enterImageView];
-        [self addSubview:self.statusLabel];
-        [self addSubview:self.statusImageView];
-
+        
+        [self.contentView addSubview:self.cellTitleLabel];
+        [self.contentView addSubview:self.statusLabel];
+        [self.contentView addSubview:self.accoryImageView];
+        [self.contentView addSubview:self.markImageView];
+        [self.contentView addSubview:self.lineView];
+        
+        [self.cellTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+           
+            make.left.equalTo(self.contentView.mas_left).offset(ScaleW(15));
+            make.centerY.equalTo(self.contentView.mas_centerY);
+        }];
+        
+        [self.accoryImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+           
+            make.right.equalTo(self.contentView.mas_right).offset(-ScaleW(15));
+            make.centerY.equalTo(self.contentView.mas_centerY);
+        }];
+        
+        
+        [self.markImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+           
+            make.right.equalTo(self.statusLabel.mas_left).offset(-ScaleW(10));
+            make.centerY.equalTo(self.contentView.mas_centerY);
+        }];
+        
+        [self.statusLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+           
+            make.right.equalTo(self.accoryImageView.mas_left).offset(-ScaleW(10));
+            make.centerY.equalTo(self.contentView.mas_centerY);
+        }];
+        
+        [self.lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.cellTitleLabel.mas_left);
+            make.right.equalTo(self.accoryImageView.mas_right);
+            make.height.equalTo(@(ScaleW(0.5)));
+            make.bottom.equalTo(self.contentView.mas_bottom);
+            
+        }];
     }
     return self;
 }
 
 
--(UILabel *)titleLabel
+
+#pragma mark - Getter / Setter
+- (UILabel *)cellTitleLabel
 {
-    if (nil == _titleLabel) {
-        _titleLabel = [WLTools allocLabel:@"" font:systemFont(ScaleW(15)) textColor:kTitleColor frame:CGRectMake(ScaleW(15), 0, ScaleW(200), ScaleW(49)) textAlignment:NSTextAlignmentLeft];
+    if (!_cellTitleLabel)
+    {
+        _cellTitleLabel = [[UILabel alloc]init];
+        [_cellTitleLabel setFont:systemFont(ScaleW(14))];
+        [_cellTitleLabel setTextColor:koTitleColor];
     }
-    return _titleLabel;
+    return _cellTitleLabel;
 }
 
--(UIImageView *)enterImageView
+- (UILabel *)statusLabel
 {
-    if (nil == _enterImageView) {
-        _enterImageView = [[UIImageView alloc]initWithFrame:CGRectMake(ScreenWidth - ScaleW(15) - ScaleW(5), 0, ScaleW(5), ScaleW(9))];
-        _enterImageView.image = [UIImage imageNamed:@"我的-更多"];
-        _enterImageView.centerY = self.titleLabel.centerY;
-    }
-    return _enterImageView;
-}
-
-
--(UILabel *)statusLabel
-{
-    if (nil == _statusLabel) {
-        _statusLabel = [WLTools allocLabel:@"" font:systemFont(ScaleW(15)) textColor:kSubTitleColor frame:CGRectMake(self.enterImageView.x - ScaleW(10) - ScaleW(100), 0, ScaleW(100), ScaleW(49)) textAlignment:NSTextAlignmentRight];
-        _statusLabel.adjustsFontSizeToFitWidth = YES;
+    if (!_statusLabel)
+    {
+        _statusLabel = [[UILabel alloc]init];
+        [_statusLabel setFont:systemFont(ScaleW(14))];
+        [_statusLabel setTextColor:kMidTitleColor];
     }
     return _statusLabel;
 }
 
--(UIImageView *)statusImageView
+
+
+
+-(UIImageView *)accoryImageView
 {
-    if (nil == _statusImageView) {
-        _statusImageView = [[UIImageView alloc]initWithFrame:CGRectMake(ScreenWidth - ScaleW(15) - ScaleW(11.5), 0, ScaleW(11.5), ScaleW(11.5))];
-        _statusImageView.image = [UIImage imageNamed:@"safe_status"];
-        _statusImageView.centerY = self.titleLabel.centerY;
+    if (!_accoryImageView)
+    {
+        _accoryImageView = [[UIImageView alloc]init];
+        [_accoryImageView setImage:[UIImage imageNamed:@"Mime_levelmore"]];
     }
-    return _statusImageView;
+    return _accoryImageView;
 }
 
-- (void)setTitle:(NSString *)title statusString:(NSString *)statusString isShowImage:(BOOL)isShowImage
+-(UIImageView *)markImageView
 {
-    self.titleLabel.text = title;
-    self.statusLabel.text = statusString;
-    self.statusImageView.hidden = !isShowImage;
-    CGFloat width = [WLTools getWidthWithText:statusString font:self.statusLabel.font];
-   self.statusLabel.width = width;
-   self.statusLabel.right = self.enterImageView.x - ScaleW(10);
-    if (isShowImage) {
-        self.statusLabel.textColor = UIColorFromRGB(0xFF5E66);
-        self.statusImageView.right = self.statusLabel.x - ScaleW(5);
-    }else{
-        self.statusLabel.textColor = kSubTitleColor;
+    if (!_markImageView)
+    {
+        _markImageView = [[UIImageView alloc]init];
+        [_markImageView setImage:[UIImage imageNamed:@"Mine_exclamatory"]];
     }
-   
+    return _markImageView;
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
 
-    // Configure the view for the selected state
+
+
+- (UIView *)lineView
+{
+    if (!_lineView)
+    {
+        _lineView = [[UIView alloc]init];
+        [_lineView setBackgroundColor:kSubTitleColor];
+    }
+    return _lineView;
 }
+
+
 
 @end

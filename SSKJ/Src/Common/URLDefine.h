@@ -293,7 +293,20 @@
 /* 个人中心-个人信息  ATEX */
 #define BI_UserInfo_URL [NSString stringWithFormat:@"%@%@",ProductBaseServer,@"/api/user/details"]
 
+//验证google码
+#define Check_google_code [NSString stringWithFormat:@"%@/Home/google/check_google_code",ProductBaseServer]
 
+//是否开启谷歌验证
+#define Get_Is_start_google [NSString stringWithFormat:@"%@/Home/Google/is_start_google",ProductBaseServer]
+//设置谷歌验证的开关
+#define Set_google_state [NSString stringWithFormat:@"%@/api/user/googleVerifyStart",ProductBaseServer]
+
+//开启谷歌身份验证
+#define CreateGoogleCommand [NSString stringWithFormat:@"%@/api/user/createGoogleSecret",ProductBaseServer]
+
+
+//绑定谷歌验证码
+#define CheckGoogleCommand [NSString stringWithFormat:@"%@/api/user/authenticatorBind",ProductBaseServer]
 
 //!< 申请商家
 #define BI_ApplyShop_URL [NSString stringWithFormat:@"%@%@",ProductBaseServer,@"/app/lawCoin/applyShop"]

@@ -441,6 +441,13 @@
 		963F517E24D59B9C00844D73 /* YYWebImageOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 963F50F224D59B9C00844D73 /* YYWebImageOperation.m */; };
 		963F518D24D6F53B00844D73 /* RechargeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 963F518C24D6F53B00844D73 /* RechargeModel.m */; };
 		96666F6424DD1A9400080BED /* IdverificationControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 96666F6324DD1A9400080BED /* IdverificationControl.m */; };
+		96666F6724DD3F2100080BED /* MineSafeCenterHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96666F6624DD3F2000080BED /* MineSafeCenterHeaderView.m */; };
+		96666F6A24DD41BD00080BED /* MineSafeCenterFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96666F6824DD41BC00080BED /* MineSafeCenterFooterView.m */; };
+		96666F6D24DD41DE00080BED /* MineSafeCenterFooterItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96666F6C24DD41DE00080BED /* MineSafeCenterFooterItemView.m */; };
+		96666F7024DD43A600080BED /* My_GoogleVerify_ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96666F6F24DD43A600080BED /* My_GoogleVerify_ViewController.m */; };
+		96666F7324DD448400080BED /* My_Google_Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 96666F7124DD448300080BED /* My_Google_Model.m */; };
+		96666F7624DD47E500080BED /* My_BindGoogle_AlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96666F7424DD47E500080BED /* My_BindGoogle_AlertView.m */; };
+		96666F7924DD8D9200080BED /* MineHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96666F7824DD8D9200080BED /* MineHeaderView.m */; };
 		96759CED246D193E00C9432D /* Lion_AboutUsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96759CEB246D193E00C9432D /* Lion_AboutUsVC.m */; };
 /* End PBXBuildFile section */
 
@@ -1353,6 +1360,20 @@
 		963F518C24D6F53B00844D73 /* RechargeModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RechargeModel.m; sourceTree = "<group>"; };
 		96666F6224DD1A9400080BED /* IdverificationControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IdverificationControl.h; sourceTree = "<group>"; };
 		96666F6324DD1A9400080BED /* IdverificationControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IdverificationControl.m; sourceTree = "<group>"; };
+		96666F6524DD3F2000080BED /* MineSafeCenterHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineSafeCenterHeaderView.h; sourceTree = "<group>"; };
+		96666F6624DD3F2000080BED /* MineSafeCenterHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineSafeCenterHeaderView.m; sourceTree = "<group>"; };
+		96666F6824DD41BC00080BED /* MineSafeCenterFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineSafeCenterFooterView.m; sourceTree = "<group>"; };
+		96666F6924DD41BD00080BED /* MineSafeCenterFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineSafeCenterFooterView.h; sourceTree = "<group>"; };
+		96666F6B24DD41DE00080BED /* MineSafeCenterFooterItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineSafeCenterFooterItemView.h; sourceTree = "<group>"; };
+		96666F6C24DD41DE00080BED /* MineSafeCenterFooterItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineSafeCenterFooterItemView.m; sourceTree = "<group>"; };
+		96666F6E24DD43A600080BED /* My_GoogleVerify_ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = My_GoogleVerify_ViewController.h; sourceTree = "<group>"; };
+		96666F6F24DD43A600080BED /* My_GoogleVerify_ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = My_GoogleVerify_ViewController.m; sourceTree = "<group>"; };
+		96666F7124DD448300080BED /* My_Google_Model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = My_Google_Model.m; sourceTree = "<group>"; };
+		96666F7224DD448400080BED /* My_Google_Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = My_Google_Model.h; sourceTree = "<group>"; };
+		96666F7424DD47E500080BED /* My_BindGoogle_AlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = My_BindGoogle_AlertView.m; sourceTree = "<group>"; };
+		96666F7524DD47E500080BED /* My_BindGoogle_AlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = My_BindGoogle_AlertView.h; sourceTree = "<group>"; };
+		96666F7724DD8D9200080BED /* MineHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MineHeaderView.h; sourceTree = "<group>"; };
+		96666F7824DD8D9200080BED /* MineHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MineHeaderView.m; sourceTree = "<group>"; };
 		96759CEB246D193E00C9432D /* Lion_AboutUsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Lion_AboutUsVC.m; path = "SSKJ/Src/Modules/Mine/Main/¹ØÓÚÎÒÃÇ/Lion_AboutUsVC.m"; sourceTree = SOURCE_ROOT; };
 		96759CEC246D193E00C9432D /* Lion_AboutUsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Lion_AboutUsVC.h; path = "SSKJ/Src/Modules/Mine/Main/¹ØÓÚÎÒÃÇ/Lion_AboutUsVC.h"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -1757,6 +1778,8 @@
 		3A08BE41234C5D360086ED0F /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				96666F6E24DD43A600080BED /* My_GoogleVerify_ViewController.h */,
+				96666F6F24DD43A600080BED /* My_GoogleVerify_ViewController.m */,
 				3A08BE44234C5D360086ED0F /* Mine_PrimaryCertificate_ViewController.h */,
 				3A08BE4A234C5D360086ED0F /* Mine_PrimaryCertificate_ViewController.m */,
 				3A08BE43234C5D360086ED0F /* Mine_CertificationState_ViewController.h */,
@@ -1856,6 +1879,8 @@
 				3A08BE4E234C5D360086ED0F /* Mine_TitleAndInput_View.m */,
 				3A08BF5E234C5D360086ED0F /* Mine_Item_Cell.h */,
 				3A08BF67234C5D360086ED0F /* Mine_Item_Cell.m */,
+				96666F7724DD8D9200080BED /* MineHeaderView.h */,
+				96666F7824DD8D9200080BED /* MineHeaderView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2303,6 +2328,10 @@
 		3A08C39D234C67BF0086ED0F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				96666F7524DD47E500080BED /* My_BindGoogle_AlertView.h */,
+				96666F7424DD47E500080BED /* My_BindGoogle_AlertView.m */,
+				96666F7224DD448400080BED /* My_Google_Model.h */,
+				96666F7124DD448300080BED /* My_Google_Model.m */,
 				3A08BFFD234C5D360086ED0F /* Login_Google_AlertView.h */,
 				3A08BFFF234C5D360086ED0F /* Login_Google_AlertView.m */,
 				3A08C39F234C67BF0086ED0F /* Mine_BindGoogle_AlertView.h */,
@@ -2937,6 +2966,12 @@
 				3A08BE6D234C5D360086ED0F /* Mine_SafeCenter_ViewController.m */,
 				063CC7432445B643006CAD40 /* ATEX_SafeCenter_Cell.h */,
 				063CC7442445B643006CAD40 /* ATEX_SafeCenter_Cell.m */,
+				96666F6524DD3F2000080BED /* MineSafeCenterHeaderView.h */,
+				96666F6624DD3F2000080BED /* MineSafeCenterHeaderView.m */,
+				96666F6924DD41BD00080BED /* MineSafeCenterFooterView.h */,
+				96666F6824DD41BC00080BED /* MineSafeCenterFooterView.m */,
+				96666F6B24DD41DE00080BED /* MineSafeCenterFooterItemView.h */,
+				96666F6C24DD41DE00080BED /* MineSafeCenterFooterItemView.m */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -3669,6 +3704,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				43798F0923A47FBF00A79C36 /* Home_Coin_View.m in Sources */,
+				96666F7024DD43A600080BED /* My_GoogleVerify_ViewController.m in Sources */,
 				43C595D6239DE3720089FD62 /* ImaginaryLineView.m in Sources */,
 				439DEED3239928F200B2C07B /* ETF_BBTrade_MoreSegment_View.m in Sources */,
 				0449D20B241A278800E25252 /* Lion_AssetsHeaderView.m in Sources */,
@@ -3705,6 +3741,7 @@
 				963F514024D59B9C00844D73 /* UIProgressView+AFNetworking.m in Sources */,
 				3A08C32C234C5D380086ED0F /* CWLateralSlideAnimator.m in Sources */,
 				3A08C1E8234C5D380086ED0F /* SSKJ_NoDataView.m in Sources */,
+				96666F6D24DD41DE00080BED /* MineSafeCenterFooterItemView.m in Sources */,
 				3A08C2FC234C5D380086ED0F /* UIViewController+SSKJ.m in Sources */,
 				963F50FC24D59B9C00844D73 /* NSObject+MJCoding.m in Sources */,
 				3A08C302234C5D380086ED0F /* ManagerSocket.m in Sources */,
@@ -3712,6 +3749,7 @@
 				065BD19E24497CBA00FB4F65 /* BuyCoin_TableViewCell.m in Sources */,
 				439DEEBB2399279400B2C07B /* ETF_BBTrade_IntroductHeaderView.m in Sources */,
 				963F510024D59B9C00844D73 /* NSString+MJExtension.m in Sources */,
+				96666F7324DD448400080BED /* My_Google_Model.m in Sources */,
 				06D8ABF22447EF6B00AAC2E7 /* ATEX_ExtractRecord_ViewController.m in Sources */,
 				065BD1AE24499C4E00FB4F65 /* UIScrollView+TYSnapshot.m in Sources */,
 				06D8ABD82446D58300AAC2E7 /* UserInfoAssetModel.m in Sources */,
@@ -3722,6 +3760,7 @@
 				3A08C360234C5D390086ED0F /* MBProgressHUD.m in Sources */,
 				06D8ABE02447E6E300AAC2E7 /* ATEX_AssetDetail_IndexModel.m in Sources */,
 				3A08C355234C5D390086ED0F /* NSArray+AvoidCrash.m in Sources */,
+				96666F6724DD3F2100080BED /* MineSafeCenterHeaderView.m in Sources */,
 				439DEE8D2399265D00B2C07B /* HeYue_BaoCang_AlertView.m in Sources */,
 				4359252223580E8E0005C1AA /* FactoryUI.m in Sources */,
 				438735BA239509D5007E7F11 /* My_Yuanli_ViewController.m in Sources */,
@@ -3912,6 +3951,7 @@
 				963F511924D59B9C00844D73 /* MJRefreshComponent.m in Sources */,
 				3A08C24D234C5D380086ED0F /* SSKJ_Protocol_ViewController.m in Sources */,
 				439DEEA72399265D00B2C07B /* HeYue_EditWinLoss_AlertView.m in Sources */,
+				96666F7924DD8D9200080BED /* MineHeaderView.m in Sources */,
 				3A08C301234C5D380086ED0F /* SRWebSocket.m in Sources */,
 				3A08C336234C5D380086ED0F /* UIColor+Hex.m in Sources */,
 				439DEE992399265D00B2C07B /* Heyue_root_OrderSectionView.m in Sources */,
@@ -3920,6 +3960,7 @@
 				963F512A24D59B9C00844D73 /* MASConstraint.m in Sources */,
 				06D8ABE32447EDE600AAC2E7 /* ChargeRecord_Cell.m in Sources */,
 				3A08C362234C5D390086ED0F /* MBProgressHUD+FR.m in Sources */,
+				96666F6A24DD41BD00080BED /* MineSafeCenterFooterView.m in Sources */,
 				43798EFB23A47FBF00A79C36 /* Home_NoticeIndex_Model.m in Sources */,
 				3A08C293234C5D380086ED0F /* Mine_AddressList_TableViewCell.m in Sources */,
 				065BD18F2448632A00FB4F65 /* Heyue_Order_ChengjiaoModel.m in Sources */,
@@ -3936,6 +3977,7 @@
 				3A08C332234C5D380086ED0F /* NewPagedFlowView.m in Sources */,
 				4359270F235D80270005C1AA /* LXY_KLineTimeLabel_View.m in Sources */,
 				438735BD239509D5007E7F11 /* My_PromoteDetail_Model.m in Sources */,
+				96666F7624DD47E500080BED /* My_BindGoogle_AlertView.m in Sources */,
 				4359250823580E8E0005C1AA /* LXY_Deep_TableView.m in Sources */,
 				963F510F24D59B9C00844D73 /* MJRefreshAutoStateFooter.m in Sources */,
 				963F513924D59B9C00844D73 /* IQUITextFieldView+Additions.m in Sources */,

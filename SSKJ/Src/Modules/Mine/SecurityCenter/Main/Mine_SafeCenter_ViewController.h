@@ -14,4 +14,5 @@
 @property (nonatomic, strong) SSKJ_UserInfo_Model *userModel;
 
 -(void)reloadBankList;
+
 @end
