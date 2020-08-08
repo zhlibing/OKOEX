@@ -98,7 +98,7 @@
         [self.view addSubview:_titleBackView];
         [_titleBackView mas_makeConstraints:^(MASConstraintMaker *make)
         {
-            make.top.equalTo(@(ScaleW(10) + Height_NavBar));
+            make.top.equalTo(@(Height_NavBar));
             make.width.equalTo(@(ScreenWidth));
             make.left.equalTo(@(0));
             make.height.equalTo(@(ScaleW(100)));
