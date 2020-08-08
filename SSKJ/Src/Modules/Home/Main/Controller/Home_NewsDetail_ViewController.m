@@ -56,6 +56,8 @@
         [self.webView loadHTMLString:self.model.content baseURL:[NSURL URLWithString:ProductBaseServer]];
         self.dataLabel.text = self.model.created_at;
         
+        [self.dataLabel setHidden:YES];
+        
     }
     else if (self.detailType == DetailTypeNews)
     {
@@ -64,6 +66,7 @@
         self.dataLabel.text = self.newsModel.created_at;
         [self.webView loadHTMLString:self.newsModel.content baseURL:[NSURL URLWithString:ProductBaseServer]];
         
+        [self.dataLabel setHidden:NO];
     }
     else if (self.detailType == DetailTypeNotice)
     {
@@ -72,6 +75,8 @@
         self.dataLabel.text = self.model.updated_at;
         [self.webView loadHTMLString:self.model.content baseURL:[NSURL URLWithString:ProductBaseServer]];
 
+        
+        [self.dataLabel setHidden:NO];
     }
 }
 
@@ -101,7 +106,25 @@
             make.top.equalTo(@(Height_NavBar));
             make.width.equalTo(@(ScreenWidth));
             make.left.equalTo(@(0));
-            make.height.equalTo(@(ScaleW(100)));
+            
+            switch (self.detailType)
+            {
+                case DetailTypeNews:
+                {
+                    make.height.equalTo(@(ScaleW(100)));
+                }
+                    break;
+                case DetailTypeDealGuide:
+                {
+                    make.height.equalTo(@(ScaleW(85)));
+                }
+                    break;
+                default:
+                {
+                    make.height.equalTo(@(ScaleW(100)));
+                }
+                    break;
+            }
 
         }];
     }
