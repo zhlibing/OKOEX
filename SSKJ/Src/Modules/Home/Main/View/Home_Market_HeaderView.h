@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) void (^noticeMoreBlock)(void);    // 公告更多
 @property (nonatomic, copy) void (^hotCoinBlock)(SSKJ_Market_Index_Model *coinModel);// 热门币种点击回调
 
-@property (nonatomic, copy) void (^invicateBlock)(void);
+@property (nonatomic, copy) void (^invicateBlock)(NSInteger index);
 
 
 -(void)setBannerArray:(NSArray *)bannerArray;

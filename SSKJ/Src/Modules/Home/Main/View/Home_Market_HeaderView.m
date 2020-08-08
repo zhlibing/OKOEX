@@ -21,7 +21,6 @@
 @property(nonatomic, strong)  UIView *coinView;
 @property (nonatomic, strong) SDCycleScrollView *bannerView;    // 轮播图
 @property(nonatomic, strong)  Home_Coin_View *coinContentView;
-@property (nonatomic, strong) UIImageView *leftImageView;
 @property (nonatomic, strong) UIView *lineView; //!< 分割线
 @property (nonatomic, strong) HomeHeaderItemControl *assetsControl;
 @property (nonatomic, strong) HomeHeaderItemControl *quicklyControl;
@@ -39,7 +38,7 @@
     self = [super initWithFrame:frame];
     if (self)
     {
-        self.backgroundColor = UIColorFromRGB(0xFAFAFA);
+        [self setBackgroundColor:kBgColor];
         
         [self addSubview:self.bannerView];
         [self addSubview:self.coinView];
@@ -199,23 +198,7 @@
 }
 
 
--(UIImageView *)leftImageView
-{
-    if (nil == _leftImageView) {
-        _leftImageView = [[UIImageView alloc]initWithFrame:CGRectMake(ScaleW(15), self.coinView.bottom, ScreenWidth - ScaleW(30), ScaleW(80))];
-        _leftImageView.userInteractionEnabled = YES;
-        _leftImageView.layer.masksToBounds = YES;
-        _leftImageView.layer.cornerRadius = ScaleW(5);
-        
-        _leftImageView.image = UIImageNamed(SSKJLocalized(@"home_invicate", nil));
-        
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(invicateEvent)];
-        [_leftImageView addGestureRecognizer:tap];
-       
-        
-    }
-    return _leftImageView;
-}
+
 
 
 -(UIView *)lineView
@@ -248,6 +231,8 @@
     {
         _assetsControl = [[HomeHeaderItemControl alloc]initWithType:1];
         [_assetsControl setTitle:@"账户资产" desc:@"总账户管理" imageName:@"assets"];
+        [_assetsControl addTarget:self action:@selector(invicateEvent:) forControlEvents:UIControlEventTouchUpInside];
+        [_assetsControl setTag:1];
     }
     return _assetsControl;
 }
@@ -262,6 +247,8 @@
     {
         _quicklyControl = [[HomeHeaderItemControl alloc]initWithType:1];
         [_quicklyControl setTitle:@"快捷买币" desc:@"进入便捷交易" imageName:@"quickly"];
+        [_quicklyControl addTarget:self action:@selector(invicateEvent:) forControlEvents:UIControlEventTouchUpInside];
+        [_quicklyControl setTag:2];
     }
     return _quicklyControl;
 }
@@ -273,13 +260,15 @@
     {
         _dividendsControl = [[HomeHeaderItemControl alloc]initWithType:2];
         [_dividendsControl setTitle:@"进入全球团队分红模式" imageName:@"dividends"];
+        [_dividendsControl addTarget:self action:@selector(invicateEvent:) forControlEvents:UIControlEventTouchUpInside];
+        [_dividendsControl setTag:3];
     }
     return _dividendsControl;
 }
 
 
 
-#pragma mark - SDCycleScrollViewDelegate
+#pragma mark  SDCycleScrollViewDelegate
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index
 {
     if (self.bannerBlock) {
@@ -287,22 +276,15 @@
     }
 }
 
-#pragma mark - 用户操作
-
-
--(void)invicateEvent
+#pragma mark  用户操作 资产账户 快捷买币  分享
+-(void)invicateEvent:(UIControl*)sender
 {
-    if (self.invicateBlock) {
-        self.invicateBlock();
+    if (self.invicateBlock)
+    {
+        self.invicateBlock(sender.tag);
     }
 }
 
--(void)hotCoinClickEvent:(SSKJ_Market_Index_Model *)coinModel
-{
-    if (self.hotCoinBlock) {
-        self.hotCoinBlock(coinModel);
-    }
-}
 
 
 #pragma mark - 推送数据

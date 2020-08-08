@@ -122,7 +122,8 @@ static NSString *nodaCellId = @"nodaCellId";
 #pragma mark - UI
 -(UITableView *)tableView
 {
-    if (nil == _tableView) {
+    if (nil == _tableView)
+    {
         _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - Height_TabBar) style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
@@ -142,13 +143,12 @@ static NSString *nodaCellId = @"nodaCellId";
         [_tableView registerClass:[Nodata_Cell class] forCellReuseIdentifier:nodaCellId];
         
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-//        _tableView.separatorColor = kBgColor;
         _tableView.tableHeaderView = self.headerView;
         _tableView.backgroundColor = kSubBgColor;
-//        WS(weakSelf);
-//        _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-//            [weakSelf headerRefresh];
-//        }];
+        WS(weakSelf);
+        _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+            [weakSelf headerRefresh];
+        }];
         
     }
     return _tableView;
@@ -192,16 +192,36 @@ static NSString *nodaCellId = @"nodaCellId";
         };
 
         
-        _headerView.invicateBlock = ^{
+        _headerView.invicateBlock = ^(NSInteger index) {
             
-            if (!kLogin) {
-                [weakSelf presentLoginController];
-                return ;
+            if (kLogin)
+            {
+               switch (index)
+               {
+                   case 1:
+                   {
+                       
+                   }
+                       break;
+                   case 2:
+                   {
+                       
+                   }
+                       break;
+                   case 3:
+                   {
+                       SY_InviteViewController *vc = [SY_InviteViewController new];
+                       [weakSelf.navigationController pushViewController:vc animated:YES];
+                   }
+                       break;
+               }
             }
-            
-            SY_InviteViewController *vc = [SY_InviteViewController new];
-            [weakSelf.navigationController pushViewController:vc animated:YES];
+            else
+            {
+                [weakSelf presentLoginController];
+            }
         };
+    
         
         
        
