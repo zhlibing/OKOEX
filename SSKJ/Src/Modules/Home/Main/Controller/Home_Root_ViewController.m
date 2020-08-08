@@ -67,8 +67,6 @@ static NSString *nodaCellId = @"nodaCellId";
     [super viewDidLoad];
     
     self.marketSocket = [[ManagerSocket alloc]initWithUrl:MarketSocketUrl identifier:@"market"];
-    UILabel *titleLabel = [WLTools allocLabel:SSKJLanguage(@"首页") font:kBoldFont(18) textColor:kTitleColor frame:CGRectMake(0, 0, ScaleW(150), ScaleW(32)) textAlignment:NSTextAlignmentCenter];
-    self.navigationItem.titleView = titleLabel;
     
     [self.view addSubview:self.tableView];
     
@@ -91,7 +89,8 @@ static NSString *nodaCellId = @"nodaCellId";
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-//    [self.navigationController setNavigationBarHidden:YES animated:![SSTool isRoot]];
+    [self.navigationController setNavigationBarHidden:YES animated:![SSTool isRoot]];
+    
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
 
@@ -103,7 +102,7 @@ static NSString *nodaCellId = @"nodaCellId";
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-//    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
 
@@ -124,7 +123,7 @@ static NSString *nodaCellId = @"nodaCellId";
 -(UITableView *)tableView
 {
     if (nil == _tableView) {
-        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, Height_NavBar, ScreenWidth, ScreenHeight - Height_TabBar - Height_NavBar) style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - Height_TabBar) style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         if (@available(iOS 11.0, *))
@@ -158,10 +157,12 @@ static NSString *nodaCellId = @"nodaCellId";
 #pragma mark - 用户操作
 -(Home_Market_HeaderView *)headerView
 {
-    if (nil == _headerView) {
-        _headerView = [[Home_Market_HeaderView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScaleW(670) + Height_StatusBar)];
+    if (nil == _headerView)
+    {
+        _headerView = [[Home_Market_HeaderView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 540)];
         WS(weakSelf);
-        _headerView.bannerBlock = ^(NSInteger index) {
+        _headerView.bannerBlock = ^(NSInteger index)
+        {
             
         };
         _headerView.noticeBlock = ^(NSInteger index) {
@@ -212,60 +213,54 @@ static NSString *nodaCellId = @"nodaCellId";
 -(UIView *)sectionHeaderView
 {
     if (nil == _sectionHeaderView) {
-        _sectionHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScaleW(81))];
+        _sectionHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScaleW(40))];
         _sectionHeaderView.backgroundColor = kBgColor;
         
-        UILabel *titleLabel = [WLTools allocLabel:SSKJLocalized(@"行情列表", nil) font:systemFont(ScaleW(15)) textColor:kTitleColor frame:CGRectZero textAlignment:NSTextAlignmentLeft];
-        [_sectionHeaderView addSubview:titleLabel];
-        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(ScaleW(15));
-            make.top.mas_equalTo(ScaleW(10));
-            
-        }];
-        
-        UIView *lineView = [[UIView alloc]init];
-        lineView.backgroundColor = kLightLineColor;
-        [_sectionHeaderView addSubview:lineView];
-        
-        [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.equalTo(_sectionHeaderView);
-            make.top.equalTo(titleLabel.mas_bottom).offset(ScaleW(12));
-            make.height.mas_equalTo(ScaleW(2.5));
-        }];
 
-        //hy_down_gray
-        RightImageView *name = [[RightImageView alloc] initWithWithTitle:SSKJLanguage(@"名称") titleColor:kGrayColor font:kFont(10) Img:@"" space:ScaleW(2) target:nil action:nil];
+    
+    
+        UILabel *name = [[UILabel alloc]init];
+        [name setFont:systemFont(ScaleW(14))];
+        [name setText:SSKJLanguage(@"名称")];
+        [name setTextColor:kGrayColor];
         [_sectionHeaderView addSubview:name];
         [name mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(@(ScaleW(15)));
-            make.top.equalTo(lineView.mas_bottom).offset(ScaleW(8));
+            make.height.equalTo(@(ScaleW(40)));
+            make.centerY.equalTo(_sectionHeaderView.mas_centerY);
         }];
         
         
-        RightImageView *price = [[RightImageView alloc] initWithWithTitle:SSKJLanguage(@"最新价") titleColor:kGrayColor font:kFont(10) Img:@"" space:ScaleW(2) target:nil action:nil];
+        UILabel *price = [[UILabel alloc]init];
+        [price setFont:systemFont(ScaleW(14))];
+        [price setText:SSKJLanguage(@"价格")];
+        [price setTextColor:kGrayColor];
         [_sectionHeaderView addSubview:price];
         [price mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(@(ScaleW(165)));
-            make.centerY.equalTo(name);
+            make.centerX.equalTo(_sectionHeaderView.mas_centerX);
+            make.height.centerY.equalTo(name);
         }];
         
-//        home-pull-down
-        RightImageView *rate = [[RightImageView alloc] initWithWithTitle:SSKJLanguage(@"涨跌幅") titleColor:kGrayColor font:kFont(10) Img:@"" space:ScaleW(2) target:nil action:nil];//hy_down_gray
+        
+        UILabel *rate = [[UILabel alloc]init];
+        [rate setFont:systemFont(ScaleW(14))];
+        [rate setText:SSKJLanguage(@"涨跌幅")];
+        [rate setTextColor:kGrayColor];
         [_sectionHeaderView addSubview:rate];
         [rate mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(@(ScaleW(-15)));
             make.centerY.equalTo(name);
         }];
 
-//        UIView *line = [UIView new];
-//        line.backgroundColor = kLineColor;
-//        [_sectionHeaderView addSubview:line];
-//        [line mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.left.equalTo(@(ScaleW(15)));
-//            make.right.equalTo(@(ScaleW(-15)));
-//            make.height.equalTo(@(ScaleW(0.5)));
-//            make.bottom.equalTo(@0);
-//        }];
+        UIView *lineView = [[UIView alloc]init];
+        lineView.backgroundColor = kLineColor;
+        [_sectionHeaderView addSubview:lineView];
+        
+        [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.equalTo(_sectionHeaderView);
+            make.top.equalTo(_sectionHeaderView.mas_bottom);
+            make.height.equalTo(@(0.5));
+        }];
     }
     return _sectionHeaderView;
 }

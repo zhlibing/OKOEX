@@ -8,14 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
+
+
 NS_ASSUME_NONNULL_BEGIN
 
-@interface Home_Coin_View : UIView
+@interface Home_Coin_View : UICollectionView
+
 
 @property(nonatomic, strong)NSArray *array;
 
 @property (nonatomic,copy)void(^selectBlock)(NSInteger index);
 
+
+- (instancetype)initWithFrame:(CGRect)frame;
 
 @end
 

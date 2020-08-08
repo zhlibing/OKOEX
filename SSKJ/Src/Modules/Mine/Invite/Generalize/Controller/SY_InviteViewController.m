@@ -482,6 +482,8 @@
     
     [self.submitBtn mas_makeConstraints:^(MASConstraintMaker *make) {
        
+        
+        make.top.equalTo(self.bottomView.mas_bottom).offset(ScaleW(50));
         make.left.right.equalTo(self.bottomView);
         make.height.equalTo(@(ScaleW(45)));
     }];
@@ -682,7 +684,9 @@
     {
         _submitBtn = [[UIButton alloc]init];
         [_submitBtn setTitle:SSKJLanguage(@"生成邀请海报") forState:UIControlStateNormal];
-        [_submitBtn setBackgroundColor:kBgColor];
+        [_submitBtn setTitleColor:kWhiteColor forState:UIControlStateNormal];
+        [_submitBtn setBackgroundColor:kBlueColor];
+        [_submitBtn setCornerRadius:ScaleW(5)];
     }
     return _submitBtn;
 }

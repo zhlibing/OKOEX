@@ -17,6 +17,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Home_Market_HeaderView : UIView
+
 @property (nonatomic, strong) SSKJ_ScrollNotice_View *noticeView;
 @property (nonatomic, copy) void (^bannerBlock)(NSInteger index);    // 点击轮播图回调
 @property (nonatomic, copy) void (^noticeBlock)(NSInteger index);   // 公告轮播点击回调

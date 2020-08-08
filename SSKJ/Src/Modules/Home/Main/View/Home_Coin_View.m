@@ -8,9 +8,8 @@
 
 #import "Home_Coin_View.h"
 #import "Home_Coin_CollectionViewCell.h"
-@interface Home_Coin_View()<UICollectionViewDataSource, UICollectionViewDelegate>
+@interface Home_Coin_View() <UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
 
-@property(nonatomic, strong)UICollectionView *collectionView;
 @property(nonatomic)NSInteger totalNum;
 
 
@@ -18,42 +17,32 @@
 
 @implementation Home_Coin_View
 
-- (instancetype)initWithFrame:(CGRect)frame{
-    self = [super initWithFrame:frame];
-    if (self) {
-        self.backgroundColor = kSubBgColor;
-        self.totalNum = 3;
-        [self setupUI];
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    UICollectionViewFlowLayout *layouts = [[UICollectionViewFlowLayout alloc] init];
+    layouts.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    self = [super initWithFrame:frame collectionViewLayout:layouts];
+    if (self)
+    {
+        self.delegate = self;
+        self.dataSource = self;
+        [self registerClass:[Home_Coin_CollectionViewCell class] forCellWithReuseIdentifier:@"Home_Coin_CollectionViewCell"];
+        self.scrollEnabled = NO;
+        self.backgroundColor = kBgColor;
     }
     return self;
 }
 
-- (void)setupUI{
-    CGFloat left = ScaleW(5);
-    CGFloat space = ScaleW(5);
-    NSInteger row = 3;
-    
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    layout.itemSize = CGSizeMake((self.width - left * 2 - space * (row - 1))/row, self.height);
-    layout.minimumLineSpacing = space;
-    layout.minimumInteritemSpacing = space;
-    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    
-    
-    self.collectionView = [[UICollectionView alloc] initWithFrame:self.bounds collectionViewLayout:layout];
-    _collectionView.delegate = self;
-    _collectionView.dataSource = self;
-    [_collectionView registerClass:[Home_Coin_CollectionViewCell class] forCellWithReuseIdentifier:@"Home_Coin_CollectionViewCell"];
-    _collectionView.contentInset = UIEdgeInsetsMake(0, left, 0, left);
-    _collectionView.scrollEnabled = NO;
-    self.collectionView.backgroundColor = kBgColor;
-    [self addSubview:_collectionView];
 
+
+
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return MIN(self.array.count, 3);
 }
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return MIN(self.array.count, self.totalNum);
-}
+
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     Home_Coin_CollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Home_Coin_CollectionViewCell" forIndexPath:indexPath];
@@ -69,8 +58,29 @@
 }
 
 
-- (void)setArray:(NSArray *)array{
-    _array = array;
-    [self.collectionView reloadData];
+#pragma mark UICollectionViewDelegateFlowLayout
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return CGSizeMake((ScreenWidth-ScaleW(24))/3.0, 100);
 }
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
+{
+    return UIEdgeInsetsMake(0, 0, 0, 0);
+}
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
+{
+    return 0.0;
+}
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
+{
+    return 0.0;
+}
+
+
+- (void)setArray:(NSArray *)array
+{
+    _array = array;
+    [self reloadData];
+}
+
 @end

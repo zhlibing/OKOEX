@@ -449,6 +449,7 @@
 		96666F7624DD47E500080BED /* My_BindGoogle_AlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96666F7424DD47E500080BED /* My_BindGoogle_AlertView.m */; };
 		96666F7924DD8D9200080BED /* MineHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96666F7824DD8D9200080BED /* MineHeaderView.m */; };
 		96759CED246D193E00C9432D /* Lion_AboutUsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96759CEB246D193E00C9432D /* Lion_AboutUsVC.m */; };
+		968DAACC24DEEAB40038BF8B /* HomeHeaderItemControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 968DAACB24DEEAB40038BF8B /* HomeHeaderItemControl.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1376,6 +1377,8 @@
 		96666F7824DD8D9200080BED /* MineHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MineHeaderView.m; sourceTree = "<group>"; };
 		96759CEB246D193E00C9432D /* Lion_AboutUsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Lion_AboutUsVC.m; path = "SSKJ/Src/Modules/Mine/Main/¹ØÓÚÎÒÃÇ/Lion_AboutUsVC.m"; sourceTree = SOURCE_ROOT; };
 		96759CEC246D193E00C9432D /* Lion_AboutUsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Lion_AboutUsVC.h; path = "SSKJ/Src/Modules/Mine/Main/¹ØÓÚÎÒÃÇ/Lion_AboutUsVC.h"; sourceTree = SOURCE_ROOT; };
+		968DAACA24DEEAB40038BF8B /* HomeHeaderItemControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeHeaderItemControl.h; sourceTree = "<group>"; };
+		968DAACB24DEEAB40038BF8B /* HomeHeaderItemControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeHeaderItemControl.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2649,6 +2652,8 @@
 				43798EE623A47FBE00A79C36 /* Home_Segment_View.m */,
 				43798EF023A47FBF00A79C36 /* SSKJ_ScrollNotice_View.h */,
 				43798EE123A47FBE00A79C36 /* SSKJ_ScrollNotice_View.m */,
+				968DAACA24DEEAB40038BF8B /* HomeHeaderItemControl.h */,
+				968DAACB24DEEAB40038BF8B /* HomeHeaderItemControl.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3899,6 +3904,7 @@
 				963F510C24D59B9C00844D73 /* MJRefreshBackGifFooter.m in Sources */,
 				3A08C32D234C5D380086ED0F /* CWDrawerTransition.m in Sources */,
 				06D8ABE92447EE0B00AAC2E7 /* AssetOtherRecord_Cell.m in Sources */,
+				968DAACC24DEEAB40038BF8B /* HomeHeaderItemControl.m in Sources */,
 				963F515E24D59B9C00844D73 /* SDWebImageCodersManager.m in Sources */,
 				3A08C3AE234C6A9A0086ED0F /* MyButton.m in Sources */,
 				963F511724D59B9C00844D73 /* MJRefreshBackFooter.m in Sources */,

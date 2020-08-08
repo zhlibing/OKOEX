@@ -14,5 +14,4 @@
 -(void)setNoticeArray:(NSArray *)noticeArray;
 - (void)configureModels:(NSArray *)models;
 
--(void)setIsMainPage;
 @end
