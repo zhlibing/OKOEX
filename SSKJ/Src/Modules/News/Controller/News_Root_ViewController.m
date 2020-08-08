@@ -18,14 +18,14 @@
 @interface News_Root_ViewController ()<UIScrollViewDelegate>
 
 
-@property (nonatomic,strong)UIScrollView *scrollView;
+@property (nonatomic,strong) UIScrollView *scrollView;
 
-@property (nonatomic,strong)News_SystemConsult_VC *newsVc;
+@property (nonatomic,strong) News_SystemConsult_VC *newsVc;
 
-@property (nonatomic,strong)News_TradingGuide_VC *noticeVc;
+@property (nonatomic,strong) News_TradingGuide_VC *noticeVc;
 
 
-@property (nonatomic, strong) SSKJ_Nav_SegmentView *segmentView;
+@property (nonatomic, strong) Home_Segment_View *segmentControl;
 
 
 @end
@@ -38,13 +38,15 @@
     [self setUI];
 }
 
-- (void)setUI{
-    self.navigationItem.titleView = self.segmentView;
+- (void)setUI
+{
+    self.navigationItem.titleView = self.segmentControl;
     [self scrollView];
 }
 
 
-- (UIScrollView *)scrollView{
+- (UIScrollView *)scrollView
+{
     if (!_scrollView) {
         self.scrollView = [[UIScrollView alloc] init];
         [self.view addSubview:_scrollView];
@@ -93,23 +95,48 @@
     return _scrollView;
 }
 
--(SSKJ_Nav_SegmentView *)segmentView
-{
-    if (nil == _segmentView) {
-        _segmentView = [[SSKJ_Nav_SegmentView alloc]initWithFrame:CGRectMake((ScreenWidth-ScaleW(160))/2, Height_NavBar - 10 - 30, ScaleW(160), 30) titles:@[SSKJLocalized(@"行业资讯", nil),SSKJLocalized(@"交易指南", nil)] normalColor:kBlueColor selectedColor:kTitleColor fontSize:ScaleW(13.5)];
-        WS(weakSelf);
-        _segmentView.selectedIndexBlock = ^BOOL(NSInteger index) {
 
-            CGPoint offsize = weakSelf.scrollView.contentOffset;
-            offsize.x = index * ScreenWidth;
-            [weakSelf.scrollView setContentOffset:offsize animated:YES];
-            
+-(Home_Segment_View *)segmentControl
+{
+    if (nil == _segmentControl)
+    {
+        _segmentControl = [[Home_Segment_View alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth - ScaleW(150), ScaleW(40)) titles:@[SSKJLocalized(@"快讯", nil),SSKJLocalized(@"交易指南", nil)] normalColor:kSubTitleColor selectedColor:kTitleColor fontSize:ScaleW(15)];
+        [_segmentControl setBackgroundColor:kBgColor];
+        
+        WS(weakSelf);
+        _segmentControl.selectedIndexBlock = ^(NSInteger index)
+        {
+            weakSelf.scrollView.contentOffset = CGPointMake(ScreenWidth * index, 0);
+            [weakSelf setIndex:index];
+
             return YES;
         };
-        
     }
-    return _segmentView;
+    return _segmentControl;
 }
+
+
+
+#pragma mark - scroll delegate
+-(void)setIndex:(NSInteger)index
+{
+    switch (index)
+    {
+        case 0:
+        {
+            [self.newsVc viewWillAppear:YES];
+        }
+            break;
+        case 1:
+        {
+            [self.noticeVc viewWillAppear:YES];
+        }
+            break;
+    }
+}
+
+
+
 
 
 #pragma mark - scroll delegate
@@ -121,8 +148,13 @@
         return;
     }
 
-    [self.segmentView setSelectedIndex:offset.x/ScreenWidth];
+    self.segmentControl.selectedIndex = offset.x/ScreenWidth;
 
+    [self setIndex:self.segmentControl.selectedIndex];
 }
+
+
+
+
 
 @end

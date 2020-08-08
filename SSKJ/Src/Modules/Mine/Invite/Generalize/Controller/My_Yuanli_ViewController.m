@@ -16,6 +16,8 @@
 
 @interface My_Yuanli_ViewController ()
 <UITableViewDelegate,UITableViewDataSource>
+
+
 @property (nonatomic, strong) SSKJ_TableView *tableView;
 @property (nonatomic, strong) My_Yuanli_HeaderView *headerView;
 @property (nonatomic, assign) NSInteger page;
@@ -48,8 +50,9 @@
 
 -(My_Yuanli_HeaderView *)headerView
 {
-    if (nil == _headerView) {
-        _headerView = [[My_Yuanli_HeaderView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScaleW(40))];
+    if (nil == _headerView)
+    {
+        _headerView = [[My_Yuanli_HeaderView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScaleW(185))];
     }
     return _headerView;
 }
@@ -191,7 +194,7 @@
 
     [self.dataSource addObjectsFromArray:array];
 
-    [SSKJ_NoDataView showNoData:self.dataSource.count toView:self.tableView offY:ScaleW(40)];
+    [SSKJ_NoDataView showNoData:self.dataSource.count toView:self.tableView offY:ScaleW(190)];
   
     [self.tableView reloadData];
 

@@ -7,13 +7,23 @@
 //
 
 #pragma mark 返佣
-
-
 #import "SSKJ_BaseViewController.h"
+
+
+
+typedef NS_ENUM(NSUInteger, MyAssetType) {
+    MyAssetTypeCharge,
+    MyAssetTypeExtract,
+    MyAssetTypeOther,
+};
+
+
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface My_Generalize_RootViewController : SSKJ_BaseViewController
+
+@property (nonatomic, assign) MyAssetType assetType;
 
 @end
 

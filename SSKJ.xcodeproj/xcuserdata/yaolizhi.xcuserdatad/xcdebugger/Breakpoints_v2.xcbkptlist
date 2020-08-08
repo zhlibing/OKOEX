@@ -14,8 +14,8 @@
             filePath = "SSKJ/Src/Modules/Mine/Invite/Generalize/Controller/My_PromoteDetail_ViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "171"
-            endingLineNumber = "171"
+            startingLineNumber = "173"
+            endingLineNumber = "173"
             landmarkName = "-handleDataWithNetModel:"
             landmarkType = "7">
          </BreakpointContent>
@@ -177,38 +177,6 @@
             startingLineNumber = "116"
             endingLineNumber = "116"
             landmarkName = "-forgetRequset"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "E65AE30D-4924-4E2E-9477-07D633DAA8A4"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SSKJ/Src/Modules/News/Controller/News_TradingGuide_VC.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "299"
-            endingLineNumber = "299"
-            landmarkName = "-requestGetBanner"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "B3CDDA5F-D099-4B57-970B-B286A935FBF2"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SSKJ/Src/Networking/Request/WLHttpManager.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "74"
-            endingLineNumber = "74"
-            landmarkName = "-requestWithURL_HTTPCode:RequestType:Parameters:Success:Failure:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -53,24 +53,18 @@
 
 -(UIImageView *)imageV
 {
-    if (_imageV == nil) {
+    if (_imageV == nil)
+    {
         
-        _imageV = [FactoryUI createImageViewWithFrame:CGRectZero imageName:@"market_banner"];
-        
+        _imageV = [FactoryUI createImageViewWithFrame:CGRectZero imageName:@"okoexdefault"];
+        [_imageV setContentMode:UIViewContentModeScaleAspectFill];
+        [_imageV.layer setMasksToBounds:YES];
         [self.contentView addSubview:_imageV];
-        _imageV.layer.masksToBounds = YES;
-        _imageV.layer.cornerRadius = ScaleW(5);
-        
-        [_imageV mas_makeConstraints:^(MASConstraintMaker *make) {
-            
+        [_imageV mas_makeConstraints:^(MASConstraintMaker *make)
+        {
             make.left.equalTo(@(ScaleW(15)));
-            
             make.top.equalTo(@(ScaleW(15)));
-            
-            make.width.equalTo(@(ScaleW(105)));
-            
-            make.height.equalTo(@(ScaleW(80)));
-            
+            make.width.height.equalTo(@(ScaleW(100)));
         }];
     }
     return _imageV;
@@ -80,20 +74,14 @@
 {
     if (_contentLabel == nil) {
         
-        _contentLabel = [FactoryUI createLabelWithFrame:CGRectZero text:@"" textColor:kTitleColor font:systemFont(ScaleW(15))];
-        
-        _contentLabel.numberOfLines = 2;
-        
+        _contentLabel = [FactoryUI createLabelWithFrame:CGRectZero text:@"" textColor:UIColorFromRGB(0x333333) font:systemFont(ScaleW(15))];
+        _contentLabel.numberOfLines = 0;
         [self.contentView addSubview:_contentLabel];
-        
-        [_contentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            
+        [_contentLabel mas_makeConstraints:^(MASConstraintMaker *make)
+        {
             make.top.equalTo(self.imageV.mas_top);
-            
-            make.left.equalTo(self.imageV.mas_right).offset(ScaleW(10));
-            
+            make.left.equalTo(self.imageV.mas_right).offset(ScaleW(15));
             make.right.equalTo(@(ScaleW(-15)));
-            
         }];
         
     }
@@ -102,20 +90,14 @@
 
 - (UILabel *)timeLabel
 {
-    if (_timeLabel == nil) {
-        
-        _timeLabel = [FactoryUI createLabelWithFrame:CGRectZero text:@"03-23 12:00" textColor:kSubTitleColor font:systemFont(ScaleW(12))];
-        
+    if (_timeLabel == nil)
+    {
+        _timeLabel = [FactoryUI createLabelWithFrame:CGRectZero text:@"03-23 12:00" textColor:UIColorFromRGB(0x979DAB) font:systemFont(ScaleW(12))];   
         [self.contentView addSubview:_timeLabel];
-        
-        [_timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            
+        [_timeLabel mas_makeConstraints:^(MASConstraintMaker *make)
+        {
             make.bottom.equalTo(self.imageV.mas_bottom);
-            
-            make.left.equalTo(self.imageV.mas_right).offset(ScaleW(10));
-            
             make.right.equalTo(@(ScaleW(-15)));
-            
         }];
         
     }
@@ -124,26 +106,24 @@
 
 - (UIView *)lineview
 {
-    if (_lineview == nil) {
+    if (_lineview == nil)
+    {
         
         _lineview = [FactoryUI createViewWithFrame:CGRectZero Color:kLineColor];
-        
         [self.contentView addSubview:_lineview];
-        
-        [_lineview mas_makeConstraints:^(MASConstraintMaker *make) {
-            
-            make.bottom.right.equalTo(@0);
-            
-            make.left.equalTo(self.contentLabel);
+        [_lineview mas_makeConstraints:^(MASConstraintMaker *make)
+        {
+                    
+            make.left.equalTo(self.imageView.mas_left);
             make.right.equalTo(@(ScaleW(-15)));
-
-            make.height.equalTo(@(ScaleW(0.5)));
-            
-            
+            make.height.equalTo(@(0.5));
+    
         }];
     }
     return _lineview;
 }
+
+
 
 - (void)initDataWithModel:(News_Zizun_Index_Model *)model
 {

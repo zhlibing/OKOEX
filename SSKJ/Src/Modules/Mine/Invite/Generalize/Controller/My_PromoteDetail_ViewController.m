@@ -23,7 +23,6 @@
 @property (nonatomic, strong) My_Friend_HeaderView *headerView;
 
 @property (nonatomic, strong) SSKJ_TableView *tableView;
-
 @property (nonatomic, assign) NSInteger page;
 
 @property (nonatomic, strong) NSMutableArray *dataSource;
@@ -52,15 +51,18 @@
 
 -(My_Friend_HeaderView *)headerView
 {
-    if (nil == _headerView) {
-        _headerView = [[My_Friend_HeaderView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScaleW(40))];
+    if (nil == _headerView)
+    {
+        _headerView = [[My_Friend_HeaderView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 105)];
     }
     return _headerView;
 }
 
+
 -(SSKJ_TableView *)tableView
 {
-    if (nil == _tableView) {
+    if (nil == _tableView)
+    {
         _tableView = [[SSKJ_TableView alloc]initWitDeletage:self];
         [self.view addSubview:_tableView];
         [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -188,7 +190,7 @@
     }
 
 
-    [SSKJ_NoDataView showNoData:self.dataSource.count toView:self.tableView offY:ScaleW(30)];
+    [SSKJ_NoDataView showNoData:self.dataSource.count toView:self.tableView offY:ScaleW(110)];
     [self.tableView reloadData];
     self.page++;
 

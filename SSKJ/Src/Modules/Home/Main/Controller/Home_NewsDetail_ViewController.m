@@ -49,21 +49,23 @@
 {
     [super viewWillAppear:animated];
     
-    if (self.detailType == DetailTypeDealGuide) {
+    if (self.detailType == DetailTypeDealGuide)
+    {
         self.title = SSKJLocalized(@"交易指南", nil);
-        
-            
         self.titleLabel.text = self.model.title;
         [self.webView loadHTMLString:self.model.content baseURL:[NSURL URLWithString:ProductBaseServer]];
-        self.dataLabel.text = self.model.updated_at;
+        self.dataLabel.text = self.model.created_at;
         
-    }else if (self.detailType == DetailTypeNews){
+    }
+    else if (self.detailType == DetailTypeNews)
+    {
         self.title = SSKJLocalized(@"资讯详情", nil);
         self.titleLabel.text=self.newsModel.title;
-        self.dataLabel.text = self.newsModel.updated_at;
+        self.dataLabel.text = self.newsModel.created_at;
         [self.webView loadHTMLString:self.newsModel.content baseURL:[NSURL URLWithString:ProductBaseServer]];
         
-    }else if (self.detailType == DetailTypeNotice)
+    }
+    else if (self.detailType == DetailTypeNotice)
     {
         self.title = SSKJLocalized(@"公告详情", nil);
         self.titleLabel.text=self.model.title;
@@ -71,9 +73,6 @@
         [self.webView loadHTMLString:self.model.content baseURL:[NSURL URLWithString:ProductBaseServer]];
 
     }
-    
-//    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-    //
 }
 
 #pragma  mark - 创建UI
@@ -92,14 +91,18 @@
 
 -(UIView *)titleBackView
 {
-    if (nil == _titleBackView) {
+    if (nil == _titleBackView)
+    {
         _titleBackView = [[UIView alloc]init];
         _titleBackView.backgroundColor = kBgColor;
         [self.view addSubview:_titleBackView];
-        [_titleBackView mas_makeConstraints:^(MASConstraintMaker *make) {
+        [_titleBackView mas_makeConstraints:^(MASConstraintMaker *make)
+        {
             make.top.equalTo(@(ScaleW(10) + Height_NavBar));
             make.width.equalTo(@(ScreenWidth));
             make.left.equalTo(@(0));
+            make.height.equalTo(@(ScaleW(100)));
+
         }];
     }
     return _titleBackView;
@@ -111,27 +114,16 @@
     if (!_titleLabel)
     {
         _titleLabel=[[UILabel alloc]init];
-        
         _titleLabel.font=[UIFont systemFontOfSize:ScaleW(15)];
         _titleLabel.numberOfLines = 0;
-        
+        [_titleLabel setTextAlignment:NSTextAlignmentCenter];
         _titleLabel.textColor=kTitleColor;
-        
-        //        //标题
-        //        if (self.model) {
-        //            _titleLabel.text=self.model.title;
-        //        }else{
-        //            _titleLabel.text=self.systemModel.title;
-        //        }
-        
         [self.titleBackView addSubview:_titleLabel];
         
         [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             
             make.top.equalTo(@(ScaleW(15)));
-            
             make.left.equalTo(@(ScaleW(15)));
-            
             make.right.equalTo(self.titleBackView.mas_right).offset(ScaleW(-15));
             
         }];
@@ -146,46 +138,35 @@
     if (!_dataLabel)
     {
         _dataLabel=[[UILabel alloc]init];
-        
-        _dataLabel.font=[UIFont systemFontOfSize:ScaleW(12)];
-        
+        _dataLabel.font=systemFont(ScaleW(12));
+        [_dataLabel setTextAlignment:NSTextAlignmentCenter];
         _dataLabel.textColor=kSubTitleColor;
-        //时间
-        if (self.model) {
-            _dataLabel.text=self.model.created_at;
-        }else{
-            
-            _dataLabel.text=[WLTools convertTimestamp:self.systemModel.createTime.doubleValue / 1000 andFormat:@"yyyy-MM-dd HH:mm"];
-        }
-        
-        
         [self.titleBackView addSubview:_dataLabel];
-        
         [_dataLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             
-            make.top.equalTo(self.titleLabel.mas_bottom).offset(10);
-            
-            make.left.equalTo(self.titleLabel);
-            
-            make.bottom.equalTo(self.titleBackView.mas_bottom).offset(ScaleW(-10));
-            
+            make.bottom.equalTo(self.titleBackView.mas_bottom);
+            make.left.right.equalTo(self.titleLabel);
+            make.height.equalTo(@(ScaleW(40)));
         }];
         
     }
     return _dataLabel;
 }
 
-- (UIView *)lineView{
-    if (_lineView == nil) {
+
+- (UIView *)lineView
+{
+    if (_lineView == nil)
+    {
         _lineView = [[UIView alloc]initWithFrame:CGRectZero];
-        _lineView.backgroundColor = kLightLineColor;
+        _lineView.backgroundColor = kLineColor;
         
         [self.titleBackView addSubview:_lineView];
         [_lineView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(@(ScaleW(15)));
             make.right.equalTo(@(ScaleW(-15)));
             make.bottom.equalTo(@(ScaleW(0)));
-            make.height.equalTo(@(ScaleW(1)));
+            make.height.equalTo(@(ScaleW(0.5)));
         }];
     }
     return _lineView;
@@ -197,7 +178,6 @@
         _webBackView = [[UIView alloc]init];
         _webBackView.backgroundColor = kBgColor;
         [self.view addSubview:_webBackView];
-        
         [_webBackView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.titleBackView.mas_bottom);
             
@@ -325,7 +305,7 @@
     [webView evaluateJavaScript:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '200%'"completionHandler:nil];
     
     //修改字体颜色  #9098b8
-    [webView evaluateJavaScript:@"document.getElementsByTagName('body')[0].style.webkitTextFillColor= '#E0E3F9'"completionHandler:nil];
+    [webView evaluateJavaScript:@"document.getElementsByTagName('body')[0].style.webkitTextFillColor= '#666666'"completionHandler:nil];
     
 }
 

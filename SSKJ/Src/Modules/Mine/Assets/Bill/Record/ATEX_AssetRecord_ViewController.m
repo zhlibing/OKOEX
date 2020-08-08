@@ -11,21 +11,27 @@
 #import "ATEX_ExtractRecord_ViewController.h"
 #import "ATEX_OtherRecord_ViewController.h"
 #import "Home_Segment_View.h"
-@interface ATEX_AssetRecord_ViewController ()<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate>
+
+
+@interface ATEX_AssetRecord_ViewController () <UIScrollViewDelegate>
+
+
+
 @property (nonatomic, strong) Home_Segment_View *segmentControl;
 @property (nonatomic, strong) UIScrollView *scrollView;
+
 @property (nonatomic, strong) ATEX_ChargeRecord_ViewController *chargeVc;
 @property (nonatomic, strong) ATEX_ExtractRecord_ViewController *extractVc;
 @property (nonatomic, strong) ATEX_OtherRecord_ViewController *otherVc;
-
 
 @end
 
 @implementation ATEX_AssetRecord_ViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
     [self setNavgationBackgroundColor:kSubBgColor alpha:0];
     self.navigationItem.titleView = self.segmentControl;
         
@@ -48,13 +54,14 @@
 
 -(Home_Segment_View *)segmentControl
 {
-    if (nil == _segmentControl) {
-        
+    if (nil == _segmentControl)
+    {
         _segmentControl = [[Home_Segment_View alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth - ScaleW(150), ScaleW(40)) titles:@[SSKJLocalized(@"充币记录", nil),SSKJLocalized(@"提币记录", nil),SSKJLocalized(@"其他", nil)] normalColor:kTitleColor selectedColor:kBlueColor fontSize:ScaleW(15)];
         [_segmentControl setBackgroundColor:kBgColor];
         
         WS(weakSelf);
-        _segmentControl.selectedIndexBlock = ^(NSInteger index) {
+        _segmentControl.selectedIndexBlock = ^(NSInteger index)
+        {
             weakSelf.scrollView.contentOffset = CGPointMake(ScreenWidth * index, 0);
             [weakSelf setIndex:index];
 
@@ -66,8 +73,10 @@
 }
 
 
-- (UIScrollView *)scrollView{
-    if (!_scrollView) {
+- (UIScrollView *)scrollView
+{
+    if (!_scrollView)
+    {
         self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
         [self.view addSubview:_scrollView];
 
@@ -131,14 +140,5 @@
     [self setIndex:self.segmentControl.selectedIndex];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

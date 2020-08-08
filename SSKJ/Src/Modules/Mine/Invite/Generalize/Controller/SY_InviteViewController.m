@@ -9,25 +9,65 @@
 #import "SY_InviteViewController.h"
 #import "ImaginaryLineView.h"
 @interface SY_InviteViewController ()
+
+
+
 @property (nonatomic, strong) UIImageView *backImageView;
-@property(nonatomic, strong)UIImageView *qrImageV;
-@property(nonatomic, strong)UILabel *qrLabel;
-@property(nonatomic, strong)UILabel *titleLabel;
+@property (nonatomic, strong) UIView *topView;
+@property (nonatomic, strong) UILabel *leftTopLabel;
+@property (nonatomic, strong) UILabel *leftBottomLabel;
+@property (nonatomic, strong) UILabel *middleTopLabel;
+@property (nonatomic, strong) UILabel *middleBootomLabel;
+@property (nonatomic, strong) UILabel *rightTopLabel;
+@property (nonatomic, strong) UILabel *rightBootomLabel;
+@property (nonatomic, strong) UIImageView *leftImageView;
+@property (nonatomic, strong) UIImageView *rightImageView;
+@property (nonatomic, strong) UILabel *tipLabel; //!< 加入经纪人享更多收益，详情联系平台客服
+
+
+@property (nonatomic, strong) UIView *bottomView;
+@property (nonatomic, strong) UILabel *bottomTipLabel; //!< 我的邀请链接
+@property (nonatomic, strong) UILabel *invitationAddressLabel; //!< 邀请注册地址
+@property (nonatomic, strong) UILabel *invitationTipLabel; //!< 我的邀请提示
+@property (nonatomic, strong) UILabel *invitationCodeLabel; //!< 我的邀请码
+
+@property (nonatomic, strong) UIButton *submitBtn; //!< 生产海报按钮
+
+
+
+@property (nonatomic, strong) UIImageView *qrImageV;
+@property (nonatomic, strong) UILabel *qrLabel;
+@property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIButton *dumplainButton;
 @end
 
 @implementation SY_InviteViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    self.title = SSKJLocalized(@"推广海报", nil);
-    [self setupViews];
-    [self getinfo];
+    [self.view setBackgroundColor:kSubBgColor];
     
-    UILongPressGestureRecognizer *longPress=[[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(saveImage:)];
-    self.qrImageV.userInteractionEnabled = YES;
-    [self.qrImageV addGestureRecognizer:longPress];
+    self.title = SSKJLocalized(@"推广海报", nil);
+//    [self setupViews];
+//    [self getinfo];
+    
+//    UILongPressGestureRecognizer *longPress=[[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(saveImage:)];
+//    self.qrImageV.userInteractionEnabled = YES;
+//    [self.qrImageV addGestureRecognizer:longPress];
+    
+    
+    [self unit:YES];
 }
+
+
+
+
+
+
+
+
+
 
 
 
@@ -289,6 +329,389 @@
     return [UIImage imageWithCGImage:scaledImage];
     
 }
+
+
+#pragma mark - Private Method
+#pragma mark UI布局
+-(void)unit:(BOOL)unit
+{
+    [self.view addSubview:self.backImageView];
+    
+    [self.view addSubview:self.topView];
+    [self.topView addSubview:self.leftTopLabel];
+    [self.topView addSubview:self.leftBottomLabel];
+    [self.topView addSubview:self.middleTopLabel];
+    [self.topView addSubview:self.middleBootomLabel];
+    [self.topView addSubview:self.rightTopLabel];
+    [self.topView addSubview:self.rightBootomLabel];
+    [self.topView addSubview:self.leftImageView];
+    [self.topView addSubview:self.rightImageView];
+    
+    
+    [self.view addSubview:self.tipLabel];
+    
+    [self.view addSubview:self.bottomView];
+    [self.bottomView addSubview:self.bottomTipLabel];
+    [self.bottomView addSubview:self.invitationAddressLabel];
+    [self.bottomView addSubview:self.invitationTipLabel];
+    [self.bottomView addSubview:self.invitationCodeLabel];
+
+    
+    [self.view addSubview:self.submitBtn];
+
+    
+    
+    
+    [self.backImageView mas_makeConstraints:^(MASConstraintMaker *make)
+    {
+        make.top.equalTo(@(Height_NavBar));
+        make.left.right.equalTo(@(0));
+        make.height.equalTo(@(ScaleW(266)));
+    }];
+    
+    
+    [self.topView mas_makeConstraints:^(MASConstraintMaker *make)
+     {
+        make.top.equalTo(self.backImageView.mas_bottom).offset(-ScaleW(47));
+        make.left.equalTo(self.view).offset(ScaleW(15));
+        make.right.equalTo(self.view).offset(-ScaleW(15));
+        make.height.equalTo(@(ScaleW(72)));
+    }];
+    
+    [self.leftTopLabel mas_makeConstraints:^(MASConstraintMaker *make)
+     {
+        make.left.equalTo(self.topView.mas_left).offset(ScaleW(15));
+        make.bottom.equalTo(self.topView.mas_centerY);
+        make.width.equalTo(@(ScaleW(60)));
+    }];
+    
+    [self.leftBottomLabel mas_makeConstraints:^(MASConstraintMaker *make)
+     {
+        make.top.equalTo(self.topView.mas_centerY);
+        make.left.equalTo(self.leftTopLabel.mas_left);
+        make.width.equalTo(self.leftTopLabel);
+    }];
+    
+    
+    [self.leftImageView mas_makeConstraints:^(MASConstraintMaker *make)
+     {
+        make.centerY.equalTo(self.topView.mas_centerY);
+        make.left.equalTo(self.leftTopLabel.mas_right).offset(ScaleW(10));
+        make.width.equalTo(@(ScaleW(44)));
+    }];
+    
+    
+    [self.middleTopLabel mas_makeConstraints:^(MASConstraintMaker *make)
+     {
+        make.centerX.equalTo(self.topView.mas_centerX);
+        make.bottom.equalTo(self.topView.mas_centerY);
+    }];
+    
+    [self.middleBootomLabel mas_makeConstraints:^(MASConstraintMaker *make)
+     {
+        make.top.equalTo(self.topView.mas_centerY);
+        make.centerX.equalTo(self.topView.mas_centerX);
+    }];
+    
+    
+    [self.rightImageView mas_makeConstraints:^(MASConstraintMaker *make)
+     {
+        make.centerY.equalTo(self.topView.mas_centerY);
+        make.left.equalTo(self.topView.mas_centerX).offset(ScaleW(53));
+        make.width.equalTo(@(ScaleW(44)));
+    }];
+    
+    [self.rightTopLabel mas_makeConstraints:^(MASConstraintMaker *make)
+     {
+        make.right.equalTo(self.topView.mas_right).offset(-ScaleW(13));
+        make.bottom.equalTo(self.topView.mas_centerY);
+    }];
+    
+    [self.rightBootomLabel mas_makeConstraints:^(MASConstraintMaker *make)
+     {
+        make.top.equalTo(self.topView.mas_centerY);
+        make.right.equalTo(self.leftTopLabel);
+    }];
+    
+    
+    
+    [self.tipLabel mas_makeConstraints:^(MASConstraintMaker *make)
+     {
+        make.top.equalTo(self.topView.mas_bottom);
+        make.height.equalTo(@(40));
+        make.centerX.equalTo(self.view.mas_centerX);
+    }];
+    
+    
+    
+    [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make)
+     {
+        make.top.equalTo(self.tipLabel.mas_bottom);
+        make.left.right.equalTo(self.topView);
+        make.height.equalTo(@(165));
+    }];
+    
+    
+    [self.bottomTipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.top.equalTo(self.bottomView.mas_top).offset(ScaleW(19));
+        make.left.equalTo(self.bottomView.mas_left).offset(ScaleW(15));
+    }];
+    
+    [self.invitationAddressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.top.equalTo(self.bottomTipLabel.mas_bottom).offset(ScaleW(5));
+        make.left.equalTo(self.bottomTipLabel);
+    }];
+    
+    
+    [self.invitationTipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.top.equalTo(self.bottomView.mas_centerY).offset(ScaleW(5));
+        make.left.equalTo(self.bottomTipLabel);
+    }];
+    
+    
+    [self.invitationCodeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.top.equalTo(self.invitationTipLabel.mas_bottom).offset(ScaleW(10));
+        make.left.equalTo(self.bottomTipLabel);
+    }];
+    
+    
+    
+    [self.submitBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.left.right.equalTo(self.bottomView);
+        make.height.equalTo(@(ScaleW(45)));
+    }];
+    
+    
+    
+    
+    
+}
+
+
+
+
+#pragma mark - Getter / Setter
+-(UIImageView *)backImageView
+{
+    if (!_backImageView)
+    {
+        _backImageView = [[UIImageView alloc]init];
+        [_backImageView setContentMode:UIViewContentModeScaleAspectFill];
+        [_backImageView setImage:[UIImage imageNamed:@"invitationbg"]];
+    }
+    return _backImageView;
+}
+
+-(UIView *)topView
+{
+    if (!_topView)
+    {
+        _topView = [[UIView alloc]init];
+        [_topView setBackgroundColor:kWhiteColor];
+        [_topView setCornerRadius:ScaleW(5)];
+    }
+    return _topView;
+}
+
+
+-(UILabel *)leftTopLabel
+{
+    if (!_leftTopLabel)
+    {
+        _leftTopLabel = [[UILabel alloc]init];
+        [_leftTopLabel setFont:systemFont(ScaleW(13))];
+        [_leftTopLabel setTextColor:kSubTitleColor];
+        [_leftTopLabel setText:SSKJLanguage(@"发送邀请")];
+    }
+    return _leftTopLabel;
+}
+
+
+-(UILabel *)leftBottomLabel
+{
+    if (!_leftBottomLabel)
+    {
+        _leftBottomLabel = [[UILabel alloc]init];
+        [_leftBottomLabel setFont:systemFont(ScaleW(13))];
+        [_leftBottomLabel setTextColor:kSubTitleColor];
+        [_leftBottomLabel setText:SSKJLanguage(@"给好友")];
+    }
+    return _leftBottomLabel;
+}
+
+-(UILabel *)middleTopLabel
+{
+    if (!_middleTopLabel)
+    {
+        _middleTopLabel = [[UILabel alloc]init];
+        [_middleTopLabel setFont:systemFont(ScaleW(13))];
+        [_middleTopLabel setTextColor:kSubTitleColor];
+        [_middleTopLabel setText:SSKJLanguage(@"好友完成注册")];
+    }
+    return _middleTopLabel;
+}
+
+
+-(UILabel *)middleBootomLabel
+{
+    if (!_middleBootomLabel)
+    {
+        _middleBootomLabel = [[UILabel alloc]init];
+        [_middleBootomLabel setFont:systemFont(ScaleW(13))];
+        [_middleBootomLabel setTextColor:kSubTitleColor];
+        [_middleBootomLabel setText:SSKJLanguage(@"成为你的下级")];
+    }
+    return _middleBootomLabel;
+}
+
+
+-(UILabel *)rightTopLabel
+{
+    if (!_rightTopLabel)
+    {
+        _rightTopLabel = [[UILabel alloc]init];
+        [_rightTopLabel setFont:systemFont(ScaleW(13))];
+        [_rightTopLabel setTextColor:kSubTitleColor];
+        [_rightTopLabel setText:SSKJLanguage(@"获得相应")];
+    }
+    return _rightTopLabel;
+}
+
+
+-(UILabel *)rightBootomLabel
+{
+    if (!_rightBootomLabel)
+    {
+        _rightBootomLabel = [[UILabel alloc]init];
+        [_rightBootomLabel setFont:systemFont(ScaleW(13))];
+        [_rightBootomLabel setTextColor:kSubTitleColor];
+        [_rightBootomLabel setText:SSKJLanguage(@"比例佣金")];
+    }
+    return _rightBootomLabel;
+}
+
+
+-(UILabel *)tipLabel
+{
+    if (!_tipLabel)
+    {
+        _tipLabel = [[UILabel alloc]init];
+        [_tipLabel setFont:systemFont(ScaleW(13))];
+        [_tipLabel setTextColor:kSubTitleColor];
+        [_tipLabel setText:SSKJLanguage(@"加入经纪人享更多收益，详情联系平台客服")];
+    }
+    return _tipLabel;
+}
+
+
+
+-(UIView *)bottomView
+{
+    if (!_bottomView)
+    {
+        _bottomView = [[UIView alloc]init];
+        [_bottomView setBackgroundColor:kWhiteColor];
+        [_bottomView setCornerRadius:ScaleW(5)];
+    }
+    return _bottomView;
+}
+
+-(UILabel *)bottomTipLabel
+{
+    if (!_bottomTipLabel)
+    {
+        _bottomTipLabel = [[UILabel alloc]init];
+        [_bottomTipLabel setFont:systemFont(ScaleW(13))];
+        [_bottomTipLabel setTextColor:kSubTitleColor];
+        [_bottomTipLabel setText:SSKJLanguage(@"我的邀请链接")];
+    }
+    return _bottomTipLabel;
+}
+
+
+-(UILabel *)invitationAddressLabel
+{
+    if (!_invitationAddressLabel)
+    {
+        _invitationAddressLabel = [[UILabel alloc]init];
+        [_invitationAddressLabel setFont:systemFont(ScaleW(16))];
+        [_invitationAddressLabel setTextColor:kSubTitleColor];
+        [_invitationAddressLabel setText:@"https://www.SKPEX.io/"];
+    }
+    return _invitationAddressLabel;
+}
+
+
+
+
+
+-(UILabel *)invitationTipLabel
+{
+    if (!_invitationTipLabel)
+    {
+        _invitationTipLabel = [[UILabel alloc]init];
+        [_invitationTipLabel setFont:systemFont(ScaleW(13))];
+        [_invitationTipLabel setTextColor:kSubTitleColor];
+        [_invitationTipLabel setText:SSKJLanguage(@"我的邀请码")];
+    }
+    return _invitationTipLabel;
+}
+
+
+-(UILabel *)invitationCodeLabel
+{
+    if (!_invitationCodeLabel)
+    {
+        _invitationCodeLabel = [[UILabel alloc]init];
+        [_invitationCodeLabel setFont:systemBoldFont(ScaleW(24))];
+        [_invitationCodeLabel setTextColor:kTitleColor];
+        [_invitationCodeLabel setText:@"123456"];
+    }
+    return _invitationCodeLabel;
+}
+
+
+-(UIButton *)submitBtn
+{
+    if (!_submitBtn)
+    {
+        _submitBtn = [[UIButton alloc]init];
+        [_submitBtn setTitle:SSKJLanguage(@"生成邀请海报") forState:UIControlStateNormal];
+        [_submitBtn setBackgroundColor:kBgColor];
+    }
+    return _submitBtn;
+}
+
+
+- (UIImageView *)leftImageView
+{
+    if (!_leftImageView)
+    {
+        _leftImageView = [[UIImageView alloc]init];
+        [_leftImageView setImage:[UIImage imageNamed:@"duijie"]];
+    }
+    return _leftImageView;
+}
+
+- (UIImageView *)rightImageView
+{
+    if (!_rightImageView)
+    {
+        _rightImageView = [[UIImageView alloc]init];
+        [_rightImageView setImage:[UIImage imageNamed:@"duijie"]];
+    }
+    return _rightImageView;
+}
+
+
+
+
+
 
 
 @end

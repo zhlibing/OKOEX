@@ -45,12 +45,16 @@
 {
     CGFloat width = self.width / self.titlesArray.count;
     self.lineView.width = MIN(width, ScaleW(40));
-    for (int i = 0; i < self.titlesArray.count; i++) {
+    for (int i = 0; i < self.titlesArray.count; i++)
+    {
         UIButton *btn = [[UIButton alloc]init];
         
-        if (self.titlesArray.count == 1) {
+        if (self.titlesArray.count == 1)
+        {
             btn.frame = CGRectMake(0, 0, ScaleW(80), self.height);
-        }else{
+        }
+        else
+        {
             btn.frame = CGRectMake(width * i, 0, width, self.height);
         }
         
@@ -85,13 +89,15 @@
 -(void)setSelectedIndex:(NSInteger)selectedIndex
 {
     _selectedIndex = selectedIndex;
-    for (UIButton *btn in self.buttonArray) {
-        if (btn.tag == 100 + selectedIndex) {
+    for (UIButton *btn in self.buttonArray)
+    {
+        if (btn.tag == 100 + selectedIndex)
+        {
             btn.selected = YES;
-//            WS(weakSelf);
-//            [UIView animateWithDuration:0.3 animations:^{
-                self.lineView.centerX = btn.centerX;
-//            }];
+            WS(weakSelf);
+            [UIView animateWithDuration:0.3 animations:^{
+                weakSelf.lineView.centerX = btn.centerX;
+            }];
         }else{
             btn.selected = NO;
         }

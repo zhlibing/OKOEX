@@ -9,16 +9,30 @@
 
 #import "My_Generalize_RootViewController.h"
 #import "My_Generalize_Cell.h"
-#import "My_PromoteDetail_ViewController.h"
+#import "My_PromoteDetail_ViewController.h"  //!<我的团队
 #import "SSKJ_Protocol_ViewController.h"
-#import "My_Yuanli_ViewController.h"
+#import "My_Yuanli_ViewController.h"   //!< 佣金明细
 #import "SSKJ_Protocol_ViewController.h"
 #import "My_PromoteDetail_Model.h"
 
-#import "SY_InviteViewController.h"
+#import "SY_InviteViewController.h" //!< 推广海报
+
+
 #pragma mark 推广邀请
 
-@interface My_Generalize_RootViewController ()<UITableViewDelegate,UITableViewDataSource>
+
+@interface My_Generalize_RootViewController () <UITableViewDelegate,UITableViewDataSource>
+
+
+
+@property (nonatomic, strong) Home_Segment_View *segmentControl;
+@property (nonatomic, strong) UIScrollView *scrollView;
+@property (nonatomic, strong) SY_InviteViewController *inviteVC; //!< 推广海报
+@property (nonatomic, strong) My_PromoteDetail_ViewController *promoteVc; //!<我的团队
+@property (nonatomic, strong) My_Yuanli_ViewController *yuanliVc; //!< 佣金明细
+
+
+
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic ,strong) UIView *tableHeadView;
@@ -39,10 +53,20 @@
     
     self.title = SSKJLanguage(@"邀请返佣");
     
-    self.view.backgroundColor = kSubBgColor;
-    [self setUI];
+    [self setNavgationBackgroundColor:kSubBgColor alpha:0];
+    self.navigationItem.titleView = self.segmentControl;
+        
+    [self.view addSubview:self.scrollView];
     
-    [self requestGenerialInfo];
+    self.segmentControl.selectedIndex = (MyAssetType)(self.assetType);
+    
+    self.scrollView.contentOffset = CGPointMake(ScreenWidth * self.segmentControl.selectedIndex, 0);
+    
+    
+    
+//    [self setUI];
+//
+//    [self requestGenerialInfo];
 }
 
 #pragma mark - 用户操作
@@ -349,8 +373,115 @@
     
     self.totalPeopleLb.text = [NSString stringWithFormat:@"%@", model.data[@"recommends"] ? model.data[@"recommends"] : @"0"];
     self.totalMoneyLb.text = [WLTools noroundingStringWith:[model.data[@"commission"] doubleValue] afterPointNumber:6];
-    
-
 }
+
+
+
+
+
+
+#pragma mark - Getter / Setter
+-(Home_Segment_View *)segmentControl
+{
+    if (nil == _segmentControl)
+    {
+        _segmentControl = [[Home_Segment_View alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth - ScaleW(150), ScaleW(40)) titles:@[SSKJLocalized(@"我的客户", nil),SSKJLocalized(@"佣金明细", nil),SSKJLocalized(@"我要推广", nil)] normalColor:kSubTitleColor selectedColor:kTitleColor fontSize:ScaleW(15)];
+        [_segmentControl setBackgroundColor:kBgColor];
+        
+        WS(weakSelf);
+        _segmentControl.selectedIndexBlock = ^(NSInteger index)
+        {
+            weakSelf.scrollView.contentOffset = CGPointMake(ScreenWidth * index, 0);
+            [weakSelf setIndex:index];
+
+            return YES;
+        };
+        
+    }
+    return _segmentControl;
+}
+
+
+- (UIScrollView *)scrollView
+{
+    if (!_scrollView)
+    {
+        self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+        [self.view addSubview:_scrollView];
+
+        
+        if (@available(iOS 11.0, *)){
+            _scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        }else{
+            self.automaticallyAdjustsScrollViewInsets = NO;
+        }
+
+        _scrollView.contentSize = CGSizeMake(ScreenWidth * 3, 0);
+        _scrollView.pagingEnabled = YES;
+        _scrollView.bounces = NO;
+        _scrollView.delegate = self;
+        _scrollView.showsHorizontalScrollIndicator = NO;
+        _scrollView.backgroundColor = kBgColor;
+        
+        self.promoteVc = [[My_PromoteDetail_ViewController alloc]init];
+        [self addChildViewController:self.promoteVc];
+        self.promoteVc.view.frame = CGRectMake(0, 0, ScreenWidth, self.scrollView.height);
+        [_scrollView addSubview:self.promoteVc.view];
+        
+        self.yuanliVc = [[My_Yuanli_ViewController alloc]init];
+        [self addChildViewController:self.yuanliVc];
+        self.yuanliVc.view.frame = CGRectMake(ScreenWidth, 0, ScreenWidth, self.scrollView.height);
+        [_scrollView addSubview:self.yuanliVc.view];
+        
+        
+        self.inviteVC = [[SY_InviteViewController alloc]init];
+        [self addChildViewController:self.inviteVC];
+        self.inviteVC.view.frame = CGRectMake(ScreenWidth * 2, 0, ScreenWidth, self.scrollView.height);
+        [_scrollView addSubview:self.inviteVC.view];
+        
+    }
+    return _scrollView;
+}
+
+-(void)setIndex:(NSInteger)index
+{
+    switch (index)
+    {
+        case 0:
+        {
+            [self.promoteVc viewWillAppear:YES];
+        }
+            break;
+        case 1:
+        {
+            [self.yuanliVc viewWillAppear:YES];
+        }
+            break;
+        case 2:
+        {
+            [self.inviteVC viewWillAppear:YES];
+        }
+            break;
+    }
+}
+
+
+
+
+
+#pragma mark - scroll delegate
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    
+    CGPoint offset = scrollView.contentOffset;
+    
+    if (offset.x < 0) {
+        return;
+    }
+
+    self.segmentControl.selectedIndex = offset.x/ScreenWidth;
+
+    [self setIndex:self.segmentControl.selectedIndex];
+}
+
 
 @end

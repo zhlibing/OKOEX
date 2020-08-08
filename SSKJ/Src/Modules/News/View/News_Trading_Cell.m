@@ -29,119 +29,50 @@
     
     if (self)
     {
-        
         self.selectionStyle=UITableViewCellSelectionStyleNone;
-        
-        self.backgroundColor=kSubBgColor;
-        
-        [self createUI];
+        self.contentView.backgroundColor = kBgColor;
+        [self contentLabel];
+        [self lineview];
     }
     
     return self;
 }
 
-- (void)createUI
-{
-    [self cycleView];
-    
-    [self contentLabel];
-    
-    [self imageV];
-    
-    [self lineview];
-}
-
-- (UIView *)cycleView
-{
-    if (_cycleView == nil) {
-        
-        _cycleView = [FactoryUI createViewWithFrame:CGRectZero Color:kSubTitleColor];
-        
-        _cycleView.layer.cornerRadius = ScaleW(5);
-        
-        _cycleView.layer.masksToBounds = YES;
-        
-        [self.contentView addSubview:_cycleView];
-        
-        [_cycleView mas_makeConstraints:^(MASConstraintMaker *make) {
-           
-            make.left.equalTo(@(ScaleW(15)));
-            
-            make.centerY.equalTo(self.contentView.mas_centerY);
-            
-            make.height.width.equalTo(@(ScaleW(10)));
-            
-        }];
-    }
-    
-    return _cycleView;
-}
 
 - (UILabel *)contentLabel
 {
-    if (_contentLabel == nil) {
+    if (_contentLabel == nil)
+    {
         
         _contentLabel = [FactoryUI createLabelWithFrame:CGRectZero text:@"" textColor:kTitleColor font:systemFont(ScaleW(14))];
-        
         _contentLabel.numberOfLines = 2;
-        
         [self.contentView addSubview:_contentLabel];
-        
-        [_contentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            
-            make.top.bottom.equalTo(@0);
-            
-            make.left.equalTo(self.cycleView.mas_right).offset(ScaleW(15));
-//            make.left.equalTo(@(ScaleW(20)));
-
-            make.right.equalTo(@(ScaleW(-30)));
-            
+        [_contentLabel mas_makeConstraints:^(MASConstraintMaker *make)
+        {
+            make.centerY.equalTo(self.contentView.mas_centerY);
+            make.left.equalTo(self.contentView.mas_left).offset(ScaleW(15));
+            make.right.equalTo(self.contentView.mas_right).offset(-ScaleW(15));
         }];
-        
     }
     return _contentLabel;
 }
 
--(UIImageView *)imageV
-{
-    if (_imageV == nil) {
-        
-        UIImage *image = [UIImage imageNamed:@"root_next"];
-        
-        _imageV = [FactoryUI createImageViewWithFrame:CGRectZero imageName:@"root_next"];
-        
-        [self.contentView addSubview:_imageV];
-        
-        [_imageV mas_makeConstraints:^(MASConstraintMaker *make) {
-            
-            make.right.equalTo(@(ScaleW(-15)));
-            
-            make.centerY.equalTo(self.contentView.mas_centerY);
-            
-            make.height.equalTo(@(ScaleW(image.size.height)));
-            
-            make.width.equalTo(@(ScaleW(image.size.width)));
-            
-        }];
-    }
-    return _imageV;
-}
+
 
 - (UIView *)lineview
 {
     if (_lineview == nil) {
         
-        _lineview = [FactoryUI createViewWithFrame:CGRectZero Color:kBgColor];
+        
+        _lineview = [FactoryUI createViewWithFrame:CGRectZero Color:kLineColor];
         
         [self.contentView addSubview:_lineview];
         
         [_lineview mas_makeConstraints:^(MASConstraintMaker *make) {
             
             make.bottom.right.equalTo(@0);
-            
-            make.left.equalTo(@(ScaleW(15)));
-            
-            make.height.equalTo(@(ScaleW(1)));
+            make.left.right.equalTo(self.contentLabel);
+            make.height.equalTo(@(ScaleW(0.5)));
             
             
         }];
