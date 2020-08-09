@@ -431,6 +431,7 @@
         _pwdTextField.textColor = kTitleColor;
         _pwdTextField.placeholder = SSKJLanguage(@"请输入资金密码");
         _pwdTextField.font = systemFont(ScaleW(12));
+        [_pwdTextField setSecureTextEntry:YES];
         _pwdTextField.delegate = self;
         [_pwdTextField addTarget:self action:@selector(inputChanged) forControlEvents:UIControlEventEditingChanged];
     }
@@ -563,22 +564,26 @@
 // 提币操作
 -(void)tibiEvent
 {
-    if (self.addressTextField.text.length == 0) {
+    if (self.addressTextField.text.length == 0)
+    {
         [MBProgressHUD showError:SSKJLocalized(@"请输入或长按粘贴地址", nil)];
         return;
     }
     
-    if (self.numberTextField.text.length == 0) {
+    if (self.numberTextField.text.length == 0)
+    {
         [MBProgressHUD showError:SSKJLocalized(@"请输入提币数量", nil)];
         return;
     }
     
-    if (self.numberTextField.text.doubleValue < self.infoModel.min.doubleValue) {
+    if (self.numberTextField.text.doubleValue < self.infoModel.min.doubleValue)
+    {
         [MBProgressHUD showError:[NSString stringWithFormat:SSKJLocalized(@"最小提币数量%@ USDT", nil),[WLTools noroundingStringWith:self.infoModel.min.doubleValue afterPointNumber:2]]];
         return;
     }
     
-    if (self.numberTextField.text.doubleValue > self.infoModel.max.doubleValue) {
+    if (self.numberTextField.text.doubleValue > self.infoModel.max.doubleValue)
+    {
         [MBProgressHUD showError:[NSString stringWithFormat:SSKJLocalized(@"最大提币数量%@ USDT", nil),[WLTools noroundingStringWith:self.infoModel.max.doubleValue afterPointNumber:2]]];
         return;
     }
@@ -588,10 +593,18 @@
         return;
     }
     
+    if (self.pwdTextField.text.length  == 0)
+    {
+        [MBProgressHUD showError:SSKJLocalized(@"请输入资金密码", nil)];
+        return;
+    }
+    
+    
+    
     WS(weakSelf);
     [LA_Extract_SafeVerify_AlertView showsubmitBlock:^(NSString *code, NSString *googleCode) {
       
-        [weakSelf requestExtractWithPWD:code smsCode:googleCode];
+        [weakSelf requestExtractWithGoogleCode:googleCode smsCode:code];
         
     }];
     
@@ -683,15 +696,17 @@
 
 #pragma mark - 提币
 
--(void)requestExtractWithPWD:(NSString *)pwd smsCode:(NSString *)smsCode
+-(void)requestExtractWithGoogleCode:(NSString *)googleCode smsCode:(NSString *)smsCode
 {
     NSDictionary *params = @{
                             @"money":self.numberTextField.text,
-                            @"payment_password":pwd,
+                            @"payment_password":self.pwdTextField.text,
                             @"code":smsCode,
+                            @"google_code":googleCode,
                             @"address":self.addressTextField.text,
                             @"type":@"1"
                             };
+    
     
     WS(weakSelf);
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];

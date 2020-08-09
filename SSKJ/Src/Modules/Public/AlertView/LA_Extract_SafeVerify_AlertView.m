@@ -280,6 +280,7 @@
         [_submitButton setTitleColor:kWhiteColor forState:UIControlStateNormal];
         [_submitButton addTarget:self action:@selector(confirmEvent) forControlEvents:UIControlEventTouchUpInside];
         [_submitButton setBackgroundColor:kBlueColor];
+        [_submitButton setCornerRadius:ScaleW(5)];
     }
     return _submitButton;
 }
