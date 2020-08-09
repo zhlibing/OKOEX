@@ -11,8 +11,6 @@
 
 @property (nonatomic, strong) UILabel *titlelabel;
 @property (nonatomic, strong) UIButton *rightBtn;
-@property (nonatomic, strong) UITextField *field;
-@property (nonatomic, strong) UIView *backView;
 
 @end
 
@@ -55,7 +53,7 @@
         {
             make.left.equalTo(self.mas_left).offset(ScaleW(15));
             make.right.equalTo(self.mas_right).offset(-ScaleW(15));
-            make.height.equalTo(@(ScaleW(20)));
+            make.height.equalTo(@(20));
         }];
         
         
@@ -63,7 +61,7 @@
         {
             make.top.equalTo(self.titlelabel.mas_bottom).offset(ScaleW(6));
             make.left.right.equalTo(self.titlelabel);
-            make.height.equalTo(@(ScaleW(44)));
+            make.height.equalTo(@(44));
         }];
         
         

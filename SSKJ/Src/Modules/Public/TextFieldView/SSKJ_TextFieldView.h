@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SSKJ_TextFieldView : UIView
 
 
+@property (nonatomic, strong) UIView *backView;
+@property (nonatomic, strong) UITextField *field;
 @property(nonatomic, copy) NSString *valueString;
 
 

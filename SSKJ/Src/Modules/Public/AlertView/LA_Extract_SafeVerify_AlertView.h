@@ -9,10 +9,13 @@
 #import <UIKit/UIKit.h>
 
 
-@interface LA_Extract_SafeVerify_AlertView : UIView
-@property (nonatomic, copy) void (^confirmBlock)(NSString *pwd,NSString *googleCode,NSString *smsCode);
+@interface LA_Extract_SafeVerify_AlertView : UIControl
 
--(void)showWithIsGoogleOpen:(BOOL)isGoogleOpen isSmsOpen:(BOOL)isSmsOpen;
+
++(void)showsubmitBlock:(void(^)(NSString *code,NSString *googleCode))submitBlcok;
 
 -(void)hide;
+
+
+
 @end

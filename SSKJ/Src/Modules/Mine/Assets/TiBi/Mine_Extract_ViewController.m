@@ -45,7 +45,6 @@
 @property (nonatomic, strong) UILabel *daozhangLabel;// 到账数量
 @property (nonatomic, strong) UIButton *tibiButton;
 
-@property (nonatomic, strong) LA_Extract_SafeVerify_AlertView *alertView;
 
 
 @property (nonatomic, strong) Mine_AssetTiBiInfo_Model *infoModel;
@@ -223,7 +222,7 @@
     [self.daozhangLabel mas_makeConstraints:^(MASConstraintMaker *make) {
        
         make.left.equalTo(self.view.mas_left).offset(15);
-        make.bottom.equalTo(self.view.mas_bottom).offset(120);
+        make.top.equalTo(self.numberBgView.mas_bottom).offset(120);
     }];
     
     [self.tibiButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -342,7 +341,7 @@
         _numberLabel = [[UILabel alloc]init];
         [_numberLabel setTextColor:kTitleColor];
         [_numberLabel setFont:systemFont(ScaleW(14))];
-        [_numberLabel setText:@"0.00 USDT"];
+        [_numberLabel setText:@"数量"];
     }
     return _numberLabel;
 }
@@ -449,7 +448,10 @@
     {
         _tibiButton = [[UIButton alloc]init];
         [_tibiButton setTitle:SSKJLanguage(@"提币") forState:UIControlStateNormal];
+        [_tibiButton setTitleColor:kWhiteColor forState:UIControlStateNormal];
+        [_tibiButton setBackgroundColor:kBlueColor];
         [_tibiButton setCornerRadius:5];
+        [_tibiButton addTarget:self action:@selector(tibiEvent) forControlEvents:UIControlEventTouchUpInside];
     }
     return _tibiButton;
 }
@@ -462,6 +464,7 @@
     {
         _daozhangLabel = [[UILabel alloc]init];
         [_daozhangLabel setText:SSKJLanguage(@"到账数量:0.00 USDT")];
+        [_daozhangLabel setTextColor:kTitleColor];
         [_daozhangLabel setFont:systemFont(ScaleW(17))];
     }
     return _daozhangLabel;
@@ -469,17 +472,6 @@
 
 
 
--(LA_Extract_SafeVerify_AlertView *)alertView
-{
-    if (nil == _alertView) {
-        WS(weakSelf);
-        _alertView = [[LA_Extract_SafeVerify_AlertView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
-        _alertView.confirmBlock = ^(NSString * _Nonnull pwd, NSString * _Nonnull googleCode, NSString * _Nonnull smsCode) {
-            [weakSelf requestExtractWithPWD:pwd smsCode:smsCode];
-        };
-    }
-    return _alertView;
-}
 
 #pragma mark - 用户操作
 
@@ -596,7 +588,12 @@
         return;
     }
     
-    [self.alertView showWithIsGoogleOpen:NO isSmsOpen:YES];
+    WS(weakSelf);
+    [LA_Extract_SafeVerify_AlertView showsubmitBlock:^(NSString *code, NSString *googleCode) {
+      
+        [weakSelf requestExtractWithPWD:code smsCode:googleCode];
+        
+    }];
     
 }
 
@@ -614,7 +611,7 @@
         if (net_model.status.integerValue == SUCCESSED)
         {
             weakSelf.infoModel = [Mine_AssetTiBiInfo_Model mj_objectWithKeyValues:[net_model.data firstObject]];
-            [weakSelf resetView];
+            [weakSelf reset:weakSelf.infoModel];
         }
         else
         {
@@ -627,13 +624,11 @@
     }];
 }
 
--(void)resetView
+-(void)reset:(Mine_AssetTiBiInfo_Model*)model
 {
-    [self.usableLabel setText:[NSString stringWithFormat:@"%@ USDT",self.infoModel.balance]];
+    [self.usableLabel setText:[NSString stringWithFormat:@"%@ USDT",model.balance]];
+    [self.feedLabel setText:[NSString stringWithFormat:@"%@:%@ USDT/%@",model.fee,SSKJLanguage(@"手续费"),SSKJLanguage(@"次")]];
     
-    
-    
-
 }
 
 
@@ -703,11 +698,13 @@
     [[WLHttpManager shareManager]requestWithURL_HTTPCode:BI_ConfirmExtract_URL RequestType:RequestTypePost Parameters:params Success:^(NSInteger statusCode, id responseObject) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         WL_Network_Model *net_model = [WL_Network_Model mj_objectWithKeyValues:responseObject];
-        if (net_model.status.integerValue == SUCCESSED) {
-            [weakSelf.alertView hide];
+        if (net_model.status.integerValue == SUCCESSED)
+        {
             [weakSelf clearView];
             [weakSelf rigthBtnAction:nil];
-        }else{
+        }
+        else
+        {
             [MBProgressHUD showError:net_model.msg];
         }
         

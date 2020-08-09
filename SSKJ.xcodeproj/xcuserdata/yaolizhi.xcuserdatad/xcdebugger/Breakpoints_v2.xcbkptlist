@@ -62,8 +62,8 @@
             filePath = "SSKJ/Src/Modules/Mine/Assets/TiBi/Mine_Extract_ViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "701"
-            endingLineNumber = "701"
+            startingLineNumber = "696"
+            endingLineNumber = "696"
             landmarkName = "-requestExtractWithPWD:smsCode:"
             landmarkType = "7">
          </BreakpointContent>

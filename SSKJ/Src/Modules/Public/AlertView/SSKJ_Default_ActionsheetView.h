@@ -10,6 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SSKJ_Default_ActionsheetView : UIView
+
 +(void)showWithItems:(NSArray *)itemsArray title:(NSString *)title selectedIndexBlock:(void(^)(NSInteger selectIndex))selectIndexBlcok cancleBlock:(void(^)(void))cancleBlock;
 
 @end
