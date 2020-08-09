@@ -97,12 +97,7 @@
         }];
         
         
-        _midBackView.layer.cornerRadius=5;
-        
-        _midBackView.clipsToBounds=YES;
-        
-//        _midBackView.backgroundColor=RGBCOLOR(234,236,242);
-        
+        [_midBackView setCornerRadius:3];
         [self sendSubviewToBack:_midBackView];
         
     }
@@ -134,7 +129,6 @@
         [_saveImageButton setTitleColor:kTitleColor forState:UIControlStateNormal];
         _saveImageButton.titleLabel.font = systemFont(ScaleW(13));
         _saveImageButton.userInteractionEnabled = NO;
-//        [_saveImageButton addTarget:self action:@selector(saveQRCode) forControlEvents:UIControlEventTouchUpInside];
     }
     return _saveImageButton;
 }
@@ -164,12 +158,12 @@
 
 -(UIButton *)dumplicationButton
 {
-    if (nil == _dumplicationButton) {
-        _dumplicationButton = [[UIButton alloc]initWithFrame:CGRectMake(0, self.addressLabel.bottom + ScaleW(20), ScaleW(110), ScaleW(35))];
+    if (nil == _dumplicationButton)
+    {
+        _dumplicationButton = [[UIButton alloc]initWithFrame:CGRectMake(0, self.addressLabel.bottom + ScaleW(20), ScaleW(140), ScaleW(45))];
         _dumplicationButton.centerX = self.width / 2;
-//        _dumplicationButton.backgroundColor = kBlueColor;
         _dumplicationButton.layer.cornerRadius = _dumplicationButton.height / 2;
-        [_dumplicationButton setTitleColor:kTitleColor forState:UIControlStateNormal];
+        [_dumplicationButton setTitleColor:kWhiteColor forState:UIControlStateNormal];
         [_dumplicationButton setTitle:SSKJLocalized(@"复制地址", nil) forState:UIControlStateNormal];
         _dumplicationButton.titleLabel.font =systemFont(15);
         _dumplicationButton.backgroundColor = kBlueColor;

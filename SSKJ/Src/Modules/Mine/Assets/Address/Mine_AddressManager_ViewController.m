@@ -15,12 +15,15 @@ static NSString *cellID = @"Mine_AddressList_TableViewCell";
 
 @interface Mine_AddressManager_ViewController () <UITableViewDataSource,UITableViewDelegate>
 
-@property (nonatomic, strong) AddressManager_HeaderView *headerView;
-@property (nonatomic, weak) UITableView *tableView;
+@property (nonatomic, strong) UIView *headerView;
+@property (nonatomic, strong) UILabel *usdtLabel;
+@property (nonatomic, strong) UIButton *addButton;
+
+@property (nonatomic, strong) SSKJ_TableView *tableView;
 @property (nonatomic, strong) NSMutableArray *itemArray;
 
 
-@property (nonatomic, strong) UIButton *addButton;
+
 
 
 @property (nonatomic, strong) MBProgressHUD *HUD;
@@ -33,9 +36,10 @@ static NSString *cellID = @"Mine_AddressList_TableViewCell";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.view setBackgroundColor:kSubBgColor];
     self.title = SSKJLocalized(@"提币地址", nil);
-    [self setWalletType:self.walletType];
-    [self setupUI];
+    
+    [self unit:YES];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -51,66 +55,97 @@ static NSString *cellID = @"Mine_AddressList_TableViewCell";
 #pragma mark - 切换数据
 -(void)setWalletType:(WalletType)walletType
 {
-    _walletType = walletType;
-    self.headerView.walletType = walletType;
     [self requesAddressList];
 }
 
 
+-(void)unit:(BOOL)unit
+{
+    if (unit)
+    {
+        [self.view addSubview:self.headerView];
+        [self.headerView addSubview:self.addButton];
+        [self.headerView addSubview:self.usdtLabel];
+        [self.view addSubview:self.tableView];
 
-
-#pragma mark - method
-/**
- 初始化
- */
-- (void)setupUI {
-    // header label
-
-    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, Height_NavBar, ScreenWidth, self.addButton.top - ScaleW(10) - Height_NavBar) style:UITableViewStylePlain];
         
-    tableView.backgroundColor = kBgColor;
-    tableView.delegate = self;
-    tableView.dataSource = self;
-    [self.view addSubview:tableView];
-    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    _tableView = tableView;
-    [_tableView registerClass:[Mine_AddressList_TableViewCell class] forCellReuseIdentifier:cellID];
-    tableView.tableFooterView = [UIView new];
-    tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(requesAddressList)];
-    if (@available(iOS 11.0, *)) {
-        tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        [self.usdtLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+           
+            make.left.equalTo(self.headerView.mas_left).offset(15);
+            make.centerY.equalTo(self.headerView.mas_centerY);
+            
+        }];
+        
+        [self.addButton mas_makeConstraints:^(MASConstraintMaker *make) {
+           
+            make.right.equalTo(self.headerView.mas_right).offset(-15);
+            make.centerY.equalTo(self.headerView.mas_centerY);
+            
+        }];
+        
+//        [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+//
+//            make.top.equalTo(self.headerView.mas_bottom);
+//            make.left.right.equalTo(self.headerView);
+//            make.bottom.equalTo(self.view.mas_bottom);
+//
+//        }];
     }
-    
-    [self.view addSubview:self.addButton];
-    
 }
 
--(AddressManager_HeaderView *)headerView
+
+
+#pragma mark - Getter / Setter
+-(SSKJ_TableView *)tableView
 {
-    if (nil == _headerView) {
-        _headerView = [[AddressManager_HeaderView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScaleW(70))];
-        WS(weakSelf);
-        _headerView.changeWalletTypeBlock = ^(WalletType walletType) {
-            weakSelf.walletType = walletType;
-            [weakSelf.tableView reloadData];
-        };
+    if (!_tableView)
+    {
+        _tableView = [[SSKJ_TableView alloc]initWitDeletage:self];
+        [_tableView registerClass:[Mine_AddressList_TableViewCell class] forCellReuseIdentifier:@"Mine_AddressList_TableViewCell"];
+    }
+    return _tableView;
+}
+
+
+-(UIView *)headerView
+{
+    if (nil == _headerView)
+    {
+        _headerView = [[UIView alloc]initWithFrame:CGRectMake(0, Height_NavBar, ScreenWidth, ScaleW(45))];
+        [_headerView setBackgroundColor:kBgColor];
     }
     return _headerView;
 }
 
 
-- (UIButton *)addButton{
-    if (_addButton == nil) {
-        _addButton = [WLTools allocButton:SSKJLanguage(@"添加地址") textColor:kWhiteColor nom_bg:nil hei_bg:nil frame:CGRectMake(ScaleW(15), ScreenHeight - ScaleW(45) - ScaleW(20), ScreenWidth - ScaleW(30), ScaleW(45))];
-        _addButton.titleLabel.font = kFont(15);
+
+
+
+- (UIButton *)addButton
+{
+    if (_addButton == nil)
+    {
+        _addButton = [[UIButton alloc]init];
+        [_addButton setImage:[UIImage imageNamed:@"tianjia"] forState:UIControlStateNormal];
         [_addButton addTarget:self action:@selector(addAddress) forControlEvents:UIControlEventTouchUpInside];
-        _addButton.layer.masksToBounds = YES;
-        _addButton.layer.cornerRadius = ScaleW(5);
-        _addButton.backgroundColor = kBlueColor;
-        [self.view addSubview:_addButton];
     }
     return _addButton;
 }
+
+
+-(UILabel *)usdtLabel
+{
+    if (!_usdtLabel)
+    {
+        _usdtLabel = [[UILabel alloc]init];
+        [_usdtLabel setFont:systemFont(ScaleW(15))];
+        [_usdtLabel setTextColor:kTitleColor];
+        [_usdtLabel setText:@"USDT"];
+    }
+    return _usdtLabel;
+}
+
+
 
 
 
@@ -132,7 +167,6 @@ static NSString *cellID = @"Mine_AddressList_TableViewCell";
 - (void)addAddress
 {
     Mine_AddAddress_ViewController *addressVC = [[Mine_AddAddress_ViewController alloc] init];
-    addressVC.walletType = self.walletType;
     [self.navigationController pushViewController:addressVC animated:YES];
 }
 
@@ -189,23 +223,9 @@ static NSString *cellID = @"Mine_AddressList_TableViewCell";
 #pragma mark - 请求提币地址
 - (void)requesAddressList
 {
-    __weak typeof(self) weakSelf = self;
+    WS(weakSelf);
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
-    NSString *type = @"1";
-    switch (self.walletType)
-    {
-        case WalletTypeOMNI:
-        {
-            type = @"1";
-        }
-            break;
-        case WalletTypeERC20:
-        {
-            type = @"2";
-        }
-            break;
-    }
+    NSString *type = @"2";
     
     [[WLHttpManager shareManager]requestWithURL_HTTPCode:BI_AddressList_URL RequestType:RequestTypeGet Parameters:@{@"type":type} Success:^(NSInteger statusCode, id responseObject) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
@@ -223,7 +243,8 @@ static NSString *cellID = @"Mine_AddressList_TableViewCell";
             [MBProgressHUD showError:responseObject[@"msg"]];
             [weakSelf.HUD hideAnimated:YES];
         }
-    } Failure:^(NSError *error, NSInteger statusCode, id responseObject) {
+    } Failure:^(NSError *error, NSInteger statusCode, id responseObject)
+     {
         [MBProgressHUD showError:SSKJLocalized(@"服务器请求异常", nil)];
         [weakSelf.tableView.mj_header endRefreshing];
         [weakSelf.HUD hideAnimated:YES];

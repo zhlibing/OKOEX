@@ -118,7 +118,7 @@
     if (nil == _lineView)
     {
         _lineView = [[UIView alloc]initWithFrame:CGRectMake(self.titleLabel.left, self.height-ScaleW(0.5), self.titleLabel.width, ScaleW(0.5))];
-        [_lineView setBackgroundColor:kLightLineColor];
+        [_lineView setBackgroundColor:kLineColor];
     }
     return _lineView;
 }

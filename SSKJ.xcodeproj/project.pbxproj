@@ -450,6 +450,8 @@
 		96666F7924DD8D9200080BED /* MineHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96666F7824DD8D9200080BED /* MineHeaderView.m */; };
 		96759CED246D193E00C9432D /* Lion_AboutUsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96759CEB246D193E00C9432D /* Lion_AboutUsVC.m */; };
 		968DAACC24DEEAB40038BF8B /* HomeHeaderItemControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 968DAACB24DEEAB40038BF8B /* HomeHeaderItemControl.m */; };
+		96BA168624DF9D1B0046EF58 /* AssetsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96BA168524DF9D1B0046EF58 /* AssetsTableViewCell.m */; };
+		96BA168C24DFA4300046EF58 /* AssetsBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 96BA168A24DFA4300046EF58 /* AssetsBtn.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1379,6 +1381,10 @@
 		96759CEC246D193E00C9432D /* Lion_AboutUsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Lion_AboutUsVC.h; path = "SSKJ/Src/Modules/Mine/Main/¹ØÓÚÎÒÃÇ/Lion_AboutUsVC.h"; sourceTree = SOURCE_ROOT; };
 		968DAACA24DEEAB40038BF8B /* HomeHeaderItemControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeHeaderItemControl.h; sourceTree = "<group>"; };
 		968DAACB24DEEAB40038BF8B /* HomeHeaderItemControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeHeaderItemControl.m; sourceTree = "<group>"; };
+		96BA168424DF9D1A0046EF58 /* AssetsTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AssetsTableViewCell.h; sourceTree = "<group>"; };
+		96BA168524DF9D1B0046EF58 /* AssetsTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AssetsTableViewCell.m; sourceTree = "<group>"; };
+		96BA168A24DFA4300046EF58 /* AssetsBtn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssetsBtn.m; sourceTree = "<group>"; };
+		96BA168B24DFA4300046EF58 /* AssetsBtn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssetsBtn.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1434,10 +1440,14 @@
 		0449D207241A273D00E25252 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				96BA168B24DFA4300046EF58 /* AssetsBtn.h */,
+				96BA168A24DFA4300046EF58 /* AssetsBtn.m */,
 				065BD19C24497CBA00FB4F65 /* BuyCoin_TableViewCell.h */,
 				065BD19D24497CBA00FB4F65 /* BuyCoin_TableViewCell.m */,
 				0449D209241A278800E25252 /* Lion_AssetsHeaderView.h */,
 				0449D20A241A278800E25252 /* Lion_AssetsHeaderView.m */,
+				96BA168424DF9D1A0046EF58 /* AssetsTableViewCell.h */,
+				96BA168524DF9D1B0046EF58 /* AssetsTableViewCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3735,6 +3745,7 @@
 				3A08C34E234C5D390086ED0F /* FDLabelView.m in Sources */,
 				43798F0623A47FBF00A79C36 /* Home_Market_Cell.m in Sources */,
 				4359250223580E8E0005C1AA /* LoginAlertView.m in Sources */,
+				96BA168C24DFA4300046EF58 /* AssetsBtn.m in Sources */,
 				43798EF723A47FBF00A79C36 /* Home_Root_ViewController.m in Sources */,
 				963F512724D59B9C00844D73 /* MASLayoutConstraint.m in Sources */,
 				4359250623580E8E0005C1AA /* LXY_DeepPosition_Model.m in Sources */,
@@ -3918,6 +3929,7 @@
 				3A08C2C9234C5D380086ED0F /* LoginTextFieldView.m in Sources */,
 				43592704235D80260005C1AA /* LXY_KLinePositionTool.m in Sources */,
 				439DEECD2399289E00B2C07B /* JB_SocketDealOrder_Cell.m in Sources */,
+				96BA168624DF9D1B0046EF58 /* AssetsTableViewCell.m in Sources */,
 				3A08C354234C5D390086ED0F /* NinaBaseView.m in Sources */,
 				4359270D235D80260005C1AA /* LXY_KLine_AccessoryView.m in Sources */,
 				43592709235D80260005C1AA /* LXY_KLine_VolumeMALabelView.m in Sources */,

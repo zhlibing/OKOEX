@@ -16,6 +16,7 @@ typedef NS_ENUM(NSUInteger, WalletType) {
 NS_ASSUME_NONNULL_BEGIN
 
 @interface AddressManager_HeaderView : UIView
+
 @property (nonatomic, assign) WalletType walletType;
 
 @property (nonatomic, copy) void (^changeWalletTypeBlock)(WalletType walletType);

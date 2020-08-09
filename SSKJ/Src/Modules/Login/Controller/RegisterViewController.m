@@ -104,7 +104,7 @@
     
     self.isSeleted = 0;
     
-    self.mcode = @"86";
+    self.mcode = @"+86";
 }
 
 #pragma mark --- 点击事件 ---

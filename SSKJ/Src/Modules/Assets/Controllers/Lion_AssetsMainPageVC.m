@@ -17,19 +17,28 @@
 #import "ATEX_ChargeRecord_ViewController.h"
 #import "ATEX_ExtractRecord_ViewController.h"
 #import "ATEX_OtherRecord_ViewController.h"
+#import "AssetsTableViewCell.h"
 
 #import "Home_Segment_View.h"
 
-@interface Lion_AssetsMainPageVC ()
-@property (nonatomic ,strong) Lion_AssetsHeaderView *tabHeader;
+@interface Lion_AssetsMainPageVC () <UITableViewDelegate,UITableViewDataSource>
+
+
+@property (nonatomic, strong) SSKJ_TableView *tableView;
+
+@property (nonatomic ,strong) Lion_AssetsHeaderView *headerView;
 @property (nonatomic ,strong) SSKJ_UserInfo_Model *userModel;
 @property (nonatomic, strong) Lion_Assets_new_Model *assetModel;
+@property (nonatomic, strong) NSMutableArray *itemArray; //!< 数据源数组
+
 
 @property (nonatomic, strong) Home_Segment_View *segmentControl;
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) ATEX_ChargeRecord_ViewController *chargeVc;
 @property (nonatomic, strong) ATEX_ExtractRecord_ViewController *extractVc;
 @property (nonatomic, strong) ATEX_OtherRecord_ViewController *otherVc;
+
+
 
 @end
 
@@ -55,36 +64,52 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = SSKJLocalized(@"资产账户", nil);
-    [self.view addSubview:self.tabHeader];
-    
-    [self configerActions];
-    
-    [self.view addSubview:self.segmentControl];
+    [self.view addSubview:self.tableView];
+    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         
-    [self.view addSubview:self.scrollView];
+        make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(Height_NavBar, 0, 0, 0));
         
-    self.scrollView.contentOffset = CGPointMake(ScreenWidth * self.segmentControl.selectedIndex, 0);
-
+    }];
     
+    WS(weakSelf);
+    self.headerView.actionBlock = ^(NSInteger index) {
+        
+        switch (index)
+        {
+            case 1:
+            {
+                [weakSelf chargeEvent];
+            }
+                break;
+            case 2:
+            {
+                [weakSelf extractEvent];
+            }
+                break;
+        }
+    };
     
     
 }
-- (void)viewWillAppear:(BOOL)animated{
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
         
-    if (!kLogin) {
+    if (!kLogin)
+    {
         //清空数据
-        [self.tabHeader clearData];
-//        self.segmentControl.hidden = self.scrollView.hidden = YES;
-    }else{
-//        self.segmentControl.hidden = self.scrollView.hidden = NO;
+        [self.headerView clearData];
+    }
+    else
+    {
         [self loadData];
     }
     
    
 }
 - (void) loadData{
-    if (kLogin) {
+    if (kLogin)
+    {
         [self loadUserInfo];
         [self requestAssetInfo];
     }
@@ -122,8 +147,8 @@
 
 #pragma mark 请求用资产信息
 
-- (void)requestAssetInfo{
-    
+- (void)requestAssetInfo
+{
     WS(weakSelf);
     [[WLHttpManager shareManager]requestWithURL_HTTPCode:Lion_Asset_URL RequestType:RequestTypeGet Parameters:nil Success:^(NSInteger statusCode, id responseObject) {
         
@@ -131,10 +156,13 @@
         
         if (netWorkModel.status.integerValue == SUCCESSED )
         {
+            [weakSelf.itemArray removeAllObjects];
             
             weakSelf.assetModel = [Lion_Assets_new_Model mj_objectWithKeyValues:netWorkModel.data];
             
-            weakSelf.tabHeader.model = weakSelf.assetModel;
+            [weakSelf.headerView setModel:weakSelf.assetModel];
+            [weakSelf.itemArray addObject:weakSelf.assetModel];
+            [weakSelf.tableView reloadData];
         }
         else
         {
@@ -146,67 +174,40 @@
     }];
 }
 
-
-- (void) configerActions{
-    WS(weakSelf);
-    self.tabHeader.actionBlock = ^(NSInteger indexP) {
-
-                SSKJ_BaseViewController *vc;
-                if(indexP == 0){
-                    //充币
-                    [weakSelf rechargeClick];
-                }else if (indexP == 1) {
-                    //提币
-                    NSLog(@"提币");
-                    [weakSelf extractEvent];
-                }else {
-                    
-                }
-                if (vc) {
-                    vc.modalPresentationStyle = 0;
-                    [weakSelf.navigationController pushViewController:vc animated:YES];
-                }
-    };
-    
-}
-
-#pragma mark - 充币
-
-- (void)rechargeClick{
-    [self chargeEvent];
-}
-
+#pragma mark 充币
 -(void)chargeEvent
 {
-    if (!kLogin) {
-        [self presentLoginController];
-        return;
+    if (kLogin)
+    {
+        
+        Mine_Recharge_ViewController *chargeVc = [[Mine_Recharge_ViewController alloc]init];
+        [self.navigationController pushViewController:chargeVc animated:YES];
     }
-    
-    Mine_Recharge_ViewController *chargeVc = [[Mine_Recharge_ViewController alloc]init];
-    [self.navigationController pushViewController:chargeVc animated:YES];
-    
+    else
+    {
+        [self presentLoginController];
+    }
 }
 
 
 
-#pragma mark - 提币
+#pragma mark 提币
 -(void)extractEvent
 {
-    if (!kLogin)
-    {
-        [self presentLoginController];
-        return;
-    }
-
-    if (![self judgeFristCertificate])
-    {
-        return;
-    }
-
-    if (![self judgePayPassword]) {
-        return;
-    }
+//    if (!kLogin)
+//    {
+//        [self presentLoginController];
+//        return;
+//    }
+//
+//    if (![self judgeFristCertificate])
+//    {
+//        return;
+//    }
+//
+//    if (![self judgePayPassword]) {
+//        return;
+//    }
     
     
     Mine_Extract_ViewController *extractVc = [[Mine_Extract_ViewController alloc]init];
@@ -219,7 +220,7 @@
 {
     if (nil == _segmentControl) {
         
-        _segmentControl = [[Home_Segment_View alloc]initWithFrame:CGRectMake(0, self.tabHeader.bottom + ScaleW(10), ScreenWidth, ScaleW(40)) titles:@[SSKJLocalized(@"充币记录", nil),SSKJLocalized(@"提币记录", nil),SSKJLocalized(@"其他", nil)] normalColor:kTitleColor selectedColor:kBlueColor fontSize:ScaleW(15)];
+        _segmentControl = [[Home_Segment_View alloc]initWithFrame:CGRectMake(0, self.headerView.bottom + ScaleW(10), ScreenWidth, ScaleW(40)) titles:@[SSKJLocalized(@"充币记录", nil),SSKJLocalized(@"提币记录", nil),SSKJLocalized(@"其他", nil)] normalColor:kTitleColor selectedColor:kBlueColor fontSize:ScaleW(15)];
         [_segmentControl setBackgroundColor:kBgColor];
         
         WS(weakSelf);
@@ -302,10 +303,76 @@
     [self setIndex:self.segmentControl.selectedIndex];
 
 }
-- (Lion_AssetsHeaderView *)tabHeader{
-    if (!_tabHeader) {
-        _tabHeader = [[Lion_AssetsHeaderView alloc] initWithFrame:CGRectMake(0, Height_NavBar, ScreenWidth, ScaleW(245))];
-    }
-    return _tabHeader;
+
+
+
+
+
+
+
+#pragma mark - UITableViewDelegate UITableViewDataSource
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [self.itemArray count];
 }
+
+- (AssetsTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    AssetsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AssetsTableViewCell"];
+    return cell;
+}
+
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 68;
+}
+
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+}
+
+#pragma mark - Getter / Setter
+-(SSKJ_TableView *)tableView
+{
+    if (!_tableView)
+    {
+        _tableView = [[SSKJ_TableView alloc]initWitDeletage:self];
+        [_tableView registerClass:[AssetsTableViewCell class] forCellReuseIdentifier:@"AssetsTableViewCell"];
+        [_tableView setTableHeaderView:self.headerView];
+    }
+    return _tableView;
+}
+
+
+
+
+- (Lion_AssetsHeaderView *)headerView
+{
+    if (!_headerView)
+    {
+        _headerView = [[Lion_AssetsHeaderView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 235)];
+    }
+    return _headerView;
+}
+
+
+
+-(NSMutableArray <Lion_Assets_new_Model*> *)itemArray
+{
+    if (!_itemArray)
+    {
+        _itemArray = [NSMutableArray array];
+    }
+    return _itemArray;
+}
+
+
+
+
+
+
+
 @end

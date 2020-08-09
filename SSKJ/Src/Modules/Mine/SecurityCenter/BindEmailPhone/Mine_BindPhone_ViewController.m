@@ -71,7 +71,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = kBgColor;
     
-    self.areaCode = @"86";
+    self.areaCode = @"+86";
 
     self.title = SSKJLocalized(@"绑定手机号", nil);
 

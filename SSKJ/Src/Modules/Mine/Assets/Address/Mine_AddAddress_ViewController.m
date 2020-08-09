@@ -13,7 +13,9 @@
 #import <Photos/Photos.h>//相册
 
 @interface Mine_AddAddress_ViewController ()
-@property (nonatomic, strong) UIView *backView;
+
+
+@property (nonatomic, strong) UIView *lineView;
 @property (nonatomic, strong) Mine_TitleAndInput_View *addressView;
 @property (nonatomic, strong) UIButton *scanButton;
 @property (nonatomic, strong) Mine_TitleAndInput_View *remarkView;
@@ -23,9 +25,9 @@
 
 @implementation Mine_AddAddress_ViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     self.title = SSKJLocalized(@"添加地址", nil);
     
     [self setUI];
@@ -36,35 +38,49 @@
 
 -(void)setUI
 {
-    [self.view addSubview:self.backView];
-    [self.backView addSubview:self.addressView];
+    [self.view addSubview:self.lineView];
+    [self.view addSubview:self.addressView];
     [self.addressView addSubview:self.scanButton];
-    [self.backView addSubview:self.remarkView];
-    [self.backView addSubview:self.addButton];
+    [self.view addSubview:self.remarkView];
+    [self.view addSubview:self.addButton];
+    
+    [self.addButton mas_makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.top.equalTo(self.remarkView.mas_bottom).offset(ScaleW(100));
+        make.left.equalTo(self.view.mas_left).offset(15);
+        make.right.equalTo(self.view.mas_right).offset(-15);
+        make.height.equalTo(@(ScaleW(45)));
+        
+    }];
 }
 
 
-- (UIView *)backView
+
+
+
+-(UIView *)lineView
 {
-    if (nil == _backView) {
-        _backView = [[UIView alloc]initWithFrame:CGRectMake(ScaleW(15), ScaleW(10) + Height_NavBar, ScreenWidth - ScaleW(30), ScreenHeight - Height_NavBar - ScaleW(30))];
-        _backView.backgroundColor = kSubBgColor;
-        _backView.layer.cornerRadius = ScaleW(5);
+    if (!_lineView)
+    {
+        _lineView = [[UIView alloc]initWithFrame:CGRectMake(0, Height_NavBar, ScreenWidth, 10)];
+        [_lineView setBackgroundColor:kLineColor];
     }
-    return _backView;
+    return _lineView;
 }
 
 
 -(Mine_TitleAndInput_View *)addressView
 {
-    if (nil == _addressView) {
-        _addressView = [[Mine_TitleAndInput_View alloc]initWithFrame:CGRectMake(0, 0, self.backView.width, ScaleW(80)) title:SSKJLocalized(@"地址", nil) placeHolder:SSKJLocalized(@"请输入钱包地址", nil) keyBoardType:UIKeyboardTypeDefault isSecure:NO];
-        _addressView.backgroundColor = kSubBgColor;
+    if (nil == _addressView)
+    {
+        _addressView = [[Mine_TitleAndInput_View alloc]initWithFrame:CGRectMake(0,self.lineView.bottom, ScreenWidth, ScaleW(80)) title:SSKJLocalized(@"提币地址", nil) placeHolder:SSKJLocalized(@"请输入钱包地址", nil) keyBoardType:UIKeyboardTypeDefault isSecure:NO];
+        _addressView.backgroundColor = kBgColor;
     }
     return _addressView;
 }
 
--(UIButton *)scanButton{
+-(UIButton *)scanButton
+{
     if (!_scanButton) {
         _scanButton = [[UIButton alloc]initWithFrame:CGRectMake(self.addressView.width - ScaleW(15) - ScaleW(40), 0, ScaleW(40), ScaleW(40))];
         [_scanButton setImage:[UIImage imageNamed:@"扫描"] forState:UIControlStateNormal];
@@ -77,17 +93,20 @@
 
 -(Mine_TitleAndInput_View *)remarkView
 {
-    if (nil == _remarkView) {
-        _remarkView = [[Mine_TitleAndInput_View alloc]initWithFrame:CGRectMake(0, self.addressView.bottom, self.backView.width, ScaleW(80)) title:SSKJLocalized(@"备注", nil) placeHolder:SSKJLocalized(@"请填写备注信息", nil) keyBoardType:UIKeyboardTypeDefault isSecure:NO];
-        _remarkView.backgroundColor = kSubBgColor;
+    if (nil == _remarkView)
+    {
+        _remarkView = [[Mine_TitleAndInput_View alloc]initWithFrame:CGRectMake(0, self.addressView.bottom, ScreenWidth, ScaleW(80)) title:SSKJLocalized(@"备注", nil) placeHolder:SSKJLocalized(@"请填写备注信息", nil) keyBoardType:UIKeyboardTypeDefault isSecure:NO];
+        _remarkView.backgroundColor = kBgColor;
     }
     return _remarkView;
 }
 
 
-- (UIButton *)addButton{
-    if (_addButton == nil) {
-        _addButton = [WLTools allocButton:SSKJLanguage(@"确定") textColor:kWhiteColor nom_bg:nil hei_bg:nil frame:CGRectMake(ScaleW(15), self.backView.height - ScaleW(45) - ScaleW(20), self.backView.width - ScaleW(30), ScaleW(45))];
+- (UIButton *)addButton
+{
+    if (_addButton == nil)
+    {
+        _addButton = [WLTools allocButton:SSKJLanguage(@"确定") textColor:kWhiteColor nom_bg:nil hei_bg:nil frame:CGRectZero];
         _addButton.titleLabel.font = kFont(15);
         [_addButton addTarget:self action:@selector(addAddress) forControlEvents:UIControlEventTouchUpInside];
         _addButton.layer.masksToBounds = YES;
@@ -178,12 +197,11 @@
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    NSInteger type = (NSInteger)self.walletType + 1;
     
     NSDictionary *params = @{
                             @"address":self.addressView.valueString,
                             @"notes":self.remarkView.valueString,
-                            @"type":@(type)
+                            @"type":@"0"
                             };
     
     WS(weakSelf);

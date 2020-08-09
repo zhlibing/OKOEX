@@ -12,7 +12,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Mine_AddAddress_ViewController : SSKJ_BaseViewController
-@property (nonatomic, assign) WalletType walletType;
+
+
 @end
 
 NS_ASSUME_NONNULL_END

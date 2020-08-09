@@ -13,7 +13,7 @@
 #import "AddressManager_HeaderView.h"
 
 @interface Mine_AddressManager_ViewController : SSKJ_BaseViewController
-@property (nonatomic, assign) WalletType walletType;
+
 
 @property (nonatomic, copy) void (^getAddressBlock)(ExtractAddress_IndexModel *addressModel);
 

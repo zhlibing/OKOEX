@@ -1,3 +1,4 @@
+
 //
 //  My_Charge_ViewController.m
 //  ZYW_MIT
@@ -19,15 +20,14 @@
 
 @interface Mine_Recharge_ViewController ()
 
-@property (nonatomic, strong) UIScrollView *scrollView;
-
 @property (nonatomic, strong) Mine_RechargeTop_View *chargeView;  //!< 充币地址，上部分内容
-
+ 
 @property (nonatomic, strong) UILabel *warnTitleLabel;
 @property (nonatomic, strong) UILabel *warnLabel;
-
-@property(nonatomic, strong)Home_Segment_View *segmentControl;
-@property(nonatomic, strong)UIView *segmentView;
+@property (nonatomic, strong) UIView *segmentView;
+@property (nonatomic, strong) UILabel *segmentleftLabel;
+@property (nonatomic, strong) UILabel *segmentrightLabel;
+@property (nonatomic, strong) UIImageView *accessoryImageView;
 
 
 @property (nonatomic, strong) NSMutableArray *rechargeArray; //!< 充值数组
@@ -40,13 +40,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = kBgColor;    
+    self.view.backgroundColor = kSubBgColor;
     self.title = SSKJLanguage(@"充币");
-
-    [self setUI];
-    
-    [self addRightNavgationItemWithImage:UIImageNamed(@"充币--记录")];
-    
+    [self addRightNavgationItemWithImage:UIImageNamed(@"Recharge")];
+    [self unit:YES];
     [self requestAddress];
 }
 
@@ -56,155 +53,148 @@
     [super viewWillAppear:animated];
 }
 
-- (void)rigthBtnAction:(id)sender{
+- (void)rigthBtnAction:(id)sender
+{
     ATEX_AssetRecord_ViewController *vc = [ATEX_AssetRecord_ViewController new];
     vc.assetType = AssetTypeCharge;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)selectCoin:(NSInteger)index
-{
-    switch (index)
-    {
-        case 0:
-        {
-            WS(weakSelf);
-            [self.rechargeArray enumerateObjectsUsingBlock:^(RechargeModel *obj, NSUInteger idx, BOOL * _Nonnull stop)
-             {
-                NSString *code = [obj.code lowercaseString];
-                if ([code containsString:@"omni"])
-                {
-                    [weakSelf.chargeView setAddress:obj.address];
-                    [weakSelf.chargeView.qrCodeImageView sd_setImageWithURL:[NSURL URLWithString:obj.qrcode]];
-                    *stop = YES;
-                }
-                
-                
-            }];
-            
-            self.warnLabel.text = [NSString stringWithFormat:SSKJLocalized(@"请勿向上述地址充值任何非%@资产，否则资产将不可找回。 您充值至上述地址后，需要整个网络节点的确认，6次网络确认后 到账。 您可以在充值记录里查看充值状态！", nil), @"OMINI"];
-        }
-            break;
-        case 1:
-        {
-            
-            WS(weakSelf);
-            [self.rechargeArray enumerateObjectsUsingBlock:^(RechargeModel *obj, NSUInteger idx, BOOL * _Nonnull stop)
-             {
-                NSString *code = [obj.code lowercaseString];
-                if ([code containsString:@"erc20"])
-                {
-                    [weakSelf.chargeView setAddress:obj.address];
-                    [weakSelf.chargeView.qrCodeImageView sd_setImageWithURL:[NSURL URLWithString:obj.qrcode]];
-                    *stop = YES;
-                }
-                
-                
-            }];
-            
-            
-            
-            self.warnLabel.text = [NSString stringWithFormat:SSKJLocalized(@"请勿向上述地址充值任何非%@资产，否则资产将不可找回。 您充值至上述地址后，需要整个网络节点的确认，6次网络确认后 到账。 您可以在充值记录里查看充值状态！", nil), @"ERC20"];
-        }
-            break;
-    }
-    
-    
-    
-}
 
 #pragma mark - setUI
-
--(void)setUI
+-(void)unit:(BOOL)unit
 {
-//    self.navigationItem.titleView = self.mainTitleView;
-    
-//    self.title = self.assetModel.stockCode;
-    
-    [self.view addSubview:self.scrollView];
-    
-    
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(ScaleW(15), ScaleW(10), ScreenWidth - ScaleW(30), ScaleW(50))];
-    view.backgroundColor = kSubBgColor;
-    view.layer.masksToBounds = YES;
-    view.layer.cornerRadius = ScaleW(5);
-    [self.scrollView addSubview:view];
-    [view addSubview:self.segmentControl];
-    self.segmentView = view;
-    [self.scrollView addSubview:self.chargeView];
-    [self.scrollView addSubview:self.warnTitleLabel];
-    [self.scrollView addSubview:self.warnLabel];
-    _warnTitleLabel.hidden = YES;
-    
-    self.warnLabel.text = [NSString stringWithFormat:SSKJLocalized(@"请勿向上述地址充值任何非%@资产，否则资产将不可找回。 您充值至上述地址后，需要整个网络节点的确认，6次网络确认后 到账。 您可以在充值记录里查看充值状态！", nil), @"OMINI"];
-    
-    [_warnLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.view).offset(ScaleW(15));
-        make.right.mas_equalTo(self.view).offset(ScaleW(-15));
-        make.top.mas_equalTo(self.warnTitleLabel.mas_top);
-    }];
-    
-}
-
-
--(Home_Segment_View *)segmentControl
-{
-    if (nil == _segmentControl) {
+    if (unit)
+    {
+        [self.view addSubview:self.segmentView];
+        [self.segmentView addSubview:self.segmentleftLabel];
+        [self.segmentView addSubview:self.segmentrightLabel];
+        [self.segmentView addSubview:self.accessoryImageView];
+        [self.view addSubview:self.chargeView];
+        [self.view addSubview:self.warnTitleLabel];
+        [self.view addSubview:self.warnLabel];
         
-        _segmentControl = [[Home_Segment_View alloc]initWithFrame:CGRectMake(0, 0, ScaleW(200), ScaleW(50)) titles:@[SSKJLocalized(@"OMNI", nil), SSKJLocalized(@"ERC20", nil),] normalColor:kSubTitleColor selectedColor:kBlueColor fontSize:ScaleW(15)];
-        [_segmentControl setBackgroundColor:kSubBgColor];
         
-        WS(weakSelf);
-        _segmentControl.selectedIndexBlock = ^(NSInteger index)
-        {
-            [weakSelf selectCoin:index];
-            return YES;
-        };
+        [self.segmentleftLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+           
+            make.left.equalTo(self.segmentView.mas_left).offset(15);
+            make.centerY.equalTo(self.segmentView.mas_centerY);
+        }];
+        
+        [self.accessoryImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            
+            make.right.equalTo(self.segmentView.mas_right).offset(-15);
+            make.centerY.equalTo(self.segmentView.mas_centerY);
+            
+        }];
+        
+        
+        [self.segmentrightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+           
+            make.right.equalTo(self.accessoryImageView.mas_left).offset(-5);
+            make.centerY.equalTo(self.segmentView.mas_centerY);
+            
+        }];
+        
+        
+        [self.warnTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+     
+            make.top.equalTo(self.chargeView.mas_bottom).offset(25);
+            make.left.right.equalTo(self.chargeView);
+        }];
+        
+        [self.warnLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            
+            make.top.mas_equalTo(self.warnTitleLabel.mas_bottom).offset(2);
+            make.left.right.equalTo(self.warnTitleLabel);
+            
+        }];
+        
     }
-    return _segmentControl;
 }
 
 
--(UIScrollView *)scrollView
-{
-    if (nil == _scrollView) {
-        _scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, Height_NavBar, ScreenWidth, ScreenHeight - Height_NavBar)];
-        
-        
-        if (@available(iOS 11.0, *)) {
-            _scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-        }
-    }
-    return _scrollView;
-}
-
+#pragma mark - Getter / Setter
 -(Mine_RechargeTop_View *)chargeView
 {
-    if (nil == _chargeView) {
-        _chargeView = [[Mine_RechargeTop_View alloc]initWithFrame:CGRectMake(ScaleW(15), self.segmentView.bottom + ScaleW(10), ScreenWidth - ScaleW(30), ScaleW(400))];
+    if (nil == _chargeView)
+    {
+        _chargeView = [[Mine_RechargeTop_View alloc]initWithFrame:CGRectMake(ScaleW(15), self.segmentView.bottom + ScaleW(15), ScreenWidth - ScaleW(30), ScaleW(400))];
+        [_chargeView setBackgroundColor:kWhiteColor];
     }
     return _chargeView;
 }
 
 -(UILabel *)warnTitleLabel
 {
-    if (nil == _warnTitleLabel) {
-        _warnTitleLabel  = [FactoryUI createLabelWithFrame:CGRectMake(self.chargeView.x, self.chargeView.bottom + ScaleW(10), self.chargeView.width, ScaleW(14)) text:SSKJLocalized(@"充币说明:", nil) textColor:kSubTitleColor font:systemFont(ScaleW(14))];
+    if (nil == _warnTitleLabel)
+    {
+        _warnTitleLabel  = [FactoryUI createLabelWithFrame:CGRectZero text:SSKJLanguage(@"1.请勿向上述地址充值任何非USDT资产，否则资产将不可找回。") textColor:kSubTitleColor font:systemFont(ScaleW(14))];
+        [_warnTitleLabel setNumberOfLines:0];
     }
     return _warnTitleLabel;
 }
 
+
 -(UILabel *)warnLabel
 {
-    if (nil == _warnLabel) {
-        _warnLabel = [FactoryUI createLabelWithFrame:CGRectMake(self.chargeView.x, self.warnTitleLabel.bottom + ScaleW(-20), self.chargeView.width, ScaleW(12)) text:SSKJLocalized(@"--", nil) textColor:kSubTitleColor font:systemFont(ScaleW(12))];
-        _warnLabel.numberOfLines = 0;
-        
-        
+    if (nil == _warnLabel)
+    {
+        _warnLabel = [FactoryUI createLabelWithFrame:CGRectZero text:SSKJLanguage(@"2.平台支持omni及ERC20类型钱包充币。") textColor:kSubTitleColor font:systemFont(ScaleW(14))];
+        [_warnLabel setNumberOfLines:0];
     }
     return _warnLabel;
 }
 
+
+
+
+-(UIView *)segmentView
+{
+    if (!_segmentView)
+    {
+        _segmentView = [[UIView alloc]initWithFrame:CGRectMake(0, Height_NavBar, ScreenWidth, 50)];
+        [_segmentView setBackgroundColor:kBgColor];
+    }
+    return _segmentView;
+}
+
+
+-(UILabel *)segmentleftLabel
+{
+    if (!_segmentleftLabel)
+    {
+        _segmentleftLabel = [[UILabel alloc]init];
+        [_segmentleftLabel setTextColor:kTitleColor];
+        [_segmentleftLabel setFont:systemFont(ScaleW(15))];
+        [_segmentleftLabel setText:SSKJLanguage(@"钱包类型")];
+    }
+    return _segmentleftLabel;
+}
+
+
+-(UILabel *)segmentrightLabel
+{
+    if (!_segmentrightLabel)
+    {
+        _segmentrightLabel = [[UILabel alloc]init];
+        [_segmentrightLabel setTextColor:kTitleColor];
+        [_segmentrightLabel setFont:systemFont(ScaleW(15))];
+        [_segmentrightLabel setText:@"ERC20"];
+    }
+    return _segmentrightLabel;
+}
+
+
+-(UIImageView *)accessoryImageView
+{
+    if (!_accessoryImageView)
+    {
+        _accessoryImageView = [[UIImageView alloc]init];
+        [_accessoryImageView setImage:[UIImage imageNamed:@"accessory"]];
+    }
+    return _accessoryImageView;
+}
 
 -(NSMutableArray <RechargeModel*> *)rechargeArray
 {
@@ -220,7 +210,8 @@
 
 
 
-- (void)requestAddress {
+- (void)requestAddress
+{
     #pragma mark 处理
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     WS(weakSelf);
@@ -246,7 +237,7 @@
             [weakSelf.rechargeArray enumerateObjectsUsingBlock:^(RechargeModel *obj, NSUInteger idx, BOOL * _Nonnull stop)
              {
                 NSString *code = [obj.code lowercaseString];
-                if ([code containsString:@"omni"])
+                if ([code containsString:@"erc20"])
                 {
                     [weakSelf.chargeView setAddress:obj.address];
                     [weakSelf.chargeView.qrCodeImageView sd_setImageWithURL:[NSURL URLWithString:obj.qrcode]];

@@ -316,7 +316,7 @@
 - (void)requestSmsCode
 {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self animated:YES];
-    NSDictionary *params = @{@"area_code":@"86",@"phone":kAccount};
+    NSDictionary *params = @{@"area_code":@"+86",@"phone":kAccount};
     [[WLHttpManager shareManager] requestWithURL_HTTPCode:BI_GetSmsCode_URL RequestType:RequestTypePost Parameters:params Success:^(NSInteger statusCode, id responseObject)
     {
         

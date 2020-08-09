@@ -19,28 +19,34 @@
 #import "LA_Extract_SafeVerify_AlertView.h"
 
 @interface Mine_Extract_ViewController ()<UITextFieldDelegate>
-@property (nonatomic, strong) UIScrollView *scorllView;
-@property (nonatomic, strong) AddressManager_HeaderView *headerView;
+
+
+
 @property (nonatomic, strong) UIView *backView;
+@property (nonatomic, strong) UILabel *usableTipLabel; //!< 可用提示
+@property (nonatomic, strong) UILabel *usableLabel; //!<
+
 @property (nonatomic, strong) UILabel *addressLabel;
 @property (nonatomic, strong) UITextField *addressTextField;
 @property (nonatomic, strong) UIButton *scanButton;
-@property (nonatomic, strong) UIView *lineView1;
 @property (nonatomic, strong) UIButton *addressButton;
 
-@property (nonatomic, strong) UILabel *usableLabel;
+
+@property (nonatomic, strong) UIView *numberBgView;
+@property (nonatomic, strong) UILabel *numberLabel; //!< 数量
 @property (nonatomic, strong) UITextField *numberTextField;
 @property (nonatomic, strong) UILabel *unitLabel;
-@property (nonatomic, strong) UIView *lineView2;
+@property (nonatomic, strong) UIView *lineView;
 @property (nonatomic, strong) UIButton *allButton;
 
-@property (nonatomic, strong) UILabel *warningLabel;
+@property (nonatomic, strong) UILabel *pwdtipLabel;
+@property (nonatomic, strong) UITextField *pwdTextField; //!< 资金密码
+@property (nonatomic, strong) UILabel *feedLabel; //!< 手续费
 @property (nonatomic, strong) UILabel *daozhangLabel;// 到账数量
 @property (nonatomic, strong) UIButton *tibiButton;
 
 @property (nonatomic, strong) LA_Extract_SafeVerify_AlertView *alertView;
 
-@property (nonatomic, assign) WalletType walletType;
 
 @property (nonatomic, strong) Mine_AssetTiBiInfo_Model *infoModel;
 @end
@@ -52,9 +58,9 @@
     // Do any additional setup after loading the view.
     
     self.title = SSKJLocalized(@"提币", nil);
-    [self addRightNavgationItemWithImage:[UIImage imageNamed:@"充币--记录"]];
-    self.walletType = WalletTypeOMNI;
-    [self setUI];
+    [self addRightNavgationItemWithImage:[UIImage imageNamed:@"Recharge"]];
+    [self.view setBackgroundColor:kSubBgColor];
+    [self unit:YES];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -70,59 +76,162 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
--(void)setUI
+-(void)unit:(BOOL)unit
 {
-    [self.view addSubview:self.scorllView];
-    [self.scorllView addSubview:self.headerView];
-
-    [self.scorllView addSubview:self.backView];
+    [self.view addSubview:self.backView];
+    [self.backView addSubview:self.usableTipLabel];
+    [self.backView addSubview:self.usableLabel];
     [self.backView addSubview:self.addressLabel];
     [self.backView addSubview:self.addressTextField];
     [self.backView addSubview:self.addressButton];
-    [self.backView addSubview:self.lineView1];
     [self.backView addSubview:self.scanButton];
-    self.addressTextField.width = self.scanButton.x - ScaleW(15);
-    [self.backView addSubview:self.usableLabel];
-    [self.backView addSubview:self.numberTextField];
-    [self.backView addSubview:self.allButton];
-    [self.backView addSubview:self.lineView2];
-    [self.backView addSubview:self.unitLabel];
-    self.addressTextField.width = self.unitLabel.x - ScaleW(20);
-    [self.backView addSubview:self.warningLabel];
     
-    self.backView.height = self.warningLabel.bottom + ScaleW(20);
 
-    [self.scorllView addSubview:self.tibiButton];
-    [self.scorllView addSubview:self.daozhangLabel];
+    
+    [self.view addSubview:self.numberBgView];
+    [self.numberBgView addSubview:self.numberLabel];
+    [self.numberBgView addSubview:self.numberTextField];
+    [self.numberBgView addSubview:self.allButton];
+    [self.numberBgView addSubview:self.lineView];
+    [self.numberBgView addSubview:self.feedLabel];
+    [self.numberBgView addSubview:self.unitLabel];
+    [self.numberBgView addSubview:self.pwdtipLabel];
+    [self.numberLabel addSubview:self.pwdTextField];
+    
+    [self.view addSubview:self.tibiButton];
+    [self.view addSubview:self.daozhangLabel];
 
+    
+    
+    
+    
+    [self.backView mas_makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.top.equalTo(self.view).offset(Height_NavBar+10);
+        make.left.right.equalTo(self.view);
+        make.height.equalTo(@(170));
+    }];
+    
+    [self.usableTipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.left.top.equalTo(self.backView).offset(15);
+        
+    }];
+    
+    
+    [self.usableLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.top.equalTo(self.usableTipLabel.mas_bottom).offset(15);
+        make.left.equalTo(self.usableTipLabel.mas_left);
+        
+    }];
+    
+    [self.addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.top.equalTo(self.usableLabel.mas_bottom).offset(30);
+        make.left.equalTo(self.usableTipLabel);
+    }];
+    
+    [self.addressTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.top.equalTo(self.addressLabel.mas_bottom).offset(5);
+        make.left.equalTo(self.usableTipLabel);
+        make.height.equalTo(@(30));
+        make.width.equalTo(@(250));
+    }];
+    
+    
+    [self.addressButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.right.equalTo(self.backView.mas_right).offset(-15);
+        make.centerY.equalTo(self.addressTextField.mas_centerY);
+        make.width.height.equalTo(@(16));
+    }];
+    
+    [self.scanButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.right.equalTo(self.addressButton.mas_left).offset(-30);
+        make.centerY.equalTo(self.addressTextField.mas_centerY);
+        make.width.height.equalTo(@(16));
+        
+    }];
+    
+    
+    [self.numberBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.top.equalTo(self.backView.mas_bottom).offset(10);
+        make.left.right.equalTo(self.view);
+        make.height.equalTo(@(220));
+        
+    }];
+    
+    [self.numberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.top.equalTo(self.numberBgView.mas_top).offset(20);
+        make.left.equalTo(self.numberBgView.mas_left).offset(15);
+        
+    }];
+    
+    [self.numberTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.top.equalTo(self.numberLabel.mas_bottom).offset(5);
+        make.left.equalTo(self.numberLabel);
+        make.width.height.equalTo(self.addressTextField);
+    }];
+    
+    [self.allButton mas_makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.right.equalTo(self.numberBgView.mas_right).offset(-15);
+        make.centerY.equalTo(self.numberTextField.mas_centerY);
+        
+    }];
+    
+    
+    [self.unitLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.right.equalTo(self.allButton.mas_left).offset(-20);
+        make.centerY.equalTo(self.numberTextField.mas_centerY);
+    }];
+    
+    
+    [self.lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.top.equalTo(self.numberTextField.mas_bottom).offset(10);
+        make.left.right.equalTo(self.numberBgView);
+        make.height.equalTo(@(40));
+    }];
+    
+    [self.feedLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.left.equalTo(self.numberLabel.mas_left);
+        make.centerY.equalTo(self.lineView.mas_centerY);
+    }];
+    
+    [self.pwdtipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.top.equalTo(self.lineView.mas_bottom).offset(20);
+        make.left.equalTo(self.numberLabel);
+    }];
+    
+    [self.pwdTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.top.equalTo(self.pwdtipLabel.mas_bottom).offset(5);
+        make.left.equalTo(self.numberLabel);
+        make.width.height.equalTo(self.addressTextField);
+    }];
+    
 }
 
 
-- (UIScrollView *)scorllView
-{
-    if (nil == _scorllView) {
-        _scorllView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, Height_NavBar, ScreenWidth, ScreenHeight - Height_NavBar)];
-    }
-    return _scorllView;
-}
 
--(AddressManager_HeaderView *)headerView
-{
-    if (nil == _headerView) {
-        _headerView = [[AddressManager_HeaderView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScaleW(70))];
-        WS(weakSelf);
-        _headerView.changeWalletTypeBlock = ^(WalletType walletType) {
-            weakSelf.walletType = walletType;
-        };
-    }
-    return _headerView;
-}
+
+
 -(UIView *)backView
 {
-    if (nil == _backView) {
-        _backView = [[UIView alloc]initWithFrame:CGRectMake(ScaleW(15), self.headerView.bottom, self.scorllView.width - ScaleW(30), 0)];
-        _backView.backgroundColor = kSubBgColor;
-        _backView.layer.cornerRadius = ScaleW(5);
+    if (nil == _backView)
+    {
+        _backView = [[UIView alloc]init];
+        _backView.backgroundColor = kBgColor;
     }
     return _backView;
 }
@@ -131,75 +240,110 @@
 
 -(UILabel *)addressLabel
 {
-    if (nil == _addressLabel) {
-        _addressLabel = [WLTools allocLabel:SSKJLocalized(@"提币地址", nil) font:systemFont(ScaleW(14)) textColor:kTitleColor frame:CGRectMake(ScaleW(15), ScaleW(24), ScaleW(200), ScaleW(14)) textAlignment:NSTextAlignmentLeft];
+    if (nil == _addressLabel)
+    {
+        _addressLabel = [WLTools allocLabel:SSKJLocalized(@"提币地址", nil) font:systemFont(ScaleW(15)) textColor:kTitleColor frame:CGRectZero textAlignment:NSTextAlignmentLeft];
     }
     return _addressLabel;
 }
 
 -(UITextField *)addressTextField
 {
-    if (nil == _addressTextField) {
-        _addressTextField = [[UITextField alloc]initWithFrame:CGRectMake(self.addressLabel.x, self.addressLabel.bottom + ScaleW(5), ScaleW(200), ScaleW(30))];
+    if (nil == _addressTextField)
+    {
+        _addressTextField = [[UITextField alloc]init];
         _addressTextField.textColor = kTitleColor;
         _addressTextField.placeholder = SSKJLocalized(@"输入或长按粘贴地址", nil);
         [_addressTextField setPlaceHolderColor:kSubTitleColor];
-        _addressTextField.font = systemFont(ScaleW(14));
+        _addressTextField.font = systemFont(ScaleW(12));
     }
     return _addressTextField;
 }
 
 -(UIButton *)addressButton
 {
-    if (nil == _addressButton) {
-        _addressButton = [[UIButton alloc]initWithFrame:CGRectMake(self.backView.width - ScaleW(45), 0, ScaleW(45), ScaleW(30))];
+    if (nil == _addressButton)
+    {
+        _addressButton = [[UIButton alloc]init];
         [_addressButton setImage:[UIImage imageNamed:@"mine_tibi_address"] forState:UIControlStateNormal];
-        _addressButton.centerY = self.addressTextField.centerY;
         [_addressButton addTarget:self action:@selector(selectAddress) forControlEvents:UIControlEventTouchUpInside];
 
     }
     return _addressButton;
 }
 
--(UIView *)lineView1
-{
-    if (nil == _lineView1) {
-        _lineView1 = [[UIView alloc]initWithFrame:CGRectMake(self.addressButton.x - 0.5, 0, 0.5, ScaleW(15))];
-        _lineView1.centerY = self.addressButton.centerY;
-        _lineView1.backgroundColor = kSubTitleColor;
-    }
-    return _lineView1;
-}
 
 -(UIButton *)scanButton
 {
-    if (nil == _scanButton) {
-        _scanButton = [[UIButton alloc]initWithFrame:CGRectMake(self.lineView1.x - ScaleW(45), 0, ScaleW(45), ScaleW(30))];
-        [_scanButton setImage:[UIImage imageNamed:@"saoma_white"] forState:UIControlStateNormal];
-        _scanButton.centerY = self.addressTextField.centerY;
+    if (nil == _scanButton)
+    {
+        _scanButton = [[UIButton alloc]init];
+        [_scanButton setImage:[UIImage imageNamed:@"saoma"] forState:UIControlStateNormal];
         [_scanButton addTarget:self action:@selector(scanEvent) forControlEvents:UIControlEventTouchUpInside];
     }
     return _scanButton;
 }
 
 
+-(UILabel *)usableTipLabel
+{
+    if (nil == _usableTipLabel)
+    {
+        _usableTipLabel = [[UILabel alloc]init];
+        [_usableTipLabel setText:SSKJLanguage(@"可用")];
+        [_usableTipLabel setTextColor:kTitleColor];
+        [_usableTipLabel setFont:systemFont(ScaleW(14))];
+    }
+    return _usableTipLabel;
+}
+
+
+
 
 -(UILabel *)usableLabel
 {
-    if (nil == _usableLabel) {
-        _usableLabel = [WLTools allocLabel:SSKJLocalized(@"可用 2222 USDT", nil) font:systemFont(ScaleW(14)) textColor:kTitleColor frame:CGRectMake(ScaleW(15), self.addressTextField.bottom + ScaleW(20), ScaleW(200), ScaleW(14)) textAlignment:NSTextAlignmentLeft];
+    if (nil == _usableLabel)
+    {
+        _usableLabel = [[UILabel alloc]init];
+        [_usableLabel setTextColor:kTitleColor];
+        [_usableLabel setFont:systemFont(ScaleW(14))];
+        [_usableLabel setText:@"0.00 USDT"];
     }
     return _usableLabel;
 }
 
+-(UIView *)numberBgView
+{
+    if (!_numberBgView)
+    {
+        _numberBgView = [[UIView alloc]init];
+        [_numberBgView setBackgroundColor:kBgColor];
+    }
+    return _numberBgView;
+}
+
+-(UILabel *)numberLabel
+{
+    if (nil == _numberLabel)
+    {
+        _numberLabel = [[UILabel alloc]init];
+        [_numberLabel setTextColor:kTitleColor];
+        [_numberLabel setFont:systemFont(ScaleW(14))];
+        [_numberLabel setText:@"0.00 USDT"];
+    }
+    return _numberLabel;
+}
+
+
+
 -(UITextField *)numberTextField
 {
     if (nil == _numberTextField) {
-        _numberTextField = [[UITextField alloc]initWithFrame:CGRectMake(self.addressLabel.x, self.usableLabel.bottom + ScaleW(5), ScaleW(200), ScaleW(30))];
+        _numberTextField = [[UITextField alloc]init];
         _numberTextField.textColor = kTitleColor;
         _numberTextField.placeholder = SSKJLocalized(@"输入提币数量", nil);
         [_numberTextField setPlaceHolderColor:kSubTitleColor];
-        _numberTextField.font = systemFont(ScaleW(14));
+        _numberTextField.font = systemFont(ScaleW(12));
         _numberTextField.delegate = self;
         _numberTextField.keyboardType = UIKeyboardTypeDecimalPad;
         [_numberTextField addTarget:self action:@selector(inputChanged) forControlEvents:UIControlEventEditingChanged];
@@ -209,67 +353,111 @@
 
 -(UIButton *)allButton
 {
-    if (nil == _allButton) {
-        _allButton = [[UIButton alloc]initWithFrame:CGRectMake(self.backView.width - ScaleW(45), 0, ScaleW(45), ScaleW(30))];
-        [_allButton setTitle:SSKJLocalized(@"全部", nil) forState:UIControlStateNormal];
-        [_allButton setTitleColor:kTitleColor forState:UIControlStateNormal];
-        _allButton.titleLabel.font = systemFont(ScaleW(15));
-        _allButton.centerY = self.numberTextField.centerY;
+    if (nil == _allButton)
+    {
+        _allButton = [[UIButton alloc]init];
+        [_allButton setTitle:SSKJLanguage(@"全部") forState:UIControlStateNormal];
+        [_allButton.titleLabel setFont:systemFont(ScaleW(14))];
         [_allButton addTarget:self action:@selector(allEvent) forControlEvents:UIControlEventTouchUpInside];
-
+        [_allButton setTitleColor:kBlueColor forState:UIControlStateNormal];
     }
     return _allButton;
 }
 
--(UIView *)lineView2
+-(UIView *)lineView
 {
-    if (nil == _lineView2) {
-        _lineView2 = [[UIView alloc]initWithFrame:CGRectMake(self.allButton.x - 0.5, 0, 0.5, ScaleW(15))];
-        _lineView2.centerY = self.allButton.centerY;
-        _lineView2.backgroundColor = kSubTitleColor;
+    if (nil == _lineView)
+    {
+        _lineView = [[UIView alloc]init];
+        _lineView.backgroundColor = kLineColor;
     }
-    return _lineView2;
+    return _lineView;
 }
+
 
 - (UILabel *)unitLabel
 {
-    if (nil == _unitLabel) {
-        _unitLabel = [WLTools allocLabel:SSKJLocalized(@"USDT", nil) font:systemFont(ScaleW(14)) textColor:kTitleColor frame:CGRectMake(self.lineView2.x - ScaleW(50), 0, ScaleW(50), ScaleW(14)) textAlignment:NSTextAlignmentLeft];
-        _unitLabel.centerY = self.lineView2.centerY;
+    if (nil == _unitLabel)
+    {
+        _unitLabel = [[UILabel alloc]init];
+        [_unitLabel setFont:systemFont(ScaleW(14))];
+        [_unitLabel setTextColor:kSubTitleColor];
+        [_unitLabel setText:@"USDT"];
     }
     return _unitLabel;
 }
 
--(UILabel *)warningLabel
+-(UILabel *)feedLabel
 {
-    if (nil == _warningLabel) {
-        NSString *string = SSKJLocalized(@"", nil);
-        _warningLabel = [WLTools allocLabel:string font:systemFont(ScaleW(11)) textColor:kSubTitleColor frame:CGRectMake(ScaleW(15), self.numberTextField.bottom + ScaleW(10), self.backView.width - ScaleW(30), ScaleW(100)) textAlignment:NSTextAlignmentLeft];
+    if (nil == _feedLabel)
+    {
+        _feedLabel = [[UILabel alloc]init];
+        [_feedLabel setFont:systemFont(ScaleW(13))];
+        [_feedLabel setTextColor:kTitleColor];
+        [_feedLabel setText:[NSString stringWithFormat:@"%@:0.00 USDT/%@",SSKJLanguage(@"手续费"),SSKJLanguage(@"次")]];
     }
-    return _warningLabel;
+    return _feedLabel;
 }
 
-- (UIButton *)tibiButton{
-    if (_tibiButton == nil) {
-        _tibiButton = [WLTools allocButton:SSKJLanguage(@"确定") textColor:kWhiteColor nom_bg:nil hei_bg:nil frame:CGRectMake(ScaleW(15), ScreenHeight - Height_NavBar - ScaleW(45) - ScaleW(20), ScreenWidth - ScaleW(30), ScaleW(45))];
-        _tibiButton.titleLabel.font = kFont(15);
-        [_tibiButton addTarget:self action:@selector(tibiEvent) forControlEvents:UIControlEventTouchUpInside];
-        _tibiButton.layer.masksToBounds = YES;
-        _tibiButton.layer.cornerRadius = ScaleW(5);
-        _tibiButton.backgroundColor = kBlueColor;
-        [self.view addSubview:_tibiButton];
+
+-(UILabel *)pwdtipLabel
+{
+    if (nil == _pwdtipLabel)
+    {
+        _pwdtipLabel = [[UILabel alloc]init];
+        [_pwdtipLabel setFont:systemFont(ScaleW(15))];
+        [_pwdtipLabel setTextColor:kTitleColor];
+        [_pwdtipLabel setText:SSKJLanguage(@"资金密码")];
+    }
+    return _pwdtipLabel;
+}
+
+
+-(UITextField *)pwdTextField
+{
+    if (nil == _pwdTextField)
+    {
+        _pwdTextField = [[UITextField alloc]init];
+        _pwdTextField.textColor = kTitleColor;
+        _pwdTextField.placeholder = SSKJLanguage(@"请输入资金密码");
+        [_pwdTextField setPlaceHolderColor:kSubTitleColor];
+        _pwdTextField.font = systemFont(ScaleW(12));
+        _pwdTextField.delegate = self;
+        _pwdTextField.keyboardType = UIKeyboardTypeDecimalPad;
+        [_pwdTextField addTarget:self action:@selector(inputChanged) forControlEvents:UIControlEventEditingChanged];
+    }
+    return _pwdTextField;
+}
+
+
+
+
+
+
+- (UIButton *)tibiButton
+{
+    if (_tibiButton == nil)
+    {
+        _tibiButton = [[UIButton alloc]init];
+        [_tibiButton setTitle:SSKJLanguage(@"提币") forState:UIControlStateNormal];
     }
     return _tibiButton;
 }
 
 
+
 -(UILabel *)daozhangLabel
 {
-    if (nil == _daozhangLabel) {
-        _daozhangLabel = [WLTools allocLabel:SSKJLocalized(@"到账数量:0.00 USDT", nil)  font:systemFont(ScaleW(16)) textColor:kTitleColor frame:CGRectMake(ScaleW(15), self.tibiButton.y - ScaleW(21) - ScaleW(15), self.tibiButton.width, ScaleW(16)) textAlignment:NSTextAlignmentLeft];
+    if (nil == _daozhangLabel)
+    {
+        _daozhangLabel = [[UILabel alloc]init];
+        [_daozhangLabel setText:SSKJLanguage(@"到账数量:0.00 USDT")];
+        [_daozhangLabel setFont:systemFont(ScaleW(17))];
     }
     return _daozhangLabel;
 }
+
+
 
 -(LA_Extract_SafeVerify_AlertView *)alertView
 {
@@ -305,10 +493,10 @@
 {
     Mine_AddressManager_ViewController *vc = [[Mine_AddressManager_ViewController alloc]init];
     WS(weakSelf);
-    vc.getAddressBlock = ^(ExtractAddress_IndexModel *addressModel) {
+    vc.getAddressBlock = ^(ExtractAddress_IndexModel *addressModel)
+    {
         weakSelf.addressTextField.text = addressModel.address;
     };
-    vc.walletType = self.walletType;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -431,15 +619,11 @@
 
 -(void)resetView
 {
-    self.usableLabel.text = [NSString stringWithFormat:SSKJLocalized(@"可用 %@ USDT", nil),[WLTools noroundingStringWith:self.infoModel.balance.doubleValue afterPointNumber:2]];
+    [self.usableLabel setText:[NSString stringWithFormat:@"%@ USDT",self.infoModel.balance]];
     
-    self.warningLabel.text = [NSString stringWithFormat: SSKJLocalized(@"手续费:%@ USDT/次 最小提币数量为 %@ USDT 请确定目标提币地址是否存在且被激活，否则将会导致提币失败，且资产不可找回。", nil),[WLTools noroundingStringWith:self.infoModel.fee.doubleValue afterPointNumber:2],[WLTools noroundingStringWith:self.infoModel.min.doubleValue afterPointNumber:2]];
     
-    CGFloat height = [self.warningLabel.text boundingRectWithSize:CGSizeMake(self.warningLabel.width, 10000) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:self.warningLabel.font} context:nil].size.height;
-    self.warningLabel.height = height;
-    self.backView.height = self.warningLabel.bottom + ScaleW(20);
+    
 
-    
 }
 
 
