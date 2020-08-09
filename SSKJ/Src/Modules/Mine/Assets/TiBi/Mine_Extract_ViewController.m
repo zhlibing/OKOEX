@@ -96,7 +96,7 @@
     [self.numberBgView addSubview:self.feedLabel];
     [self.numberBgView addSubview:self.unitLabel];
     [self.numberBgView addSubview:self.pwdtipLabel];
-    [self.numberLabel addSubview:self.pwdTextField];
+    [self.numberBgView addSubview:self.pwdTextField];
     
     [self.view addSubview:self.tibiButton];
     [self.view addSubview:self.daozhangLabel];
@@ -220,6 +220,20 @@
         make.width.height.equalTo(self.addressTextField);
     }];
     
+    [self.daozhangLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.left.equalTo(self.view.mas_left).offset(15);
+        make.bottom.equalTo(self.view.mas_bottom).offset(120);
+    }];
+    
+    [self.tibiButton mas_makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.top.equalTo(self.daozhangLabel.mas_bottom).offset(20);
+        make.left.equalTo(self.view.mas_left).offset(15);
+        make.right.equalTo(self.view.mas_right).offset(-15);
+        make.height.equalTo(@(45));
+    }];
+    
 }
 
 
@@ -254,7 +268,6 @@
         _addressTextField = [[UITextField alloc]init];
         _addressTextField.textColor = kTitleColor;
         _addressTextField.placeholder = SSKJLocalized(@"输入或长按粘贴地址", nil);
-        [_addressTextField setPlaceHolderColor:kSubTitleColor];
         _addressTextField.font = systemFont(ScaleW(12));
     }
     return _addressTextField;
@@ -342,10 +355,8 @@
         _numberTextField = [[UITextField alloc]init];
         _numberTextField.textColor = kTitleColor;
         _numberTextField.placeholder = SSKJLocalized(@"输入提币数量", nil);
-        [_numberTextField setPlaceHolderColor:kSubTitleColor];
         _numberTextField.font = systemFont(ScaleW(12));
         _numberTextField.delegate = self;
-        _numberTextField.keyboardType = UIKeyboardTypeDecimalPad;
         [_numberTextField addTarget:self action:@selector(inputChanged) forControlEvents:UIControlEventEditingChanged];
     }
     return _numberTextField;
@@ -420,10 +431,8 @@
         _pwdTextField = [[UITextField alloc]init];
         _pwdTextField.textColor = kTitleColor;
         _pwdTextField.placeholder = SSKJLanguage(@"请输入资金密码");
-        [_pwdTextField setPlaceHolderColor:kSubTitleColor];
         _pwdTextField.font = systemFont(ScaleW(12));
         _pwdTextField.delegate = self;
-        _pwdTextField.keyboardType = UIKeyboardTypeDecimalPad;
         [_pwdTextField addTarget:self action:@selector(inputChanged) forControlEvents:UIControlEventEditingChanged];
     }
     return _pwdTextField;
@@ -440,6 +449,7 @@
     {
         _tibiButton = [[UIButton alloc]init];
         [_tibiButton setTitle:SSKJLanguage(@"提币") forState:UIControlStateNormal];
+        [_tibiButton setCornerRadius:5];
     }
     return _tibiButton;
 }
