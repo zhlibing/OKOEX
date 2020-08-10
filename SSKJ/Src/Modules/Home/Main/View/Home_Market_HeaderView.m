@@ -19,7 +19,7 @@
 
 
 @property(nonatomic, strong)  UIView *coinView;
-@property (nonatomic, strong) SDCycleScrollView *bannerView;    // 轮播图
+@property (nonatomic, strong) UIImageView *bannerView;    // 轮播图
 @property(nonatomic, strong)  Home_Coin_View *coinContentView;
 @property (nonatomic, strong) UIView *lineView; //!< 分割线
 @property (nonatomic, strong) HomeHeaderItemControl *assetsControl;
@@ -51,6 +51,13 @@
         [self addSubview:self.dividendsControl];
         [self addSubview:self.bottomLineView];
         
+        
+        [self.bannerView mas_makeConstraints:^(MASConstraintMaker *make) {
+           
+            make.left.top.right.equalTo(self);
+            make.height.equalTo(@(230));
+            
+        }];
         
         [self.coinView mas_makeConstraints:^(MASConstraintMaker *make) {
            
@@ -134,17 +141,13 @@
 }
 
 #pragma mark - 播视图
--(SDCycleScrollView *)bannerView
+-(UIImageView *)bannerView
 {
     if (_bannerView==nil)
     {
-        _bannerView=[SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0,ScaleW(0), ScreenWidth, 230) delegate:self placeholderImage:[UIImage imageNamed:@"banner_default"]];
-        _bannerView.backgroundColor = [UIColor clearColor];
-        _bannerView.pageControlAliment = SDCycleScrollViewPageContolAlimentCenter;
-        _bannerView.delegate = self;
-        _bannerView.autoScrollTimeInterval = 3.0;
-        _bannerView.pageControlStyle = SDCycleScrollViewPageContolStyleNone;
-        _bannerView.layer.masksToBounds = YES;
+        _bannerView=[[UIImageView alloc]init];
+        [_bannerView setImage:[UIImage imageNamed:@"banner_default"]];
+        [_bannerView.layer setMasksToBounds:YES];
     }
     return _bannerView;
 }
@@ -303,7 +306,6 @@
     {
         [array addObject:model.image];
     }
-    self.bannerView.imageURLStringsGroup = array;
 }
 
 -(void)setNoticeArray:(NSArray *)noticeArray

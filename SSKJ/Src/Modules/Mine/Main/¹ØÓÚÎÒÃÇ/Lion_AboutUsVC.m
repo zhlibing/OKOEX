@@ -63,7 +63,7 @@
     titleLb.text = title;
     titleLb.textColor = kTitleColor;
     rightImgV.image = MyImage(@"我的-更多");
-    lineV.backgroundColor = kLightLineColor;
+    lineV.backgroundColor = kLineColor;
     
     [titleLb mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(bgView.mas_left).offset(ScaleW(15));
@@ -77,7 +77,7 @@
         make.bottom.mas_equalTo(bgView);
         make.left.mas_equalTo(bgView.mas_left).offset(ScaleW(15));
         make.right.mas_equalTo(bgView.mas_right).offset(ScaleW(-15));
-        make.height.mas_equalTo(1);
+        make.height.mas_equalTo(0.5);
     }];
     
     return bgView;
