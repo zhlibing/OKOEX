@@ -8,10 +8,13 @@
 
 #import "SY_InviteViewController.h"
 #import "ImaginaryLineView.h"
+#import "PosterBoardControl.h"
+
 @interface SY_InviteViewController ()
 
 
-
+@property (nonatomic, strong) UILabel *backTopLabel;
+@property (nonatomic, strong) UILabel *backBottomLabel;
 @property (nonatomic, strong) UIImageView *backImageView;
 @property (nonatomic, strong) UIView *topView;
 @property (nonatomic, strong) UILabel *leftTopLabel;
@@ -34,11 +37,10 @@
 @property (nonatomic, strong) UIButton *submitBtn; //!< 生产海报按钮
 
 
+@property (nonatomic, copy) NSString *code;  //!< 分享码
+@property (nonatomic, copy) NSString *url;
 
-@property (nonatomic, strong) UIImageView *qrImageV;
-@property (nonatomic, strong) UILabel *qrLabel;
-@property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, strong) UIButton *dumplainButton;
+
 @end
 
 @implementation SY_InviteViewController
@@ -49,15 +51,34 @@
     [self.view setBackgroundColor:kSubBgColor];
     
     self.title = SSKJLocalized(@"推广海报", nil);
-//    [self setupViews];
-//    [self getinfo];
-    
-//    UILongPressGestureRecognizer *longPress=[[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(saveImage:)];
-//    self.qrImageV.userInteractionEnabled = YES;
-//    [self.qrImageV addGestureRecognizer:longPress];
+    [self getinfo];
     
     
     [self unit:YES];
+}
+
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+//    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    [self setNavgationBackgroundColor:kSubBgColor alpha:0];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+//    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [self setNavgationBackgroundColor:kSubBgColor alpha:1];
+
+}
+#pragma mark - 用户操作
+- (void)backClick{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)inviteClick{
+    [self copyEvent];
 }
 
 
@@ -65,12 +86,28 @@
 
 
 
+-(void)copyEvent
+{
+    if (!self.tipLabel.text.length)
+    {
+        return;
+    }
+    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+    pasteboard.string = self.tipLabel.text;
+    [MBProgressHUD showError:SSKJLocalized(@"复制成功", nil)];
+}
+
+
+#pragma mark 生成海报
+-(void)submitBtnACtion:(UIButton*)sender
+{
+    [PosterBoardControl showType:2 withCode:self.code withCodeUrl:self.url];
+        
+}
 
 
 
-
-
-
+#pragma mark - NetWork Method 网络请求
 - (void)getinfo
 {
     [MBHUD showHUDAddedTo:self.view];
@@ -82,12 +119,14 @@
         
         if (network_Model.status.integerValue == SUCCESSED)
         {
-            weakSelf.qrLabel.text = network_Model.data[@"account"];
-            [weakSelf.qrImageV sd_setImageWithURL:[NSURL URLWithString:network_Model.data[@"qrcode"]]];
-            
-//            self.qrImageV.image = [self creatCIQRCodeImageWithString:network_Model.data[@"url"]];
-            
-        }else{
+            [weakSelf setUrl:network_Model.data[@"qrcode"]];
+            [weakSelf setCode:network_Model.data[@"account"]];
+            weakSelf.invitationCodeLabel.text = network_Model.data[@"account"];
+            [NSURL URLWithString:network_Model.data[@"qrcode"]];
+            [weakSelf.invitationAddressLabel setText:network_Model.data[@"url"]];
+        }
+        else
+        {
             [MBProgressHUD showError:network_Model.msg];
         }
         
@@ -117,218 +156,9 @@
 }
 
 
-- (NSAttributedString *)disposeContent:(NSString *)sender{
-    NSString *str = [NSString stringWithFormat:@"<head><style>img{width:%f !important;height:auto}</style></head>%@",ScreenWidth -ScaleW(50),sender];
-
-    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithData:[str dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType} documentAttributes:nil error:nil];
-    [attrStr addAttributes:@{NSForegroundColorAttributeName:kTitleColor, NSFontAttributeName:kFont(13)} range:NSMakeRange(0, attrStr.length - 1)];
-    return attrStr;
-}
-
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-//    [self.navigationController setNavigationBarHidden:YES animated:YES];
-    [self setNavgationBackgroundColor:kSubBgColor alpha:0];
-}
-
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-//    [self.navigationController setNavigationBarHidden:NO animated:YES];
-    [self setNavgationBackgroundColor:kSubBgColor alpha:1];
-
-}
-#pragma mark - 用户操作
-- (void)backClick{
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)inviteClick{
-    [self copyEvent];
-}
-
-#pragma mark - UI
-
-- (void)setupViews{
-    
-    
-//    UIButton *back = [UIButton buttonWithType:UIButtonTypeCustom];
-    
-    
-    self.backImageView = [UIImageView new];
-           //中文
-    self.backImageView.image = MyImage(SSKJLocalized(@"tghb", nil));
-
-    self.backImageView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight) ;
-    [self.view addSubview:self.backImageView];
-    
-    [self qrImageV];
-    [self titleLabel];
-    [self qrLabel];
-    [self dumplainButton];
-    
-    
-}
-
--(UIImageView *)qrImageV
-{
-    if (nil == _qrImageV) {
-        _qrImageV = [[UIImageView alloc]initWithFrame:CGRectZero];
-        _qrImageV.backgroundColor = [UIColor whiteColor];
-        [self.view addSubview:_qrImageV];
-        CGFloat startY = -ScaleW(130);
-        if (!IS_IPHONE_X_ALL) {
-            startY = -ScaleW(97);
-        }
-        
-        [_qrImageV mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(ScaleW(80));
-            make.bottom.mas_equalTo(startY);
-            make.width.height.mas_equalTo(ScaleW(100));
-        }];
-    }
-    return _qrImageV;
-}
-
-- (UILabel *)titleLabel
-{
-    if (nil == _titleLabel) {
-        _titleLabel = [WLTools allocLabel:SSKJLocalized(@"邀请码", nil) font:systemFont(ScaleW(13)) textColor:kSubTitleColor frame:CGRectZero textAlignment:NSTextAlignmentLeft];
-        [self.view addSubview:_titleLabel];
-        [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.qrImageV.mas_right).offset(ScaleW(20));
-            make.top.equalTo(self.qrImageV.mas_top).offset(ScaleW(3));
-        }];
-    }
-    return _titleLabel;
-}
 
 
-- (UILabel *)qrLabel
-{
-    if (nil == _qrLabel) {
-        _qrLabel = [WLTools allocLabel:SSKJLocalized(@"", nil) font:systemBoldFont(ScaleW(15)) textColor:kBlueColor frame:CGRectZero textAlignment:NSTextAlignmentLeft];
-        [self.view addSubview:_qrLabel];
-        [_qrLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.titleLabel.mas_left);
-            make.top.equalTo(self.titleLabel.mas_bottom).offset(ScaleW(10));
-        }];
-    }
-    return _qrLabel;
-}
-- (UIButton *)dumplainButton
-{
-    if (nil == _dumplainButton) {
-        _dumplainButton = [[UIButton alloc]initWithFrame:CGRectZero];
-        [_dumplainButton setTitle:SSKJLocalized(@"复制", nil) forState:UIControlStateNormal];
-        [_dumplainButton setTitleColor:kTitleColor forState:UIControlStateNormal];
-        _dumplainButton.titleLabel.font = systemFont(ScaleW(15));
-        _dumplainButton.backgroundColor = kBlueColor;
-        _dumplainButton.layer.cornerRadius = ScaleW(18);
-        [_dumplainButton addTarget:self action:@selector(copyEvent) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:_dumplainButton];
-        
-        [_dumplainButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.titleLabel);
-            make.width.mas_equalTo(ScaleW(100));
-            make.height.mas_equalTo(ScaleW(36));
-            make.bottom.equalTo(self.qrImageV.mas_bottom);
-        }];
-    }
-    return _dumplainButton;
-}
 
-
--(void)saveImage:(UILongPressGestureRecognizer *)longPress
-{
-    if (!self.qrImageV.image) {
-        return;
-    }
-    if (longPress.state == UIGestureRecognizerStateBegan) {
-        WS(weakSelf);
-        [SSKJ_Default_AlertView showWithTitle:SSKJLocalized(@"保存二维码", nil)  message:SSKJLocalized(@"保存二维码到相册", nil) cancleTitle:SSKJLocalized(@"取消", nil) confirmTitle:SSKJLocalized(@"保存", nil) confirmBlock:^{
-            UIImage *img = weakSelf.qrImageV.image;
-            UIImageWriteToSavedPhotosAlbum(img, weakSelf, @selector(image:didFinishSavingWithError:contextInfo:),nil);
-        }];
-    }
-}
-
-// 需要实现下面的方法,或者传入三个参数即可
-- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
-{
-    if (error) {
-        [MBProgressHUD showError:SSKJLocalized(@"保存失败", nil)];
-    } else {
-        [MBProgressHUD showError:SSKJLocalized(@"保存成功", nil)];
-    }
-}
-
-
--(void)copyEvent
-{
-    if (!self.qrLabel.text.length) {
-        return;
-    }
-    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-    pasteboard.string = self.qrLabel.text;
-    [MBProgressHUD showError:SSKJLocalized(@"复制成功", nil)];
-}
-
-/**
- *  生成二维码
- */
-- (UIImage *)creatCIQRCodeImageWithString:(NSString *)string
-{
-    // 1.创建过滤器，这里的@"CIQRCodeGenerator"是固定的
-    CIFilter *filter = [CIFilter filterWithName:@"CIQRCodeGenerator"];
-    // 2.恢复默认设置
-    [filter setDefaults];
-    // 3. 给过滤器添加数据
-    NSString *dataString = string;
-    NSData *data = [dataString dataUsingEncoding:NSUTF8StringEncoding];
-    // 注意，这里的value必须是NSData类型
-    [filter setValue:data forKeyPath:@"inputMessage"];
-    // 4. 生成二维码
-    CIImage *outputImage = [filter outputImage];
-    // 5. 显示二维码
-    // 该方法生成的图片较模糊
-    //    self.codeImg.image = [UIImage imageWithCIImage:outputImage];
-    // 使用该方法生成高清图
-    return [self creatNonInterpolatedUIImageFormCIImage:outputImage withSize:self.qrImageV.width];
-}
-
-/**
- *  根据CIImage生成指定大小的UIImage
- *
- *  @param image CIImage
- *  @param size  图片宽度
- *
- *  @return 生成高清的UIImage
- */
-- (UIImage *)creatNonInterpolatedUIImageFormCIImage:(CIImage *)image withSize:(CGFloat)size
-{
-    CGRect extent = CGRectIntegral(image.extent);
-    CGFloat scale = MIN(size/CGRectGetWidth(extent), size/CGRectGetHeight(extent));
-    
-    // 1. 创建bitmap
-    size_t width = CGRectGetWidth(extent) * scale;
-    size_t height = CGRectGetHeight(extent) * scale;
-    CGColorSpaceRef cs = CGColorSpaceCreateDeviceGray();
-    CGContextRef bitmapRef = CGBitmapContextCreate(nil, width, height, 8, 0, cs, (CGBitmapInfo)kCGImageAlphaNone);
-    CIContext *context = [CIContext contextWithOptions:nil];
-    CGImageRef bitmapImage = [context createCGImage:image fromRect:extent];
-    CGContextSetInterpolationQuality(bitmapRef, kCGInterpolationNone);
-    CGContextScaleCTM(bitmapRef, scale, scale);
-    CGContextDrawImage(bitmapRef, extent, bitmapImage);
-    
-    // 2.保存bitmap图片
-    CGImageRef scaledImage = CGBitmapContextCreateImage(bitmapRef);
-    CGContextRelease(bitmapRef);
-    CGImageRelease(bitmapImage);
-    return [UIImage imageWithCGImage:scaledImage];
-    
-}
 
 
 #pragma mark - Private Method
@@ -336,7 +166,8 @@
 -(void)unit:(BOOL)unit
 {
     [self.view addSubview:self.backImageView];
-    
+    [self.backImageView addSubview:self.backTopLabel];
+    [self.backImageView addSubview:self.backBottomLabel];
     [self.view addSubview:self.topView];
     [self.topView addSubview:self.leftTopLabel];
     [self.topView addSubview:self.leftBottomLabel];
@@ -370,6 +201,23 @@
     }];
     
     
+    [self.backTopLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.top.equalTo(self.backImageView.mas_top).offset(35);
+        make.centerX.equalTo(self.backImageView.mas_centerX);
+    }];
+    
+    
+    [self.backBottomLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.top.equalTo(self.backTopLabel.mas_bottom).offset(15);
+        make.centerX.equalTo(self.backImageView.mas_centerX);
+    }];
+    
+    
+    
+    
+    
     [self.topView mas_makeConstraints:^(MASConstraintMaker *make)
      {
         make.top.equalTo(self.backImageView.mas_bottom).offset(-ScaleW(47));
@@ -396,7 +244,7 @@
     [self.leftImageView mas_makeConstraints:^(MASConstraintMaker *make)
      {
         make.centerY.equalTo(self.topView.mas_centerY);
-        make.left.equalTo(self.leftTopLabel.mas_right).offset(ScaleW(10));
+        make.right.equalTo(self.topView.mas_centerX).offset(-ScaleW(53));
         make.width.equalTo(@(ScaleW(44)));
     }];
     
@@ -430,7 +278,7 @@
     [self.rightBootomLabel mas_makeConstraints:^(MASConstraintMaker *make)
      {
         make.top.equalTo(self.topView.mas_centerY);
-        make.right.equalTo(self.leftTopLabel);
+        make.right.equalTo(self.rightTopLabel);
     }];
     
     
@@ -462,6 +310,7 @@
         
         make.top.equalTo(self.bottomTipLabel.mas_bottom).offset(ScaleW(5));
         make.left.equalTo(self.bottomTipLabel);
+        make.right.equalTo(self.bottomView.mas_right).offset(-10);
     }];
     
     
@@ -498,6 +347,35 @@
 
 
 #pragma mark - Getter / Setter
+-(UILabel *)backTopLabel
+{
+    if (!_backTopLabel)
+    {
+        _backTopLabel = [[UILabel alloc]init];
+        [_backTopLabel setFont:systemBoldFont(ScaleW(27))];
+        [_backTopLabel setTextColor:kWhiteColor];
+        [_backTopLabel setText:SSKJLanguage(@"邀请好友共享收益")];
+    }
+    return _backTopLabel;
+}
+
+-(UILabel *)backBottomLabel
+{
+    if (!_backBottomLabel)
+    {
+        _backBottomLabel = [[UILabel alloc]init];
+        [_backBottomLabel setFont:systemFont(ScaleW(14))];
+        [_backBottomLabel setTextColor:kWhiteColor];
+        [_backBottomLabel setText:SSKJLanguage(@"轻松获得持续奖励")];
+    }
+    return _backBottomLabel;
+}
+
+
+
+
+
+
 -(UIImageView *)backImageView
 {
     if (!_backImageView)
@@ -643,7 +521,7 @@
         _invitationAddressLabel = [[UILabel alloc]init];
         [_invitationAddressLabel setFont:systemFont(ScaleW(16))];
         [_invitationAddressLabel setTextColor:kSubTitleColor];
-        [_invitationAddressLabel setText:@"https://www.SKPEX.io/"];
+        [_invitationAddressLabel setNumberOfLines:0];
     }
     return _invitationAddressLabel;
 }
@@ -687,6 +565,7 @@
         [_submitBtn setTitleColor:kWhiteColor forState:UIControlStateNormal];
         [_submitBtn setBackgroundColor:kBlueColor];
         [_submitBtn setCornerRadius:ScaleW(5)];
+        [_submitBtn addTarget:self action:@selector(submitBtnACtion:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _submitBtn;
 }
@@ -711,6 +590,8 @@
     }
     return _rightImageView;
 }
+
+
 
 
 

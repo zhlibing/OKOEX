@@ -14,7 +14,6 @@
 
 @property (nonatomic, strong) UIImageView *bgImageView;
 @property (nonatomic, strong) UIImageView *promoteImageView;
-@property (nonatomic, strong) UIButton *promoteBtn; //!< 推广按钮
 @property (nonatomic, strong) UILabel *promoteTitleLabel;
 @property (nonatomic, strong) UILabel *promoteTipLabel;
 @property (nonatomic, strong) UIButton *heaedrBtn;  //!< 头部按钮

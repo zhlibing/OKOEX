@@ -16,6 +16,11 @@
 #import "My_Generalize_RootViewController.h"
 #import "Mine_PrimaryCertificate_ViewController.h"
 #import "Mine_CertificationState_ViewController.h"
+#import "SY_InviteViewController.h"
+
+
+
+
 #import "Mine_Version_AlertView.h"
 #import "SSKJ_Default_AlertView.h"      // 通用弹框
 #import "Mine_Item_Cell.h" //!<我的列表cell
@@ -134,6 +139,9 @@
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
+
+
+#pragma mark - Private Method
 - (void) copyBtnClick
 {
     if (self.userIdLb.text.length != 0)
@@ -206,6 +214,13 @@
 
 
 
+-(void)promoteBtnAcrion:(UIButton*)sender
+{
+    SY_InviteViewController *invite = [[SY_InviteViewController alloc]init];
+    [self.navigationController pushViewController:invite animated:YES];
+}
+
+
 
 #pragma mark - Getter / Setter
 -(SSKJ_TableView *)tableView
@@ -224,6 +239,7 @@
     if (!_headerView)
     {
         _headerView = [[MineHeaderView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScaleW(265))];
+        [_headerView.promoteBtn addTarget:self action:@selector(promoteBtnAcrion:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _headerView;
 }

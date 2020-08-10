@@ -26,9 +26,12 @@
     [super viewDidLoad];
         
     NSString *gifName = @"750X1334";
-    if (kiPhone6Plus) {
+    if (kiPhone6Plus)
+    {
         gifName = @"1242X2208";
-    }else if (IS_IPHONE_X_ALL){
+    }
+    else if (IS_IPHONE_X_ALL)
+    {
         gifName = @"1242X2688";
     }
     
