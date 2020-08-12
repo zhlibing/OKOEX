@@ -383,7 +383,7 @@ static NSString *marketSocketIdentifier = @"maekSocketIdentifier";
                 
             }
         
-            NSString *string = [NSString stringWithFormat:@"%@@%@",str,weakSelf.coinModel.code];
+            NSString *string = [NSString stringWithFormat:@"ticker@%@",weakSelf.coinModel.code];
             
             NSString *type = [WLTools wlDictionaryToJson:@{@"sub":string}];
             [weakSelf.klineSocket socketSendMsg:type];
@@ -452,9 +452,11 @@ static NSString *marketSocketIdentifier = @"maekSocketIdentifier";
 {
     [[NSNotificationCenter defaultCenter]postNotificationName:@"didGetCoinModel" object:self.coinModel];
 
-    if (self.isNeedPop) {
+    if (self.isNeedPop)
+    {
         [self.navigationController popViewControllerAnimated:YES];
-    }else{
+    }
+    else{
         SSKJ_TabbarController *tabbVc = (SSKJ_TabbarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
         tabbVc.selectedIndex = 2;
         [self.navigationController popViewControllerAnimated:YES];
@@ -621,9 +623,12 @@ static NSString *marketSocketIdentifier = @"maekSocketIdentifier";
             self.bbTradebutton.backgroundColor = KgreenColor;
         }
 
-    }else if ([identifier isEqualToString:klineSocketIdentifier]){
+    }
+    else if ([identifier isEqualToString:klineSocketIdentifier])
+    {
                 
-        if ([dic[@"code"] isEqualToString:self.coinModel.code]) {
+        if ([dic[@"code"] isEqualToString:self.coinModel.code])
+        {
             LXY_KLine_DataModel *model = [LXY_KLine_DataModel mj_objectWithKeyValues:dic];
             
             model.high = dic[@"high"];

@@ -27,6 +27,7 @@
 #import "UITextField+SSKJ.h"
 #import "NSString+Conversion.h"
 #import "SSKJ_TableView.h"
+#import "SSKJ_ScrollView.h"
 
 
 

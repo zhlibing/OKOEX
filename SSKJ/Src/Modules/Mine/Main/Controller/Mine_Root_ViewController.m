@@ -93,6 +93,17 @@
         make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(0, 0, 0, 0));
         
     }];
+    
+    
+    WS(weakSelf);
+    [self.headerView setLoginblock:^(BOOL login) {
+       
+        if (!login)
+        {
+            
+            [weakSelf presentLoginController];
+        }
+    }];
 }
 
 

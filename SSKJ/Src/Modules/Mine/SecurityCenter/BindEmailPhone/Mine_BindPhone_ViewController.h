@@ -8,23 +8,14 @@
 
 #import "SSKJ_BaseViewController.h"
 
-typedef NS_ENUM(NSUInteger, BindType) {
-    BindTypePhone,
-    BindTypeEmail
-};
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Mine_BindPhone_ViewController : SSKJ_BaseViewController
-@property (nonatomic, assign) BindType bindType;
-
-
-/**
- 0绑定 1.修改
- */
-@property (nonatomic, assign)NSInteger from;
 
 @property (nonatomic, copy) void (^successBlock)(NSString *account);
+
+
+
 @end
 
 NS_ASSUME_NONNULL_END

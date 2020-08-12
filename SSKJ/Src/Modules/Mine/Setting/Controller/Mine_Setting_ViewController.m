@@ -114,7 +114,7 @@ static NSString *cellid = @"Setting_TableViewCell";
         UIButton *logoutButton = [[UIButton alloc]initWithFrame:CGRectMake(ScaleW(15), ScaleW(0), ScreenWidth - ScaleW(30), ScaleW(45))];
         [logoutButton setTitle:SSKJLocalized(@"退出登录", nil) forState:UIControlStateNormal];
         logoutButton.backgroundColor = kBlueColor;
-        [logoutButton setTitleColor:kTitleColor forState:UIControlStateNormal];
+        [logoutButton setTitleColor:kWhiteColor forState:UIControlStateNormal];
         logoutButton.titleLabel.font = systemFont(ScaleW(15));
         logoutButton.layer.masksToBounds = YES;
         logoutButton.layer.cornerRadius = ScaleW(5);

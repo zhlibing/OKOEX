@@ -11,7 +11,7 @@
 
 @interface Mine_AddressList_TableViewCell()
 
-@property (nonatomic, strong) UIView *contView;
+@property (nonatomic, strong) UIView *lineView;
 //描述
 @property (nonatomic, strong) UILabel *descrptionLabel;
 //地址
@@ -21,38 +21,74 @@
 @end
 @implementation Mine_AddressList_TableViewCell
 
--(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
+-(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
+    if (self)
+    {
         self.backgroundColor = kBgColor;
-        [self viewConfig];
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        
+
+        [self.contentView addSubview:self.deleBtn];
+        [self.contentView addSubview:self.descrptionLabel];
+        [self.contentView addSubview:self.addressLabel];
+        [self.contentView addSubview:self.lineView];
+        
+        
+        [self.addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+           
+            make.left.equalTo(self.contentView.mas_left).offset(ScaleW(15));
+            make.bottom.equalTo(self.contentView.mas_centerY);
+            make.height.equalTo(@(ScaleW(30)));
+        }];
+        
+        [self.descrptionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+           
+            make.top.equalTo(self.contentView.mas_centerY);
+            make.left.equalTo(self.addressLabel.mas_left);
+            make.height.equalTo(@(ScaleW(20)));
+        }];
+        
+        [self.deleBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+           
+            make.right.equalTo(self.contentView.mas_right).offset(-ScaleW(15));
+            make.centerY.equalTo(self.addressLabel.mas_centerY);
+        }];
+        
+        [self.lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+           
+            make.left.bottom.right.equalTo(self.contentView);
+            make.height.equalTo(@(ScaleW(0.5)));
+            
+        }];
+        
+        
     }
     return self;
 }
 
--(void)viewConfig
+
+
+- (UIView *)lineView
 {
-    [self contView];
+    if (!_lineView)
+    {
+        _lineView = [[UIView alloc]init];
+        [_lineView setBackgroundColor:kLineColor];
+    }
+    return _lineView;
 }
 
--(UIView *)contView{
-    if (!_contView) {
-        _contView = [[UIView alloc]initWithFrame:CGRectMake(ScaleW(15), 0, ScreenWidth - ScaleW(30), ScaleW(84))];
-        _contView.backgroundColor = kSubBgColor;
-        [self.contentView addSubview:_contView];
-        [_contView addSubview:self.deleBtn];
-        [_contView addSubview:self.descrptionLabel];
-        [_contView addSubview:self.addressLabel];
-        
-    }
-    return _contView;
-}
--(UIButton *)deleBtn{
+
+-(UIButton *)deleBtn
+{
     if (!_deleBtn) {
-        _deleBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.contView.width - ScaleW(15) - ScaleW(40), 0, ScaleW(40), ScaleW(40))];
-        [_deleBtn setImage:[UIImage imageNamed:@"delete"] forState:UIControlStateNormal];
-        _deleBtn.centerY = self.descrptionLabel.centerY;
+        _deleBtn = [[UIButton alloc]initWithFrame:CGRectZero];
+        [_deleBtn setTitle:SSKJLanguage(@"删除") forState:UIControlStateNormal];
+        [_deleBtn.titleLabel setFont:systemFont(ScaleW(14))];
+        [_deleBtn setTitleColor:kBlueColor forState:UIControlStateNormal];
         [_deleBtn addTarget:self action:@selector(deleteAction) forControlEvents:UIControlEventTouchUpInside];
     }
     return _deleBtn;
@@ -64,24 +100,27 @@
         self.deleBlock();
     }
 }
--(UILabel *)descrptionLabel{
-    if (!_descrptionLabel) {
-        _descrptionLabel = [[UILabel alloc]initWithFrame:CGRectMake(ScaleW(15), ScaleW(26), ScaleW(200), ScaleW(15))];
-        _descrptionLabel.adjustsFontSizeToFitWidth = YES;
+-(UILabel *)descrptionLabel
+{
+    if (!_descrptionLabel)
+    {
+        _descrptionLabel = [[UILabel alloc]init];
         [self.contentView label:_descrptionLabel font:ScaleW(15) textColor:kTitleColor text:@"-----"];
         
     }
     return _descrptionLabel;
 }
 
--(UILabel *)addressLabel{
-    if (!_addressLabel) {
-        _addressLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.descrptionLabel.x, self.descrptionLabel.bottom + ScaleW(18), self.contView.width - ScaleW(30), ScaleW(12))];
-        _addressLabel.adjustsFontSizeToFitWidth = YES;
+-(UILabel *)addressLabel
+{
+    if (!_addressLabel)
+    {
+        _addressLabel = [[UILabel alloc]init];
         [self.contentView label:_addressLabel font:ScaleW(12) textColor:kSubTitleColor text:@"----"];
     }
     return _addressLabel;
 }
+
 
 -(void)setValueWithData:(ExtractAddress_IndexModel *)model
 {

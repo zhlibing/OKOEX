@@ -75,8 +75,9 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        self.backgroundColor = kSubBgColor;
-        self.contentView.backgroundColor = kSubBgColor;
+        
+        self.backgroundColor = kBgColor;
+        self.contentView.backgroundColor = kBgColor;
 
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         
@@ -621,15 +622,16 @@
 }
 
 - (UIButton *)pingCangBtn{
-    if (_pingCangBtn == nil) {
-        _pingCangBtn = [WLTools allocButton:SSKJLocalized(@"平仓", nil) textColor:kBlueColor nom_bg:nil hei_bg:nil frame:CGRectZero];
+    if (_pingCangBtn == nil)
+    {
+        _pingCangBtn = [WLTools allocButton:SSKJLocalized(@"平仓", nil) textColor:kWhiteColor nom_bg:nil hei_bg:nil frame:CGRectZero];
         [_pingCangBtn addTarget:self action:@selector(pingCangBtnAction) forControlEvents:UIControlEventTouchUpInside];
         _pingCangBtn.titleLabel.numberOfLines = 1;
         _pingCangBtn.titleLabel.adjustsFontSizeToFitWidth = YES;
         _pingCangBtn.titleLabel.font = systemFont(ScaleW(14));
-        _pingCangBtn.layer.borderColor = kBlueColor.CGColor;
-        _pingCangBtn.layer.borderWidth = ScaleW(.5f);
-        _pingCangBtn.cornerRadius = ScaleW(4);
+        [_pingCangBtn setBackgroundColor:kBlueColor];
+        [_pingCangBtn setCornerRadius:ScaleW(2)];
+        
         
     }
     return _pingCangBtn;

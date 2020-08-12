@@ -12,6 +12,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HEYue_ViewController : SSKJ_BaseViewController
 
+@property (nonatomic,strong) SSKJ_Market_Index_Model *model;//行情model
+
+#pragma mark - 更新币种
+- (void)refreshCodeDate;
+
+
 @end
 
 NS_ASSUME_NONNULL_END

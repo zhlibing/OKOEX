@@ -38,7 +38,7 @@
     {
         self.title = SSKJLocalized(@"法律声明", nil);
     }
-    else if (type == 10)
+    else if (type == 9)
     {
         self.title = SSKJLocalized(@"用户协议", nil);
     }
@@ -137,8 +137,8 @@
     [webView evaluateJavaScript:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '200%'"completionHandler:nil];
     
     //修改字体颜色  #9098b8
-    [webView evaluateJavaScript:@"document.getElementsByTagName('body')[0].style.webkitTextFillColor= '#E0E3F9'"completionHandler:nil];
-    
+    [webView evaluateJavaScript:@"document.getElementsByTagName('body')[0].style.webkitTextFillColor= '#999999'"completionHandler:nil];
+ 
 }
 
 // 页面加载完成之后调用

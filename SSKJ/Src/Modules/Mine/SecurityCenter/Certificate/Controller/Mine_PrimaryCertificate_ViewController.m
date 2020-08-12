@@ -40,9 +40,9 @@ typedef NS_ENUM(NSUInteger, PhotoType)
 
 
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     self.title = SSKJLocalized(@"身份认证", nil);
         
     [self setUI];
@@ -51,7 +51,6 @@ typedef NS_ENUM(NSUInteger, PhotoType)
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self setNavgationBackgroundColor:kSubBgColor alpha:1];
 }
 
 
@@ -165,6 +164,18 @@ typedef NS_ENUM(NSUInteger, PhotoType)
         return;
     }
     
+    if (!self.frontControl.image)
+    {
+        [MBProgressHUD showError:SSKJLocalized(@"请上传身份证正面", nil)];
+        return;
+    }
+    
+    if (!self.backControl.image)
+    {
+        [MBProgressHUD showError:SSKJLocalized(@"请上传身份证背面", nil)];
+        return;
+    }
+    
     
     [self requestPrimaryCertificate:name withIDentity:idNumber];
 }
@@ -183,21 +194,33 @@ typedef NS_ENUM(NSUInteger, PhotoType)
                             @"back_img":UIImageJPEGRepresentation(self.backControl.image, 0.5),
                             };
     
-    [[WLHttpManager shareManager]requestWithURL_HTTPCode:BI_BaseAuth_URL RequestType:RequestTypePost Parameters:params Success:^(NSInteger statusCode, id responseObject) {
-        WL_Network_Model * netWorkModel = [WL_Network_Model mj_objectWithKeyValues:responseObject];
-        [MBHUD hideHUDForView:self.view];
+    NSDictionary *picDic = @{
+        @"front_img":UIImageJPEGRepresentation(self.frontControl.image, 0.5),
+        @"back_img":UIImageJPEGRepresentation(self.backControl.image, 0.5),
 
-        if (netWorkModel.status.integerValue == SUCCESSED )
-         {
-             [MBHUD showSuccess:netWorkModel.msg];
-             [SSKJ_User_Tool sharedUserTool].userInfoModel.authentication = @"2";
-             [self.navigationController popViewControllerAnimated:YES];
-         }
-         else
-         {
-             [MBProgressHUD showError:netWorkModel.msg];
-         }
-    } Failure:^(NSError *error, NSInteger statusCode, id responseObject) {
+    };
+    
+    WS(weakSelf);
+    [[WLHttpManager shareManager] upLoadImageByUrl:BI_BaseAuth_URL Params:params imageDic:picDic CallBack:^(id responseObject) {
+         [MBHUD hideHUDForView:self.view];
+        WL_Network_Model * netWorkModel = [WL_Network_Model mj_objectWithKeyValues:responseObject];
+
+           if (netWorkModel.status.integerValue == SUCCESSED )
+            {
+                [MBHUD showSuccess:netWorkModel.msg];
+                [SSKJ_User_Tool sharedUserTool].userInfoModel.authentication = @"2";
+                if (weakSelf.isReCertificate) {
+                    [weakSelf.navigationController popToRootViewControllerAnimated:YES];
+                }else{
+                    [weakSelf.navigationController popViewControllerAnimated:YES];
+                }
+            }
+            else
+            {
+                [MBProgressHUD showError:netWorkModel.msg];
+            }
+
+    } Failure:^(NSError *error) {
         [MBHUD hideHUDForView:self.view];
 
     }];

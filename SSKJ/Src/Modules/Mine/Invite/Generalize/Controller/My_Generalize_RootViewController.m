@@ -53,7 +53,6 @@
     
     self.title = SSKJLanguage(@"邀请返佣");
     
-    [self setNavgationBackgroundColor:kSubBgColor alpha:0];
     self.navigationItem.titleView = self.segmentControl;
         
     [self.view addSubview:self.scrollView];
@@ -83,8 +82,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-//    [self.navigationController setNavigationBarHidden:YES animated:YES];//
-    [self setNavgationBackgroundColor:[UIColor clearColor] alpha:0];
+
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -385,8 +383,7 @@
 {
     if (nil == _segmentControl)
     {
-        _segmentControl = [[Home_Segment_View alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth - ScaleW(150), ScaleW(40)) titles:@[SSKJLocalized(@"我的客户", nil),SSKJLocalized(@"佣金明细", nil),SSKJLocalized(@"我要推广", nil)] normalColor:kSubTitleColor selectedColor:kTitleColor fontSize:ScaleW(15)];
-        [_segmentControl setBackgroundColor:kBgColor];
+        _segmentControl = [[Home_Segment_View alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth-ScaleW(140), ScaleW(40)) titles:@[SSKJLocalized(@"我的客户", nil),SSKJLocalized(@"佣金明细", nil),SSKJLocalized(@"我要推广", nil)] normalColor:kSubTitleColor selectedColor:kTitleColor fontSize:ScaleW(15)];
         
         WS(weakSelf);
         _segmentControl.selectedIndexBlock = ^(NSInteger index)

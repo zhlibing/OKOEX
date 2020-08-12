@@ -71,7 +71,6 @@
             
         }];
         
-        _tableView.tableHeaderView = self.headerView;
         [_tableView registerClass:[My_PromoteDetail_Cell class] forCellReuseIdentifier:@"promoteDetailCell"];
         
         WS(weakSelf);

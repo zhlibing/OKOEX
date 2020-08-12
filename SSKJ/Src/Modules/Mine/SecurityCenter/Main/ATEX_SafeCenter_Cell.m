@@ -74,7 +74,7 @@
     {
         _cellTitleLabel = [[UILabel alloc]init];
         [_cellTitleLabel setFont:systemFont(ScaleW(14))];
-        [_cellTitleLabel setTextColor:koTitleColor];
+        [_cellTitleLabel setTextColor:kTitleColor];
     }
     return _cellTitleLabel;
 }
@@ -85,7 +85,7 @@
     {
         _statusLabel = [[UILabel alloc]init];
         [_statusLabel setFont:systemFont(ScaleW(14))];
-        [_statusLabel setTextColor:kMidTitleColor];
+        [_statusLabel setTextColor:kSubTitleColor];
     }
     return _statusLabel;
 }

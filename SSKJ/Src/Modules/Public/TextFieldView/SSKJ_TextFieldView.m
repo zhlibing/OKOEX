@@ -51,6 +51,7 @@
         
         [self.titlelabel mas_makeConstraints:^(MASConstraintMaker *make)
         {
+            make.top.equalTo(self.mas_top);
             make.left.equalTo(self.mas_left).offset(ScaleW(15));
             make.right.equalTo(self.mas_right).offset(-ScaleW(15));
             make.height.equalTo(@(20));

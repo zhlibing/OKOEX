@@ -446,6 +446,9 @@
 		96666F7624DD47E500080BED /* My_BindGoogle_AlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96666F7424DD47E500080BED /* My_BindGoogle_AlertView.m */; };
 		96666F7924DD8D9200080BED /* MineHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96666F7824DD8D9200080BED /* MineHeaderView.m */; };
 		96759CED246D193E00C9432D /* Lion_AboutUsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96759CEB246D193E00C9432D /* Lion_AboutUsVC.m */; };
+		9689A58224E2269300E098C9 /* SSKJ_ScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9689A58124E2269300E098C9 /* SSKJ_ScrollView.m */; };
+		9689A58524E22C7100E098C9 /* HEYueBoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9689A58424E22C7100E098C9 /* HEYueBoardViewController.m */; };
+		9689A58824E2344C00E098C9 /* HEYueBoardHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9689A58724E2344C00E098C9 /* HEYueBoardHeaderView.m */; };
 		968DAACC24DEEAB40038BF8B /* HomeHeaderItemControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 968DAACB24DEEAB40038BF8B /* HomeHeaderItemControl.m */; };
 		96BA168624DF9D1B0046EF58 /* AssetsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96BA168524DF9D1B0046EF58 /* AssetsTableViewCell.m */; };
 		96BA168C24DFA4300046EF58 /* AssetsBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 96BA168A24DFA4300046EF58 /* AssetsBtn.m */; };
@@ -1377,6 +1380,12 @@
 		96666F7824DD8D9200080BED /* MineHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MineHeaderView.m; sourceTree = "<group>"; };
 		96759CEB246D193E00C9432D /* Lion_AboutUsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Lion_AboutUsVC.m; path = "SSKJ/Src/Modules/Mine/Main/¹ØÓÚÎÒÃÇ/Lion_AboutUsVC.m"; sourceTree = SOURCE_ROOT; };
 		96759CEC246D193E00C9432D /* Lion_AboutUsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Lion_AboutUsVC.h; path = "SSKJ/Src/Modules/Mine/Main/¹ØÓÚÎÒÃÇ/Lion_AboutUsVC.h"; sourceTree = SOURCE_ROOT; };
+		9689A58024E2269300E098C9 /* SSKJ_ScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSKJ_ScrollView.h; sourceTree = "<group>"; };
+		9689A58124E2269300E098C9 /* SSKJ_ScrollView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSKJ_ScrollView.m; sourceTree = "<group>"; };
+		9689A58324E22C7100E098C9 /* HEYueBoardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HEYueBoardViewController.h; sourceTree = "<group>"; };
+		9689A58424E22C7100E098C9 /* HEYueBoardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HEYueBoardViewController.m; sourceTree = "<group>"; };
+		9689A58624E2344C00E098C9 /* HEYueBoardHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HEYueBoardHeaderView.h; sourceTree = "<group>"; };
+		9689A58724E2344C00E098C9 /* HEYueBoardHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HEYueBoardHeaderView.m; sourceTree = "<group>"; };
 		968DAACA24DEEAB40038BF8B /* HomeHeaderItemControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeHeaderItemControl.h; sourceTree = "<group>"; };
 		968DAACB24DEEAB40038BF8B /* HomeHeaderItemControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeHeaderItemControl.m; sourceTree = "<group>"; };
 		96BA168424DF9D1A0046EF58 /* AssetsTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AssetsTableViewCell.h; sourceTree = "<group>"; };
@@ -2681,6 +2690,8 @@
 				4387359B239509D5007E7F11 /* Controller */,
 				438735A4239509D5007E7F11 /* Model */,
 				438735AB239509D5007E7F11 /* View */,
+				9689A58024E2269300E098C9 /* SSKJ_ScrollView.h */,
+				9689A58124E2269300E098C9 /* SSKJ_ScrollView.m */,
 			);
 			path = Generalize;
 			sourceTree = "<group>";
@@ -2758,6 +2769,8 @@
 			children = (
 				439DEE262399265D00B2C07B /* HEYue_ViewController.h */,
 				439DEE272399265D00B2C07B /* HEYue_ViewController.m */,
+				9689A58324E22C7100E098C9 /* HEYueBoardViewController.h */,
+				9689A58424E22C7100E098C9 /* HEYueBoardViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2812,6 +2825,8 @@
 				439DEE442399265D00B2C07B /* Heyue_TitlePrice_View.m */,
 				439DEE332399265D00B2C07B /* SSKJ_PanKou_DotView.h */,
 				439DEE412399265D00B2C07B /* SSKJ_PanKou_DotView.m */,
+				9689A58624E2344C00E098C9 /* HEYueBoardHeaderView.h */,
+				9689A58724E2344C00E098C9 /* HEYueBoardHeaderView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3799,6 +3814,7 @@
 				3A08C32A234C5D380086ED0F /* CWInteractiveTransition.m in Sources */,
 				439DEEDE2399F82300B2C07B /* RightImageView.m in Sources */,
 				065BD1832448187500FB4F65 /* ExtractAddress_IndexModel.m in Sources */,
+				9689A58524E22C7100E098C9 /* HEYueBoardViewController.m in Sources */,
 				439DEEAA2399265D00B2C07B /* HeYue_PingCang_AlertView.m in Sources */,
 				963F514124D59B9C00844D73 /* UIRefreshControl+AFNetworking.m in Sources */,
 				4359280923617A6C0005C1AA /* SSKJ_Socket_Tool.m in Sources */,
@@ -4056,6 +4072,7 @@
 				3A08C35D234C5D390086ED0F /* NSAttributedString+AvoidCrash.m in Sources */,
 				438735B8239509D5007E7F11 /* My_PromoteDetail_ViewController.m in Sources */,
 				3A08C200234C5D380086ED0F /* Mine_BindPhone_ViewController.m in Sources */,
+				9689A58224E2269300E098C9 /* SSKJ_ScrollView.m in Sources */,
 				439DEE9F2399265D00B2C07B /* Heyue_WeiTuo_Order_VC.m in Sources */,
 				963F515C24D59B9C00844D73 /* SDWebImageFrame.m in Sources */,
 				4359250323580E8E0005C1AA /* SSKJ_Login_Model.m in Sources */,
@@ -4092,6 +4109,7 @@
 				3A08C35B234C5D390086ED0F /* NSMutableArray+AvoidCrash.m in Sources */,
 				3A08C2AF234C5D380086ED0F /* Mine_Recharge_ViewController.m in Sources */,
 				438735C0239509D5007E7F11 /* My_Yuanli_HeaderView.m in Sources */,
+				9689A58824E2344C00E098C9 /* HEYueBoardHeaderView.m in Sources */,
 				963F516224D59B9C00844D73 /* SDWebImageCoderHelper.m in Sources */,
 				963F517024D59B9C00844D73 /* UIView+WebCacheOperation.m in Sources */,
 				4359250D23580E8E0005C1AA /* SSTool.m in Sources */,

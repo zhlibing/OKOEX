@@ -8,25 +8,21 @@
 
 #import "My_GoogleVerify_ViewController.h"
 #import "My_BindGoogle_AlertView.h"
-
+#import "SSKJ_TextFieldView.h"
 #import "My_Google_Model.h"
 
 @interface My_GoogleVerify_ViewController ()
-@property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic, strong) UILabel *warningLabel;
 
+
+@property (nonatomic, strong) UILabel *warningLabel;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIImageView *qrCodeImageView;
 @property (nonatomic, strong) UILabel *codeLabel;
 @property (nonatomic, strong) UIButton *copyButton;
-@property (nonatomic, strong) UILabel *googleCodeTipLabel;
-@property (nonatomic, strong) UITextField *googleTextField;
-@property (nonatomic, strong) UILabel *phoneTipLabel;
-@property (nonatomic, strong) UITextField *codeTextField;
-@property (nonatomic, strong) UIView *codeLineView;
-@property (nonatomic, strong) UIButton *smsButton;
-
+@property (nonatomic, strong) SSKJ_TextFieldView *googleCodeView;
 @property (nonatomic, strong) UIButton *nextButton;
+
+
 
 @property (nonatomic, strong) My_BindGoogle_AlertView *alertView;
 
@@ -44,6 +40,8 @@
     
     self.view.backgroundColor = kBgColor;
     
+    [self addSubViews:YES];
+    
     [self requestGoogle];
 }
 
@@ -52,112 +50,66 @@
 {
     if (views)
     {
-        [self.view addSubview:self.scrollView];
-        [self.scrollView addSubview:self.warningLabel];
-        [self.scrollView addSubview:self.titleLabel];
-        [self.scrollView addSubview:self.qrCodeImageView];
-        [self.scrollView addSubview:self.codeLabel];
-        [self.scrollView addSubview:self.copyButton];
-        [self.scrollView addSubview:self.googleCodeTipLabel];
-        [self.scrollView addSubview:self.googleTextField];
-        [self.scrollView addSubview:self.phoneTipLabel];
-        [self.scrollView addSubview:self.codeTextField];
-        [self.scrollView addSubview:self.codeLineView];
-        [self.scrollView addSubview:self.smsButton];
-        [self.scrollView addSubview:self.nextButton];
+        [self.view addSubview:self.warningLabel];
+        [self.view addSubview:self.titleLabel];
+        [self.view addSubview:self.qrCodeImageView];
+        [self.view addSubview:self.codeLabel];
+        [self.view addSubview:self.copyButton];
+        [self.view addSubview:self.googleCodeView];
+        [self.view addSubview:self.nextButton];
         
         
         
         [self.warningLabel mas_makeConstraints:^(MASConstraintMaker *make) {
            
-           
-           
-            make.top.equalTo(self.scrollView.mas_top).offset(ScaleW(30)); make.left.equalTo(self.view.mas_left).offset(ScaleW(15));
-            make.right.equalTo(self.view.mas_right).offset(-ScaleW(15));
-            
+            make.top.equalTo(self.view.mas_top).offset(Height_NavBar+30);
+            make.left.equalTo(self.view.mas_left).offset(15);
+            make.right.equalTo(self.view.mas_right).offset(-15);
         }];
         [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
            
-            make.top.equalTo(self.warningLabel.mas_bottom).offset(ScaleW(50));
-            make.centerX.equalTo(self.scrollView.mas_centerX);
+            make.top.equalTo(self.warningLabel.mas_bottom).offset(50);
+            make.centerX.equalTo(self.view.mas_centerX);
             
         }];
         
+        
         [self.qrCodeImageView mas_makeConstraints:^(MASConstraintMaker *make) {
            
-            make.top.equalTo(self.titleLabel.mas_bottom).offset(ScaleW(30));
-            make.width.height.equalTo(@(ScaleW(120)));
-            make.centerX.equalTo(self.titleLabel.mas_centerX);
+            make.top.equalTo(self.titleLabel.mas_bottom).offset(30);
+            make.width.height.equalTo(@(180));
+            make.centerX.equalTo(self.view.mas_centerX);
             
         }];
         
         [self.codeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             
-            make.top.equalTo(self.qrCodeImageView.mas_bottom).offset(ScaleW(40));
-            make.centerX.equalTo(self.qrCodeImageView.mas_centerX);
+            make.top.equalTo(self.qrCodeImageView.mas_bottom).offset(40);
+            make.centerX.equalTo(self.qrCodeImageView.mas_centerX).offset(-30);
             
         }];
         
         [self.copyButton mas_makeConstraints:^(MASConstraintMaker *make) {
            
-            make.left.equalTo(self.codeLabel.mas_right).offset(ScaleW(5));
+            make.left.equalTo(self.codeLabel.mas_right).offset(5);
             make.centerY.equalTo(self.codeLabel.mas_centerY);
             
         }];
         
-        [self.googleCodeTipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.googleCodeView mas_makeConstraints:^(MASConstraintMaker *make) {
            
-            make.top.equalTo(self.codeLabel.mas_bottom).offset(ScaleW(40));
-            make.left.equalTo(self.scrollView.mas_left).offset(ScaleW(15));
+            make.top.equalTo(self.codeLabel.mas_bottom).offset(60);
+            make.left.right.equalTo(self.view);
+            make.height.equalTo(@(80));
             
         }];
-        
-        [self.googleTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-           
-            make.top.equalTo(self.googleCodeTipLabel.mas_bottom).offset(ScaleW(10));
-           
-            make.left.right.equalTo(self.warningLabel);
-            make.height.equalTo(@(ScaleW(45)));
-            
-        }];
-        
-        [self.phoneTipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-           
-            make.top.equalTo(self.googleTextField.mas_bottom).offset(ScaleW(20));
-            make.left.equalTo(self.googleCodeTipLabel.mas_left);
-            
-        }];
-        
-        [self.codeTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-           
-            make.top.equalTo(self.phoneTipLabel.mas_bottom).offset(ScaleW(10));
-            make.left.right.height.equalTo(self.googleTextField);
-            
-            
-        }];
-        
-        [self.codeLineView mas_makeConstraints:^(MASConstraintMaker *make) {
-           
-            make.top.equalTo(self.codeTextField.mas_bottom).offset(ScaleW(5));
-            make.left.right.equalTo(self.codeTextField);
-            make.height.equalTo(@(ScaleW(0.5)));
-        }];
-        
-        
-        [self.smsButton mas_makeConstraints:^(MASConstraintMaker *make) {
-           
-            make.right.equalTo(self.codeTextField.mas_right);
-            make.centerY.equalTo(self.codeTextField.mas_centerY);
-            
-        }];
+
         
         [self.nextButton mas_makeConstraints:^(MASConstraintMaker *make) {
            
-            make.top.equalTo(self.codeLineView.mas_bottom).offset(ScaleW(60));
-            make.left.right.equalTo(self.googleTextField);
+            make.top.equalTo(self.googleCodeView.mas_bottom).offset(20);
+            make.left.right.equalTo(self.warningLabel);
             make.height.equalTo(@(ScaleW(45)));
-            make.bottom.equalTo(self.scrollView.mas_bottom).offset(-ScaleW(50));
-            
         }];
         
         
@@ -177,32 +129,25 @@
 
 
 
--(UIScrollView *)scrollView
-{
-    if (nil == _scrollView) {
-        _scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, ScaleW(10), ScreenWidth, ScreenHeight - Height_NavBar  - ScaleW(10))];
-        _scrollView.backgroundColor = kBgColor;
-    }
-    return _scrollView;
-}
 
 -(UILabel *)warningLabel
 {
     if (nil == _warningLabel)
     {
         NSString *string = SSKJLocalized(@"打开谷歌验证器，扫描下方二维码或手动输入下述秘钥添加验证令牌。秘钥用户邮寄更换或遗失时找回谷歌验证器，绑定前请务必将下述秘钥备份保存。", nil);
-        _warningLabel = [WLTools allocLabel:string font:systemFont(ScaleW(12)) textColor:UIColorFromRGB(0xFF5E66) frame:CGRectZero textAlignment:NSTextAlignmentLeft];
+        _warningLabel = [WLTools allocLabel:string font:systemFont(ScaleW(12)) textColor:UIColorFromRGB(0x666666) frame:CGRectZero textAlignment:NSTextAlignmentLeft];
         _warningLabel.numberOfLines = 0;
     }
     return _warningLabel;
 }
 
 
+
 -(UILabel *)titleLabel
 {
     if (nil == _titleLabel)
     {
-        _titleLabel = [WLTools allocLabel:SSKJLocalized(@"请妥善备份秘钥以防遗失",nil) font:systemFont(ScaleW(15)) textColor:kSubTitleColor frame:CGRectZero textAlignment:NSTextAlignmentCenter];
+        _titleLabel = [WLTools allocLabel:SSKJLocalized(@"请妥善备份秘钥以防遗失",nil) font:systemFont(ScaleW(15)) textColor:kTitleColor frame:CGRectZero textAlignment:NSTextAlignmentCenter];
     }
     return _titleLabel;
 }
@@ -221,7 +166,7 @@
 {
     if (nil == _codeLabel)
     {
-        _codeLabel = [WLTools allocLabel:@"HDFLJDADF" font:systemFont(ScaleW(15)) textColor:kSubTitleColor frame:CGRectZero textAlignment:NSTextAlignmentCenter];
+        _codeLabel = [WLTools allocLabel:@"HDFLJDADF" font:systemFont(ScaleW(15)) textColor:kTitleColor frame:CGRectZero textAlignment:NSTextAlignmentCenter];
     }
     return _codeLabel;
 }
@@ -233,84 +178,25 @@
         _copyButton = [[UIButton alloc]initWithFrame:CGRectZero];
         [_copyButton setTitle:SSKJLocalized(@"复制",nil) forState:UIControlStateNormal];
         [_copyButton setTitleColor:kBlueColor forState:UIControlStateNormal];
-        _copyButton.titleLabel.font = systemFont(ScaleW(16));
+        _copyButton.titleLabel.font = systemFont(ScaleW(14));
         [_copyButton addTarget:self action:@selector(copyButtonEvent) forControlEvents:UIControlEventTouchUpInside];
     }
     return _copyButton;
 }
 
 
-- (UILabel *)googleCodeTipLabel
-{
-    if (nil == _googleCodeTipLabel)
-    {
-        _googleCodeTipLabel = [[UILabel alloc]init];
-        [_googleCodeTipLabel setFont:systemFont(ScaleW(14))];
-        [_googleCodeTipLabel setText:SSKJLanguage(@"谷歌验证码")];
-        [_googleCodeTipLabel setTextColor:kTitleColor];
-    }
-    return _googleCodeTipLabel;
-}
 
--(UITextField *)googleTextField
+-(SSKJ_TextFieldView *)googleCodeView
 {
-    if (!_googleTextField)
+    if (!_googleCodeView)
     {
-        _googleTextField = [[UITextField alloc]init];
-        [_googleTextField setTextColor:kSubTitleColor];
-        [_googleTextField setPlaceholder:SSKJLanguage(@"请输入6位验证码")];
-        [_googleTextField setBorderWithWidth:ScaleW(0.5) andColor:kSubTitleColor];
+        _googleCodeView = [[SSKJ_TextFieldView alloc]init];
+        [_googleCodeView setTitle:SSKJLanguage(@"谷歌验证码") placeholder:SSKJLanguage(@"请输入6位验证码") secureTextEntry:NO];
     }
-    return _googleTextField;
+    return _googleCodeView;
 }
 
 
--(UILabel *)phoneTipLabel
-{
-    if (!_phoneTipLabel)
-    {
-        _phoneTipLabel = [[UILabel alloc]init];
-        [_phoneTipLabel setFont:systemFont(ScaleW(14))];
-        [_phoneTipLabel setTextColor:kSubTitleColor];
-    }
-    return _phoneTipLabel;
-}
-
-
--(UITextField *)codeTextField
-{
-    if (!_codeTextField)
-    {
-        _codeTextField = [[UITextField alloc]init];
-        [_codeTextField setTextColor:kSubTitleColor];
-        [_codeTextField setPlaceholder:SSKJLanguage(@"请输入验证码")];
-    }
-    return _codeTextField;
-}
-
-
--(UIView *)codeLineView
-{
-    if (!_codeLineView)
-    {
-        _codeLineView = [[UIView alloc]init];
-        [_codeLineView setBackgroundColor:kSubBgColor];
-    }
-    return _codeLineView;
-}
-
--(UIButton *)smsButton
-{
-    if (nil == _smsButton)
-    {
-        _smsButton = [[UIButton alloc]initWithFrame:CGRectZero];
-        [_smsButton setTitle:SSKJLocalized(@"发送验证码",nil) forState:UIControlStateNormal];
-        [_smsButton setTitleColor:kBlueColor forState:UIControlStateNormal];
-        _smsButton.titleLabel.font = systemFont(ScaleW(14));
-        [_smsButton addTarget:self action:@selector(smsButtonEvent) forControlEvents:UIControlEventTouchUpInside];
-    }
-    return _smsButton;
-}
 
 
 
@@ -321,9 +207,9 @@
     {
         _nextButton = [[UIButton alloc]initWithFrame:CGRectZero];
         _nextButton.layer.cornerRadius = ScaleW(3);
-        _nextButton.backgroundColor = kTitleColor;
+        _nextButton.backgroundColor = kBlueColor;
         [_nextButton setTitle:SSKJLocalized(@"立即开启",nil) forState:UIControlStateNormal];
-        [_nextButton setTitleColor:kSubTitleColor forState:UIControlStateNormal];
+        [_nextButton setTitleColor:kWhiteColor forState:UIControlStateNormal];
         _nextButton.titleLabel.font = systemFont(ScaleW(16));
         [_nextButton addTarget:self action:@selector(nextEvent) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -414,11 +300,10 @@
 }
 
 
-
 #pragma mark 倒计时
 - (void)changeCheckcodeButtonState
 {
-    [WLTools countDownWithButton:self.smsButton];
+    [WLTools countDownWithButton:self.nextButton];
 }
 
 
@@ -426,16 +311,24 @@
 -(void)nextEvent
 {
 
-    [self requestGoogleCommandWithCode:self.codeTextField.text withGoogleCode:self.googleTextField.text];
+//    [self.alertView setShowWithType:MyGOOGLETYPEADD];
     
-//    if (self.googleModel == nil)
-//    {
-//        [MBProgressHUD showError:SSKJLocalized(@"数据异常", nil)];
-//        return;
-//    }
-//    [self.alertView setShowWithType:GOOGLETYPEADD];
+    [self requestGoogleCommandWithCode:self.codeLabel.text withGoogleCode:self.googleCodeView.valueString];
 }
 
+
+#pragma mark  复制 谷歌秘钥码
+-(void)copyButtonEvent
+{
+    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+    [pasteboard setString:self.codeLabel.text];
+    [MBProgressHUD showSuccess:SSKJLocalized(@"复制成功",nil)];
+}
+
+
+
+
+#pragma mark 复制谷歌验证
 // 复制
 -(void)dumplcationEvent
 {
@@ -491,8 +384,7 @@
     }
     
     NSDictionary *params = @{@"google_code":googleCode,
-                             @"code":code,
-                             @"google_secret":self.googleModel.secret
+                             @"google_secret":self.codeLabel.text
                              };
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     

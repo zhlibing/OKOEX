@@ -127,9 +127,6 @@
 #pragma mark -- 设置UI --
 - (void)setUI{
     
-    UIView *splitLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.width, ScaleW(10))];
-    splitLine.backgroundColor = kSubBgColor;
-    [self addSubview:splitLine];
     
     [self addSubview:self.buyBtn];
     [self addSubview:self.sellBtn];
@@ -147,14 +144,12 @@
     [self addSubview:self.cangweiView];
     [self addSubview:self.leverageView];
     
-//    [self addSubview:self.zhiyingView];
-//    [self addSubview:self.zhisunView];
     
     [self addSubview:self.totalMoneyTitle];
     [self addSubview:self.totalMoney];
     [self addSubview:self.confrimBtn];
-    [self addSubview:self.deepView];
-    self.height = self.deepView.bottom + ScaleW(15);
+//    [self addSubview:self.deepView];
+    self.height = self.confrimBtn.bottom + ScaleW(25);
     
     
     [self addSubview:self.decimalView];
@@ -168,12 +163,13 @@
     
 }
 
-- (UIButton *)buyBtn{
-    if (_buyBtn == nil) {
-        _buyBtn = [WLTools allocButton:SSKJLocalized(@"做多", nil) textColor:kWhiteColor nom_bg:nil hei_bg:nil frame:CGRectMake(ScaleW(15), ScaleW(43), btnWidth, ScaleW(35))];
-//        _buyBtn.backgroundColor = kMarketUp;
+- (UIButton *)buyBtn
+{
+    if (_buyBtn == nil)
+    {
+        _buyBtn = [WLTools allocButton:SSKJLocalized(@"做多", nil) textColor:kWhiteColor nom_bg:nil hei_bg:nil frame:CGRectMake(ScaleW(15), ScaleW(15), btnWidth, ScaleW(35))];
         [_buyBtn setTitleColor:kSubTitleColor forState:UIControlStateNormal];
-        [_buyBtn setTitleColor:kTitleColor forState:UIControlStateSelected];
+        [_buyBtn setTitleColor:kWhiteColor forState:UIControlStateSelected];
         [_buyBtn setBackgroundImage:[UIImage imageNamed:@"dolong_normal"] forState:UIControlStateNormal];
         [_buyBtn setBackgroundImage:[UIImage imageNamed:@"dolong_select"] forState:UIControlStateSelected];
         _buyBtn.selected = YES;
@@ -189,7 +185,7 @@
         _sellBtn = [WLTools allocButton:SSKJLocalized(@"做空", nil) textColor:kTitleColor nom_bg:nil hei_bg:nil frame:CGRectMake(self.buyBtn.right + ScaleW(7), self.buyBtn.y, btnWidth, ScaleW(35))];
 //        _sellBtn.backgroundColor = kGrayColor ;
         [_sellBtn setTitleColor:kSubTitleColor forState:UIControlStateNormal];
-        [_sellBtn setTitleColor:kTitleColor forState:UIControlStateSelected];
+        [_sellBtn setTitleColor:kWhiteColor forState:UIControlStateSelected];
         [_sellBtn setBackgroundImage:[UIImage imageNamed:@"doshort_normal"] forState:UIControlStateNormal];
         [_sellBtn setBackgroundImage:[UIImage imageNamed:@"doshort_select"] forState:UIControlStateSelected];
         _sellBtn.cornerRadius = ScaleW(5);
@@ -736,7 +732,7 @@
 
 - (void)setShenduDic:(NSDictionary *)shenduDic{
 //    [self.deepView setData:shenduDic];
-    [self.deepView setData:shenduDic isLarge:YES];
+//    [self.deepView setData:shenduDic isLarge:YES];
 }
 
 - (void)setPankouModel:(PanKou_Socket_Model *)pankouModel{

@@ -19,6 +19,9 @@
 @property (nonatomic, strong) UIButton *heaedrBtn;  //!< 头部按钮
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *uuidLabel;
+@property (nonatomic, strong) UIButton *copyBtton;
+@property (nonatomic, copy) NSString *uuid;
+
 
 
 
@@ -47,10 +50,13 @@
         [self addSubview:self.heaedrBtn];
         [self addSubview:self.titleLabel];
         [self addSubview:self.uuidLabel];
+        [self addSubview:self.copyBtton];
         [self addSubview:self.promoteBtn];
         [self addSubview:self.promoteImageView];
         [self.promoteImageView  addSubview:self.promoteTitleLabel];
         [self.promoteImageView addSubview:self.promoteTipLabel];
+        
+        
         
         
         [self.heaedrBtn mas_makeConstraints:^(MASConstraintMaker *make)
@@ -74,6 +80,16 @@
             make.left.equalTo(self.titleLabel.mas_left);
             make.height.equalTo(@(ScaleW(15)));
         }];
+        
+        
+        [self.copyBtton mas_makeConstraints:^(MASConstraintMaker *make) {
+
+            make.centerY.equalTo(self.uuidLabel.mas_centerY);
+            make.left.equalTo(self.uuidLabel.mas_right).offset(ScaleW(10));
+
+        }];
+        
+        
         
         [self.bgImageView mas_makeConstraints:^(MASConstraintMaker *make)
          {
@@ -126,10 +142,40 @@
 
 
 
+
+
+#pragma mark -  点击头像，名称或者UUID
+-(void)loginEvent
+{
+    if (self.loginblock)
+    {
+        self.loginblock(kLogin);
+    }
+}
+
+
+
+//复制到剪切板
+- (void)copyBtnAction
+{
+    if (self.uuidLabel.text.length != 0)
+    {
+        UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+        [pasteboard setString:self.uuid];;
+        [MBProgressHUD showError:SSKJLocalized(@"复制成功", nil)];
+    }
+}
+
+
+
+
+
 -(void)setTitle:(NSString*)title uuid:(NSString*)uuid
 {
     [self.titleLabel setText:title];
     [self.uuidLabel setText:[NSString stringWithFormat:@"UUID:%@",uuid]];
+    [self setUuid:uuid];
+    [self.copyBtton setHidden:!kLogin];
 }
 
 
@@ -156,6 +202,7 @@
     {
         _heaedrBtn = [[UIButton alloc]init];
         [_heaedrBtn setBackgroundImage:[UIImage imageNamed:@"userheader"] forState:UIControlStateNormal];
+        [_heaedrBtn addTarget:self action:@selector(loginEvent) forControlEvents:(UIControlEventTouchUpInside)];
     }
     return _heaedrBtn;
 }
@@ -169,6 +216,9 @@
         [_titleLabel setTextColor:kWhiteColor];
         [_titleLabel setFont:systemFont(ScaleW(17))];
         [_titleLabel setText:SSKJLanguage(@"未登录")];
+        [_titleLabel setUserInteractionEnabled:YES];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(loginEvent)];
+        [_titleLabel addGestureRecognizer:tap];
     }
     return _titleLabel;
 }
@@ -182,6 +232,9 @@
         [_uuidLabel setTextColor:kWhiteColor];
         [_uuidLabel setFont:systemFont(ScaleW(12))];
         [_uuidLabel setText:SSKJLanguage(@"立即登录/注册")];
+        [_uuidLabel setUserInteractionEnabled:YES];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(loginEvent)];
+        [_uuidLabel addGestureRecognizer:tap];
     }
     return _uuidLabel;
 }
@@ -211,6 +264,21 @@
     }
     return _promoteBtn;
 }
+
+- (UIButton *)copyBtton
+{
+    if (!_copyBtton)
+    {
+        _copyBtton = [[UIButton alloc]init];
+        [_copyBtton addTarget:self action:@selector(copyBtnAction) forControlEvents:UIControlEventTouchUpInside];
+        [_copyBtton setImage:[UIImage imageNamed:@"copyid"] forState:UIControlStateNormal];
+        [_copyBtton setHidden:YES];
+    }
+    return _copyBtton;
+}
+
+
+
 
 
 -(UILabel *)promoteTitleLabel

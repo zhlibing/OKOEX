@@ -20,7 +20,7 @@
 
 @interface Home_NoticeList_ViewController ()<UITableViewDelegate,UITableViewDataSource>
     
-@property (nonatomic,strong) UITableView *tableView;
+@property (nonatomic,strong) SSKJ_TableView *tableView;
     
 @property (nonatomic,strong) NSMutableArray *dataSource;
     
@@ -36,11 +36,13 @@
     
     self.title = SSKJLocalized(@"公告列表", nil);
     
-    [self tableView];
-        
-    self.page = 1;
+    [self.view addSubview:self.tableView];
     
-//    [self requestGetjyznGUrl];
+    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(Height_NavBar, 0, 0, 0));
+    }];
+    self.page = 1;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -52,46 +54,12 @@
     
     
 #pragma mark - 列表表格视图
--(UITableView *)tableView
+-(SSKJ_TableView *)tableView
 {
     if (_tableView==nil)
     {
-        _tableView=[[UITableView alloc] init];
-        
-        _tableView.delegate=self;
-        
-        _tableView.dataSource=self;
-        
-        _tableView.backgroundColor=kBgColor;
-        
-        _tableView.separatorStyle =  UITableViewCellSeparatorStyleNone;
-        _tableView.estimatedSectionHeaderHeight = 0;
-        _tableView.estimatedSectionFooterHeight = 0;
-        if (@available(iOS 11.0, *))
-        {
-            _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
- 
-        }
-        else
-        {
-            self.automaticallyAdjustsScrollViewInsets = NO;
-        }
-        
-        [self.view addSubview:_tableView];
-        
-        [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-            
-            make.left.equalTo(@0);
-            
-            make.width.equalTo(@(ScreenWidth));
-            
-            make.top.equalTo(@(Height_NavBar));
-            
-            make.bottom.equalTo(@(0));
-            
-        }];
-        
-        _tableView.contentInset = UIEdgeInsetsMake(ScaleW(10), 0, 0, 0);
+        _tableView=[[SSKJ_TableView alloc] initWitDeletage:self];
+        [_tableView registerClass:[Home_Notice_Cell class] forCellReuseIdentifier:@"Home_Notice_Cell"];
         
         _tableView.mj_header=[MJRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRefresh)];
         
@@ -113,19 +81,13 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return ScaleW(56);
+    return ScaleW(80);
 }
     
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Home_Notice_Cell *cell = [tableView dequeueReusableCellWithIdentifier:[NSString stringWithFormat:@"NoticeCell%ld",(long)indexPath.row]];
-    
-    if (cell == nil) {
-        
-        cell = [[Home_Notice_Cell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[NSString stringWithFormat:@"NoticeCell%ld",(long)indexPath.row]];
-    }
-
-    [cell initDataWithModel:self.dataSource[indexPath.row]];
+    Home_Notice_Cell *cell = [tableView dequeueReusableCellWithIdentifier:@"Home_Notice_Cell"];
+    [cell setModel:self.dataSource[indexPath.row]];
     
     return cell;
 }

@@ -80,7 +80,7 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        self.backgroundColor = kSubBgColor;
+        self.backgroundColor = kBgColor;
         self.selectionStyle = UITableViewCellSelectionStyleNone;
 
         [self.contentView addSubview:self.directionLabel];

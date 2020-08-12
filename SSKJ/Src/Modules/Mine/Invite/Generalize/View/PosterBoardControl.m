@@ -327,7 +327,7 @@
         _leftImageView = [[UIImageView alloc]init];
         [_leftImageView setContentMode:UIViewContentModeScaleAspectFill];
         [_leftImageView setImage:[UIImage imageNamed:@"posterleft"]];
-        [_leftImageView setCornerRadius:5];
+        [_leftImageView setCornerRadius:ScaleW(10)];
         [_leftImageView setUserInteractionEnabled:YES];
         
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(leftTap:)];
@@ -357,7 +357,7 @@
         _rightImageView = [[UIImageView alloc]init];
         [_rightImageView setContentMode:UIViewContentModeScaleAspectFill];
         [_rightImageView setImage:[UIImage imageNamed:@"posterright"]];
-        [_rightImageView setCornerRadius:5];
+        [_rightImageView setCornerRadius:ScaleW(10)];
         
         [_rightImageView setUserInteractionEnabled:YES];
         

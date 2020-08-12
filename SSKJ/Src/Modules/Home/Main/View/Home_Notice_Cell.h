@@ -14,7 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface Home_Notice_Cell : UITableViewCell
 
-- (void)initDataWithModel:(Home_NoticeIndex_Model *)Model;
+@property (nonatomic, strong) Home_NoticeIndex_Model *model;
+
 
 @end
 

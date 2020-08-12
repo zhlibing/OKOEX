@@ -86,10 +86,10 @@
 
 -(SSKJ_TableView *)tableView
 {
-    if (nil == _tableView) {
+    if (nil == _tableView)
+    {
         _tableView = [[SSKJ_TableView alloc]initWitDeletage:self];
         _tableView.backgroundColor =  kBgColor;
-        _tableView.tableHeaderView = self.headerView;
         [_tableView registerClass:[My_Yuanli_Cell class] forCellReuseIdentifier:NSStringFromClass([self class])];
         
         WS(weakSelf);

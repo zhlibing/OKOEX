@@ -14,6 +14,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) UIButton *promoteBtn; //!< 推广按钮
 
+@property (nonatomic,copy) void (^loginblock)(BOOL login);
+
+
+
+
+
+
 -(void)setTitle:(NSString*)title uuid:(NSString*)uuid;
 
 

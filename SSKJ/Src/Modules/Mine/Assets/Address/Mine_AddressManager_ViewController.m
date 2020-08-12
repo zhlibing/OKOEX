@@ -63,10 +63,10 @@ static NSString *cellID = @"Mine_AddressList_TableViewCell";
 {
     if (unit)
     {
-        [self.view addSubview:self.headerView];
         [self.headerView addSubview:self.addButton];
         [self.headerView addSubview:self.usdtLabel];
         [self.view addSubview:self.tableView];
+        [self.tableView setTableHeaderView:self.headerView];
 
         
         [self.usdtLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -83,13 +83,10 @@ static NSString *cellID = @"Mine_AddressList_TableViewCell";
             
         }];
         
-//        [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-//
-//            make.top.equalTo(self.headerView.mas_bottom);
-//            make.left.right.equalTo(self.headerView);
-//            make.bottom.equalTo(self.view.mas_bottom);
-//
-//        }];
+        [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+
+            make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(Height_NavBar, 0, 0, 0));
+        }];
     }
 }
 
@@ -111,8 +108,9 @@ static NSString *cellID = @"Mine_AddressList_TableViewCell";
 {
     if (nil == _headerView)
     {
-        _headerView = [[UIView alloc]initWithFrame:CGRectMake(0, Height_NavBar, ScreenWidth, ScaleW(45))];
+        _headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScaleW(45))];
         [_headerView setBackgroundColor:kBgColor];
+
     }
     return _headerView;
 }
@@ -174,7 +172,8 @@ static NSString *cellID = @"Mine_AddressList_TableViewCell";
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     
-    [SSKJ_NoDataView showNoData:self.itemArray.count toView:self.tableView offY:ScaleW(70)];
+    [SSKJ_NoDataView showNoData:self.itemArray.count toView:self.tableView offY:Height_NavBar];
+    
     return self.itemArray.count;
 }
 
@@ -212,13 +211,6 @@ static NSString *cellID = @"Mine_AddressList_TableViewCell";
     return 1;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return ScaleW(70);
-}
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    return self.headerView;
-}
-
 
 #pragma mark - 请求提币地址
 - (void)requesAddressList
@@ -227,7 +219,8 @@ static NSString *cellID = @"Mine_AddressList_TableViewCell";
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     NSString *type = @"2";
     
-    [[WLHttpManager shareManager]requestWithURL_HTTPCode:BI_AddressList_URL RequestType:RequestTypeGet Parameters:@{@"type":type} Success:^(NSInteger statusCode, id responseObject) {
+    [[WLHttpManager shareManager]requestWithURL_HTTPCode:BI_AddressList_URL RequestType:RequestTypeGet Parameters:@{@"type":type} Success:^(NSInteger statusCode, id responseObject)
+    {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
 
         WL_Network_Model *netModel = [WL_Network_Model mj_objectWithKeyValues:responseObject];

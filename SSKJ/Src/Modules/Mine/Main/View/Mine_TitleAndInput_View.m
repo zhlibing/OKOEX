@@ -146,10 +146,13 @@
 
 -(void)textValueChanged
 {
-    if (self.textField.isEditing) {
+    if (self.textField.isEditing)
+    {
         self.lineView.backgroundColor = kBlueColor;
-    }else{
-        self.lineView.backgroundColor = kLightLineColor;
+    }
+    else
+    {
+        self.lineView.backgroundColor = kLineColor;
     }
 }
 

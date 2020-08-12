@@ -69,7 +69,7 @@ static NSString * NodataCellID = @"NodataCell";
 @interface HEYue_ViewController ()<UITableViewDelegate,UITableViewDataSource,ManagerSocketDelegate>
 
 
-@property (nonatomic,strong) UITableView * tableView;
+@property (nonatomic,strong) SSKJ_TableView * tableView;
 
 @property (nonatomic,strong) NSMutableArray * dataSource;
 
@@ -81,7 +81,6 @@ static NSString * NodataCellID = @"NodataCell";
 
 @property (nonatomic,strong) Heyue_Leverage_Model *leverageModel;//显示数据model
 
-@property (nonatomic,strong) SSKJ_Market_Index_Model *model;//行情model
 
 @property (nonatomic,strong) PanKou_Socket_Model *pankouModel;//行情model
 
@@ -110,7 +109,7 @@ static NSString * NodataCellID = @"NodataCell";
 {
     if (self = [super init])
     {
-        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(didGetCoinModel:) name:@"didGetCoinModel" object:nil];
+        
         //监听token是否过期
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginToken:) name:@"LoginToken" object:nil];
         
@@ -119,31 +118,38 @@ static NSString * NodataCellID = @"NodataCell";
     return self;
 }
 
--(void)didGetCoinModel:(NSNotification *)notification
+
+
+
+- (void)viewDidLoad
 {
-    SSKJ_Market_Index_Model *model = notification.object;
-    self.model = model;
-    
-    
-    [self refreshCodeDate];
-}
-
-
-- (void)viewDidLoad {
     [super viewDidLoad];
-    [self setNavItem];
-    [self tableView];
+    [self addLeftNavItemWithImage:[UIImage imageWithOriginalName:@"hy_unShow"]];
+    [self addRightNavgationItemWithImage:[UIImage imageWithOriginalName:@"hy_list"]];
+    [self.view addSubview:self.tableView];
+    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(0, 0, 0, 0));
+    }];
 
     
-    if (!self.model) {
-        self.model = [[SSKJ_Market_Index_Model alloc]init];
-        self.model.code = @"btc_usdt";
-    }
+    
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     //初始化默认USDT合约
     [self requestMarketList];
+}
+
+
+-(SSKJ_Market_Index_Model *)model
+{
+    if (!_model)
+    {
+        _model = [[SSKJ_Market_Index_Model alloc]init];
+        [_model setCode:@"btc_usdt"];
+    }
+    return _model;
 }
 
 
@@ -170,9 +176,12 @@ static NSString * NodataCellID = @"NodataCell";
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
    //开启推送
-   if (self.model.code > 0) {
+   if (self.model.code > 0)
+   {
 //       [self openSocket];
-   }else{
+   }
+   else
+   {
        self.model.code = @"btc_usdt";
    }
    
@@ -200,10 +209,11 @@ static NSString * NodataCellID = @"NodataCell";
 
 
 #pragma mark - 更新币种
-- (void)refreshCodeDate{
+- (void)refreshCodeDate
+{
     //请求个人中心
 //    self.title = _model.code;
-    self.title = [[_model.code uppercaseString] stringByReplacingOccurrencesOfString:@"_" withString:@"/"];
+    self.title = [[self.model.code uppercaseString] stringByReplacingOccurrencesOfString:@"_" withString:@"/"];
     
     if (kLogin)
     {
@@ -310,10 +320,12 @@ static NSString * NodataCellID = @"NodataCell";
 //接收推送数据
 -(void)socketDidReciveData:(id)data identifier:(NSString *)identifier{
     
-    if (![data[@"code"] isEqualToString:self.model.code]) {
+    if (![data[@"code"] isEqualToString:self.model.code])
+    {
         return;
     }
-    if ([identifier isEqualToString:PankouSocket]) {
+    if ([identifier isEqualToString:PankouSocket])
+    {
 
         self.pankouModel = [PanKou_Socket_Model mj_objectWithKeyValues:data];
         self.headerView.pankouModel = self.pankouModel;
@@ -331,7 +343,8 @@ static NSString * NodataCellID = @"NodataCell";
         
         self.headerView.shenduDic = self.shenduDic;
     }
-    else{
+    else
+    {
         
         NSDictionary *pushGoodsInfoDatas = nil;
         if ([data isKindOfClass:[NSString class]]){
@@ -348,30 +361,9 @@ static NSString * NodataCellID = @"NodataCell";
 
 
 #pragma mark -- 导航 --
-//- (void)setNavItem{
-//
-//    UIImage *left = [UIImage imageNamed:@"hy_unShow"];
-//    left = [left imageWithRenderingMode: UIImageRenderingModeAlwaysTemplate];
-//    UIImageView *imageV = [[UIImageView alloc] initWithImage:left];
-//    imageV.tintColor = kTitleColor;
-//
-//    UIView *clickView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 60, 44)];
-//    imageV.centerY = 22;
-//    [clickView addSubview:imageV];
-//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(leftClick)];
-//    [clickView addGestureRecognizer:tap];
-//    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:clickView];
-//    self.navigationItem.leftBarButtonItem = item;
-//
-//
-//    [self addRightNavgationItemWithImage:[UIImage imageNamed:@"hy_list"]];
-//}
-
 - (void)setNavItem{
     
-    [self addLeftNavItemWithImage:[UIImage imageWithOriginalName:@"hy_unShow"]];
-    [self addRightNavgationItemWithImage:[UIImage imageWithOriginalName:@"hy_list"]];
-    self.title = @"ETH/USDT";
+    
     
    
 }
@@ -411,29 +403,16 @@ static NSString * NodataCellID = @"NodataCell";
     [self.navigationController pushViewController:vc animated:YES];
 }
 #pragma mark -- 建表 --
-- (UITableView *)tableView{
-    if (_tableView == nil) {
-        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, Height_NavBar + ScaleW(10), ScreenWidth, ScreenHeight - Height_NavBar - Height_TabBar - ScaleW(10)) style:UITableViewStylePlain];
-        _tableView.delegate = self;
-        _tableView.dataSource = self;
-        _tableView.backgroundColor = kBgColor;
-        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        if (@available(iOS 11.0, *)){
-            _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-            _tableView.estimatedRowHeight = 0;
-            _tableView.estimatedSectionHeaderHeight = 0;
-            _tableView.estimatedSectionFooterHeight = 0;
-        }else{
-            self.automaticallyAdjustsScrollViewInsets = NO;
-        }
+- (SSKJ_TableView *)tableView
+{
+    if (_tableView == nil)
+    {
+        _tableView = [[SSKJ_TableView alloc]initWitDeletage:self];
         [_tableView registerClass:[Heyue_WeiTuo_Order_Cell class] forCellReuseIdentifier:WeiTuoCellID];
         [_tableView registerClass:[Heyue_Nodata_Cell class] forCellReuseIdentifier:NodataCellID];
         _tableView.tableHeaderView = self.headerView;
         [self.view addSubview:_tableView];
         _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshHeader)];
-//        _tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
-//            [weakSelf footerRefresh];
-//        }];
     }
     return _tableView;
 }
@@ -488,7 +467,8 @@ static NSString * NodataCellID = @"NodataCell";
 }
 
 
-- (Heyue_root_OrderSectionView *)sectionView{
+- (Heyue_root_OrderSectionView *)sectionView
+{
     if (!_sectionView) {
         Heyue_root_OrderSectionView *view = [[Heyue_root_OrderSectionView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScaleW(50))];
         view.isTimeHeyue = NO;
@@ -585,7 +565,9 @@ static NSString * NodataCellID = @"NodataCell";
          if (network_Model.status.integerValue == SUCCESSED)
          {
              [weakSelf handleMarketListWith:network_Model];
-         }else{
+         }
+         else
+         {
              [MBProgressHUD showError:network_Model.msg];
          }
      } Failure:^(NSError *error, NSInteger statusCode, id responseObject)
@@ -603,28 +585,35 @@ static NSString * NodataCellID = @"NodataCell";
     
     
     
-    if (array.count > 0) {
-        if (![self hasCurrentModel:array]) {
+    if (array.count > 0)
+    {
+        if (![self hasCurrentModel:array])
+        {
             self.model = array.firstObject;
         }
         [self refreshCodeDate];
     }
     
 }
-- (BOOL) hasCurrentModel:(NSArray *)array{
-    for (SSKJ_Market_Index_Model *model in array) {
-        if ([self.model.code isEqualToString:model.code]) {
+- (BOOL) hasCurrentModel:(NSArray *)array
+{
+    for (SSKJ_Market_Index_Model *model in array)
+    {
+        if ([self.model.code isEqualToString:model.code])
+        {
             return YES;
         }
     }
     return NO;
 }
 
+
 #pragma mark -- 网络请求 --
 
 #pragma mark -- 加载不同币种的杠杆和最小购买数 --
 - (void)requestGetLeverageURLURL{
-    if (self.model.code.length < 1) {
+    if (self.model.code.length < 1)
+    {
         return;
     }
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -835,12 +824,7 @@ static NSString * NodataCellID = @"NodataCell";
     return _chedanAlertView;
 }
 
-- (SSKJ_Market_Index_Model *)model {
-    if (!_model) {
-        _model = [SSKJ_Market_Index_Model new];
-    }
-    return _model;
-}
+
 #pragma mark - login
 -(void)login
 {

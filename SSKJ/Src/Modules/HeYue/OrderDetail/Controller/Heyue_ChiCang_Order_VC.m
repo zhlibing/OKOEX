@@ -289,35 +289,7 @@ static NSString *ChiCangOrderID = @"ChiCangOrderID";
 //}
 
 
-#pragma mark -- 全部平仓按钮---
-- (UIButton *)allBtn{
-    if (_allBtn == nil) {
-        _allBtn = [WLTools allocButton:nil textColor:nil nom_bg:nil hei_bg:nil frame:CGRectZero];
-        _allBtn.cornerRadius = ScaleW(28);
-        [_allBtn addTarget:self action:@selector(allAction) forControlEvents:UIControlEventTouchUpInside];
-        
-        UIImage *img = MyImage(@"");
-        
-        
-        [_allBtn setBackgroundImage:UIImageNamed(SSKJLanguage(@"hy_pingcang")) forState:UIControlStateNormal];
-        
-        [self.view addSubview:_allBtn];
-        [_allBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(@(ScaleW(-16)));
-            make.bottom.equalTo(@(ScaleW(-53)));
-            make.width.height.equalTo(@(ScaleW(56)));
-            if (Height_NavBar == 88) {
-                make.bottom.equalTo(@(ScaleW(-87)));
-            }
-        }];
-    }
-    return _allBtn;
-}
 
-#pragma mark -- 全部平仓 点击事件 --
-- (void)allAction{
-    [self.allPingCangAlertView showWithMessage:SSKJLocalized(@"是否确认要全部平仓?", nil)];
-}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
@@ -524,17 +496,22 @@ static NSString *ChiCangOrderID = @"ChiCangOrderID";
     }
     return _dataSource;
 }
-#pragma mark -- 一键平仓 --
-- (Heyue_AllPingCang_AlertView *)allPingCangAlertView{
-    if (_allPingCangAlertView == nil) {
-        _allPingCangAlertView = [[Heyue_AllPingCang_AlertView alloc]initWithFrame:self.view.bounds];
+
+
+#pragma mark -- 修改止盈止损 --
+- (HeYue_EditWinLoss_AlertView *)editWinLossAlertView{
+    if (_editWinLossAlertView == nil) {
+        _editWinLossAlertView = [[HeYue_EditWinLoss_AlertView alloc]initWithFrame:self.view.bounds];
         WS(weakSelf);
-        self.allPingCangAlertView.AllPingCangBlock = ^{
-            [weakSelf allPingCangRequstion];
+        _editWinLossAlertView.EditWinLossBlock = ^(NSString * _Nonnull winstr, NSString * _Nonnull lossStr) {
+            [weakSelf requestEditWinLossWithWinStr:winstr lossStr:lossStr];
         };
     }
-    return _allPingCangAlertView;
+    return _editWinLossAlertView;
 }
+
+
+
 #pragma mark -- 平仓 --
 - (HeYue_PingCang_AlertView *)pingCangAlertView{
     if (_pingCangAlertView == nil) {
@@ -548,17 +525,52 @@ static NSString *ChiCangOrderID = @"ChiCangOrderID";
     return _pingCangAlertView;
 }
 
-#pragma mark -- 修改止盈止损 --
-- (HeYue_EditWinLoss_AlertView *)editWinLossAlertView{
-    if (_editWinLossAlertView == nil) {
-        _editWinLossAlertView = [[HeYue_EditWinLoss_AlertView alloc]initWithFrame:self.view.bounds];
+
+#pragma mark  全部平仓按钮
+- (UIButton *)allBtn
+{
+    if (_allBtn == nil)
+    {
+        _allBtn = [WLTools allocButton:nil textColor:nil nom_bg:nil hei_bg:nil frame:CGRectZero];
+        _allBtn.cornerRadius = ScaleW(28);
+        [_allBtn addTarget:self action:@selector(allAction) forControlEvents:UIControlEventTouchUpInside];
+        
+        
+        [_allBtn setBackgroundImage:UIImageNamed(SSKJLanguage(@"hy_pingcang")) forState:UIControlStateNormal];
+        
+        [self.view addSubview:_allBtn];
+        [_allBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(@(ScaleW(-16)));
+            make.bottom.equalTo(@(ScaleW(-53)));
+            make.width.height.equalTo(@(ScaleW(56)));
+            if (Height_NavBar == 88) {
+                make.bottom.equalTo(@(ScaleW(-87)));
+            }
+        }];
+    }
+    return _allBtn;
+}
+
+#pragma mark 全部平仓 点击事件
+- (void)allAction
+{
+    [self.allPingCangAlertView showWithMessage:SSKJLocalized(@"是否确认要全部平仓?", nil)];
+}
+
+#pragma mark 键平仓 
+- (Heyue_AllPingCang_AlertView *)allPingCangAlertView
+{
+    if (_allPingCangAlertView == nil) {
+        _allPingCangAlertView = [[Heyue_AllPingCang_AlertView alloc]initWithFrame:self.view.bounds];
         WS(weakSelf);
-        _editWinLossAlertView.EditWinLossBlock = ^(NSString * _Nonnull winstr, NSString * _Nonnull lossStr) {
-            [weakSelf requestEditWinLossWithWinStr:winstr lossStr:lossStr];
+        self.allPingCangAlertView.AllPingCangBlock = ^{
+            [weakSelf allPingCangRequstion];
         };
     }
-    return _editWinLossAlertView;
+    return _allPingCangAlertView;
 }
+
+
 #pragma mark - 一键平仓请求
 - (void)allPingCangRequstion{
     
@@ -582,16 +594,5 @@ static NSString *ChiCangOrderID = @"ChiCangOrderID";
         [hud hideAnimated:YES];
     }];
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
-
 
 @end

@@ -221,7 +221,6 @@
     if (nil == _segmentControl) {
         
         _segmentControl = [[Home_Segment_View alloc]initWithFrame:CGRectMake(0, self.headerView.bottom + ScaleW(10), ScreenWidth, ScaleW(40)) titles:@[SSKJLocalized(@"充币记录", nil),SSKJLocalized(@"提币记录", nil),SSKJLocalized(@"其他", nil)] normalColor:kTitleColor selectedColor:kBlueColor fontSize:ScaleW(15)];
-        [_segmentControl setBackgroundColor:kBgColor];
         
         WS(weakSelf);
         _segmentControl.selectedIndexBlock = ^(NSInteger index) {

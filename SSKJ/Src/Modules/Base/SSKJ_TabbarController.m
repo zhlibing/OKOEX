@@ -32,7 +32,7 @@
 //#define kSelectedImageNameArray @[@"首页-pre",@"合约-选择",@"资产-选择",@"我的-已选择"]
 
 
-#define kControllerNameArray @[@"Home_Root_ViewController",@"News_Root_ViewController",@"HEYue_ViewController",@"Lion_AssetsMainPageVC",@"Mine_Root_ViewController"]
+#define kControllerNameArray @[@"Home_Root_ViewController",@"News_Root_ViewController",@"HEYueBoardViewController",@"Lion_AssetsMainPageVC",@"Mine_Root_ViewController"]
 #define kControllerTitleArray @[@"首页",@"资讯",@"合约",@"资产",@"我的"]
 #define kImageNameArray @[@"首页-nor",@"资讯-未选择",@"合约-未选择",@"资产-未选择",@"我的-未选择"]
 #define kSelectedImageNameArray @[@"首页-pre",@"资讯-选择",@"合约-选择",@"资产-选择",@"我的-已选择"]

@@ -201,7 +201,7 @@
     NSDictionary *params = @{
                             @"address":self.addressView.valueString,
                             @"notes":self.remarkView.valueString,
-                            @"type":@"0"
+                            @"type":@"2"
                             };
     
     WS(weakSelf);

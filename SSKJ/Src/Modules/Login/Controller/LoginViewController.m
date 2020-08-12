@@ -349,7 +349,7 @@
     
     
     
-    UILabel *label = [WLTools allocLabel:SSKJLanguage(@"登录 ATEX") font:kBoldFont(24) textColor:kTitleColor frame:CGRectZero textAlignment:(NSTextAlignmentLeft)];
+    UILabel *label = [WLTools allocLabel:SSKJLanguage(@"登录 OKOEX") font:kBoldFont(24) textColor:kTitleColor frame:CGRectZero textAlignment:(NSTextAlignmentLeft)];
     [topV addSubview:label];
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(@(ScaleW(20)));

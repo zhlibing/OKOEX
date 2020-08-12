@@ -15,6 +15,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Mine_ChangePWD_ViewController : SSKJ_BaseViewController
+
 @property (nonatomic, copy) void (^statusBlock)(void);
 @property (nonatomic, copy) NSString *phoneNumber;
 @end

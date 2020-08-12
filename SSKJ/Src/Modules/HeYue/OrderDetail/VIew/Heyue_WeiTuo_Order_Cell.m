@@ -267,13 +267,11 @@
 
 - (UIButton *)cheDanBtn{
     if (_cheDanBtn == nil) {
-        _cheDanBtn = [WLTools allocButton:SSKJLocalized(@"撤单", nil) textColor:kBlueColor nom_bg:nil hei_bg:nil frame:CGRectZero];
+        _cheDanBtn = [WLTools allocButton:SSKJLocalized(@"撤单", nil) textColor:kWhiteColor nom_bg:nil hei_bg:nil frame:CGRectZero];
         [_cheDanBtn addTarget:self action:@selector(cheDanBtnAction) forControlEvents:UIControlEventTouchUpInside];
         _cheDanBtn.titleLabel.font = systemFont(ScaleW(14));
-        _cheDanBtn.backgroundColor = kBgColor;
+        _cheDanBtn.backgroundColor = kBlueColor;
         _cheDanBtn.cornerRadius = ScaleW(4);
-        _cheDanBtn.layer.borderColor = kBlueColor.CGColor;
-        _cheDanBtn.layer.borderWidth = ScaleW(1);
     }
     return _cheDanBtn;
 }

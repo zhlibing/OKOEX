@@ -28,9 +28,29 @@
         _selectedColor = selectedColor;
         [self addButtons];
         [self addSubview:self.lineView];
+        [self setBackgroundColor:kBgColor];
     }
     return self;
 }
+
+
+-(instancetype)initWithFrame:(CGRect)frame titles:(NSArray *)titles normalColor:(UIColor *)normalColor selectedColor:(UIColor *)selectedColor fontSize:(CGFloat)fontSize lineWidth:(CGFloat)lineWidth
+{
+    if (self = [super initWithFrame:frame]) {
+        _titlesArray = titles;
+        _fontSize = fontSize;
+        _normalColor = normalColor;
+        _selectedColor = selectedColor;
+        [self addSubview:self.lineView];
+        [self addButtonsWithWidth:lineWidth];
+        
+        [self setBackgroundColor:kBgColor];
+    }
+    return self;
+}
+
+
+
 
 -(NSMutableArray *)buttonArray
 {
@@ -74,6 +94,41 @@
         [btn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
     }
 }
+
+
+-(void)addButtonsWithWidth:(CGFloat)width
+{
+    [self.lineView setWidth:width];
+    for (int i = 0; i < self.titlesArray.count; i++)
+    {
+        UIButton *btn = [[UIButton alloc]init];
+        
+        if (self.titlesArray.count == 1)
+        {
+            btn.frame = CGRectMake(0, 0, ScaleW(80), self.height);
+        }
+        else
+        {
+            btn.frame = CGRectMake(width * i, 0, width, self.height);
+        }
+        
+        [self addSubview:btn];
+        btn.titleLabel.font = systemFont(_fontSize);
+        [btn setTitle:self.titlesArray[i] forState:UIControlStateNormal];
+        [btn setTitleColor:self.normalColor forState:UIControlStateNormal];
+        [btn setTitleColor:self.selectedColor forState:UIControlStateSelected];
+        btn.tag = 100 + i;
+        [self.buttonArray addObject:btn];
+        if (i == 0) {
+            
+            self.lineView.centerX = btn.centerX;
+            btn.selected = YES;
+        }
+        btn.titleLabel.adjustsFontSizeToFitWidth = YES;
+        [btn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    }
+}
+
 
 -(UIView *)lineView
 {

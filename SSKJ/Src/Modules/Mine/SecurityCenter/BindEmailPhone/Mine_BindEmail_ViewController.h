@@ -11,8 +11,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Mine_BindEmail_ViewController : SSKJ_BaseViewController
+
 @property (nonatomic, copy) void (^successBlock)(NSString *account);
-@property (nonatomic, assign)NSInteger from;
+
+
 
 @end
 

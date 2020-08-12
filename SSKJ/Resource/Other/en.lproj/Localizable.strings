@@ -241,7 +241,7 @@
 "版本更新！" = "Version update!";
 "修改成功" = "Change completed";
 "点击登录" = "Click login";
-"欢迎来到ATEX" = "Welcome to ATEX";
+"欢迎来到OKOEX" = "Welcome to OKOEX";
 "您当前还未登录，请先登录或注册" = "You are not currently logged in. Please log in or register first";
 "登录/注册" = "Sign in / register";
 "提币地址" = "Money withdrawal address";
@@ -286,14 +286,14 @@
 "常见问题" = "Common problem";
 "请输入8-20位字母与数字组合" = "Please enter the password (8-20 digits + letters)";
 "请输入6-12位字母与数字组合" = "Please enter the password (6-12 digits + letters)";
-"登录ATEX" = "Login ATEX";
-"还没有ATEX账号," = "There is no ATEX account,";
+"登录OKOEX" = "Login OKOEX";
+"还没有OKOEX账号," = "There is no OKOEX account,";
 "没有账号?" = "There is no account";
 "马上注册" = "register";
 "欢迎回来" = "Welcome back";
 "欢迎注册" = "Welcome to register";
-"注册 ATEX" = "Sign up for lion bit";
-"登录 ATEX" = "Login for lion bit";
+"注册 OKOEX" = "Sign up for lion bit";
+"登录 OKOEX" = "Login for lion bit";
 "用户%@" = "user%@";
 "重置密码" = "Reset password";
 "订单明细" = "Order details";
@@ -311,7 +311,7 @@
 "密码格式不正确" = "Incorrect password format";
 "请输入确认密码" = "Please enter the confirmation password";
 "请输入邀请码" = "Please enter the invitation code";
-"注册ATEX" = "Registered ATEX";
+"注册OKOEX" = "Registered OKOEX";
 "网络出错" = "Network error";
 "忘记密码" = "Forget password";
 "资讯" = "information";

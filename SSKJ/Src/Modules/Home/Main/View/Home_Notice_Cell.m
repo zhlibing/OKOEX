@@ -10,12 +10,20 @@
 
 @interface Home_Notice_Cell()
 
-@property (nonatomic,strong) UIImageView * leftImg;
-@property (nonatomic,strong) UIImageView * rightImg;
 
-@property (nonatomic,strong) UILabel * titleLabel;
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UILabel *dateLabel;
+@property (nonatomic, strong) UIView *lineView;
+
 
 @end
+
+
+
+
+
+
+
 
 @implementation Home_Notice_Cell
 
@@ -27,33 +35,45 @@
     
     if (self)
     {
-        self.contentView.backgroundColor=kSubBgColor;
+        [self.contentView setBackgroundColor:kBgColor];
         
         self.selectionStyle=UITableViewCellSelectionStyleNone;
         
-        [self leftImg];
-        [self rightImg];
+    
 
-        [self titleLabel];
+        [self.contentView addSubview:self.titleLabel];
+        [self.contentView addSubview:self.dateLabel];
+        [self.contentView addSubview:self.lineView];
         
-        [self.leftImg mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self);
-            make.left.mas_equalTo(ScaleW(15));
-            make.width.mas_equalTo(ScaleW(6));
-            make.height.mas_equalTo(ScaleW(6));
+        
+             
+        [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            
+            make.left.equalTo(self.contentView.mas_left).offset(ScaleW(15));
+            
+            make.top.equalTo(self.contentView.mas_top).offset(ScaleW(5));
+            make.height.equalTo(@(ScaleW(40)));
+            make.right.equalTo(self.contentView.mas_right).offset(-ScaleW(15));
+            
             
         }];
-        [self.rightImg mas_makeConstraints:^(MASConstraintMaker *make) {
-           make.centerY.equalTo(self);
-           make.right.mas_equalTo(ScaleW(-15));
-                   
+        
+        
+        [self.dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+           
+            make.left.equalTo(self.titleLabel);
+            make.bottom.equalTo(self.contentView.mas_bottom).offset(-ScaleW(14));
         }];
-        [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(@(ScaleW(21)));
-            make.left.equalTo(self.leftImg.mas_right).offset(ScaleW(15));
-            make.right.equalTo(self.rightImg.mas_left).offset(-ScaleW(15));
-            make.height.mas_equalTo(ScaleW(14));
-            make.bottom.mas_equalTo(self.mas_bottom).offset(-ScaleW(21));
+        
+        
+        
+        [self.lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+           
+            make.left.equalTo(self.contentView.mas_left).offset(ScaleW(15));
+            make.right.equalTo(self.contentView.mas_right).offset(-ScaleW(15));
+            make.bottom.equalTo(self.contentView.mas_bottom);
+            make.height.equalTo(@(ScaleW(0.5)));
+            
         }];
        
     }
@@ -61,55 +81,52 @@
     return self;
 }
 
-- (UIImageView *)leftImg{
-    if (_leftImg == nil) {
-        UIImage *image = [UIImage imageNamed:@"Market_Notice_img"];
-        _leftImg = [[UIImageView alloc]initWithImage:image];
-        _leftImg.layer.masksToBounds = YES;
-        _leftImg.backgroundColor = kTitleColor;
-        _leftImg.layer.cornerRadius = ScaleW(3);
-        [self.contentView addSubview:_leftImg];
 
-    }
-    return _leftImg;
-}
-
-- (UIImageView *)rightImg{
-    if (_rightImg == nil) {
-        UIImage *image = [UIImage imageNamed:@"mine_next"];
-        _rightImg = [[UIImageView alloc]initWithImage:image];
-        [self.contentView addSubview:_rightImg];
-
-    }
-    return _rightImg;
-}
-
-- (UILabel *)titleLabel{
-    if (_titleLabel == nil) {
-        _titleLabel = [WLTools allocLabel:@"标题" font:systemFont(14) textColor:kTitleColor frame:CGRectZero textAlignment:NSTextAlignmentLeft];
-        _titleLabel.numberOfLines = 2;
-        [self.contentView addSubview:_titleLabel];
-  
+- (UILabel *)titleLabel
+{
+    if (_titleLabel == nil)
+    {
+        _titleLabel = [[UILabel alloc]init];
+        [_titleLabel setFont:systemFont(ScaleW(15))];
+        [_titleLabel setTextColor:kTitleColor];
+        [_titleLabel setNumberOfLines:0];
     }
     return _titleLabel;
 }
 
-- (void)initDataWithModel:(Home_NoticeIndex_Model *)Model
-{    
-    self.titleLabel.text = Model.title;
+
+- (UILabel *)dateLabel
+{
+    if (_dateLabel == nil)
+    {
+        _dateLabel = [[UILabel alloc]init];
+        [_dateLabel setFont:systemFont(ScaleW(12))];
+        [_dateLabel setTextColor:kSubTitleColor];
+
+    }
+    return _dateLabel;
+}
+
+
+- (void)setModel:(Home_NoticeIndex_Model *)model
+{
+    _model = model;
+    [self.titleLabel setText:model.title];
+    [self.dateLabel setText:model.created_at];
 }
 
 
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
+
+-(UIView *)lineView
+{
+    if (!_lineView)
+    {
+        _lineView = [[UIView alloc]init];
+        [_lineView setBackgroundColor:kLineColor];
+    }
+    return _lineView;
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
 
 @end

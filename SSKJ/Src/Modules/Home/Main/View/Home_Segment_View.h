@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface Home_Segment_View : UIView
+
 @property (nonatomic, strong) UIImageView *lineView;
 
 @property (nonatomic, assign) NSInteger selectedIndex;
@@ -16,5 +17,7 @@
 @property (nonatomic,copy)void(^loginBlock)(void);
 
 -(instancetype)initWithFrame:(CGRect)frame titles:(NSArray *)titles normalColor:(UIColor *)normalColor selectedColor:(UIColor *)selectedColor fontSize:(CGFloat)fontSize;
+
+-(instancetype)initWithFrame:(CGRect)frame titles:(NSArray *)titles normalColor:(UIColor *)normalColor selectedColor:(UIColor *)selectedColor fontSize:(CGFloat)fontSize lineWidth:(CGFloat)lineWidth;
 
 @end

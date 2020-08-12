@@ -7,6 +7,9 @@
 //
 
 #import "Home_Root_ViewController.h"
+#import "Market_KeyBuyCoin_VC.h"
+#import "SSKJ_TabbarController.h"
+
 
 
 // controller
@@ -198,13 +201,19 @@ static NSString *nodaCellId = @"nodaCellId";
             {
                switch (index)
                {
+#pragma mark case 1 用户资产
                    case 1:
                    {
-                       
+                       SSKJ_TabbarController *tabbar = [[SSKJ_TabbarController alloc]init];
+                       [tabbar setSelectedIndex:3];
+                       [AppWindow setRootViewController:tabbar];
                    }
                        break;
+#pragma mark case 2 快捷买币
                    case 2:
                    {
+                       Market_KeyBuyCoin_VC *vc = [[Market_KeyBuyCoin_VC alloc]init];
+                       [weakSelf.navigationController pushViewController:vc animated:YES];
                        
                    }
                        break;
@@ -349,7 +358,6 @@ static NSString *nodaCellId = @"nodaCellId";
     
     [self requestMainCoinList];
     [self requestNoticeList];
-    [self requestBanner];
 
     if (kLogin) {
         [self loadUserInfo];
@@ -406,27 +414,29 @@ static NSString *nodaCellId = @"nodaCellId";
 
 -(void)requestMainCoinList
 {
-//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
     WS(weakSelf);
     
     [[WLHttpManager shareManager] requestWithURL_HTTPCode:BI_BBCoinList_URL RequestType:RequestTypeGet Parameters:nil Success:^(NSInteger statusCode, id responseObject)
      {
-//         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-//         [weakSelf.tableView.mj_header endRefreshing];
+         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+         [weakSelf.tableView.mj_header endRefreshing];
          WL_Network_Model *network_Model=[WL_Network_Model mj_objectWithKeyValues:responseObject];
          
          if (network_Model.status.integerValue == SUCCESSED)
          {
              [weakSelf handleMarketListWith:network_Model];
-         }else{
-//             [MBProgressHUD showError:network_Model.msg];
+         }
+         else
+         {
+             [MBProgressHUD showError:network_Model.msg];
          }
      } Failure:^(NSError *error, NSInteger statusCode, id responseObject)
      {
-//         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-//         [weakSelf.tableView.mj_header endRefreshing];
-//         [MBProgressHUD showError:SSKJLocalized(@"网络异常", nil)];
+         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+         [weakSelf.tableView.mj_header endRefreshing];
+         [MBProgressHUD showError:SSKJLocalized(@"网络异常", nil)];
      }];
 }
 
@@ -543,31 +553,24 @@ static NSString *nodaCellId = @"nodaCellId";
         if (netmodel.status.integerValue == SUCCESSED)
         {
    
-            NSString *title;
-            NSString *detail;
-            if ([netmodel.data[@"data"] count] == 0)
+            NSString *title = netmodel.data[@"title"];
+    
+            NSString *detail = [WLTools filterHTML:netmodel.data[@"content"]];
+            
+            if (title.length != 0 && detail.length !=0)
             {
-                return ;
+                SystemNoticeViewController* vc = [[SystemNoticeViewController alloc]init];
+                vc.content = detail;
+                vc.titleString = title;
+                vc.modalPresentationStyle = UIModalPresentationOverFullScreen;
+                
+                [self.navigationController presentViewController:vc animated:NO completion:^{
+                    vc.view.superview.backgroundColor = [UIColor clearColor];
+                    }];
             }
-            else
-            {
-                NSDictionary *dic = [netmodel.data[@"data"] firstObject];
-                title = dic[@"title"];
-                detail = dic[@"content"];
-                detail = [WLTools filterHTML:dic[@"content"]];
-            }
-            
-            SystemNoticeViewController* vc = [[SystemNoticeViewController alloc]init];
-            vc.content = detail;
-            vc.titleString = title;
-            vc.modalPresentationStyle = UIModalPresentationOverFullScreen;
-            
-            [self.navigationController presentViewController:vc animated:NO completion:^{
-                vc.view.superview.backgroundColor = [UIColor clearColor];
-            }];
-        
-            
-        }else{
+        }
+        else
+        {
             [MBProgressHUD showError:netmodel.msg];
         }
         
@@ -596,10 +599,13 @@ static NSString *nodaCellId = @"nodaCellId";
         {
             weakSelf.versionModel=[Mine_Version_Model mj_objectWithKeyValues:network_Model.data];
             
-            if (weakSelf.versionModel == nil || [weakSelf.versionModel.vercode compare:kAppVersion] == kCFCompareLessThan || [weakSelf.versionModel.vercode isEqualToString:kAppVersion]) {
+            if (weakSelf.versionModel == nil || [weakSelf.versionModel.vercode compare:kAppVersion] == kCFCompareLessThan || [weakSelf.versionModel.vercode isEqualToString:kAppVersion])
+            {
                 [weakSelf requestNoticeAlert];
                 return ;
-            }else{
+            }
+            else
+            {
                 [Mine_Version_AlertView showWithModel:weakSelf.versionModel confirmBlock:^{
                     [weakSelf upgrade_Button_Event];
                 } cancleBlock:^{
@@ -610,12 +616,15 @@ static NSString *nodaCellId = @"nodaCellId";
             }
             
             
-        }else{
+        }
+        else
+        {
             [weakSelf requestNoticeAlert];
 
         }
         
-    } Failure:^(NSError *error, NSInteger statusCode, id responseObject) {
+    } Failure:^(NSError *error, NSInteger statusCode, id responseObject)
+    {
         [weakSelf requestNoticeAlert];
 
     }];

@@ -24,7 +24,8 @@ static NSString *cellID = @"BuyCoin_TableViewCell";
 
 @implementation BuyCoinRecord_ViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
@@ -37,7 +38,6 @@ static NSString *cellID = @"BuyCoin_TableViewCell";
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self setNavgationBackgroundColor:kSubBgColor alpha:1];
 
 }
 
@@ -54,7 +54,7 @@ static NSString *cellID = @"BuyCoin_TableViewCell";
 -(UITableView *)tableView
 {
     if (nil == _tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,0, ScreenWidth, ScreenHeight) style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,Height_NavBar, ScreenWidth, (ScreenHeight-Height_NavBar)) style:UITableViewStylePlain];
         _tableView.backgroundColor = [UIColor clearColor];
         _tableView.separatorColor = kLightLineColor;
         _tableView.delegate = self;
@@ -165,15 +165,23 @@ static NSString *cellID = @"BuyCoin_TableViewCell";
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         WL_Network_Model *netModel = [WL_Network_Model mj_objectWithKeyValues:responseObject];
         
-        if (netModel.status.integerValue == SUCCESSED) {
+        if (netModel.status.integerValue == SUCCESSED)
+        {
             [weakSelf handleListWith:netModel];
-        }else{
+        }
+        else
+        {
             [MBProgressHUD showError:netModel.msg];
+            [weakSelf endRefresh];
+            [SSKJ_NoDataView showNoData:self.recordArray.count toView:self.tableView offY:Height_NavBar];
         }
         
         
-    } Failure:^(NSError *error, NSInteger statusCode, id responseObject) {
+    } Failure:^(NSError *error, NSInteger statusCode, id responseObject)
+    {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        [weakSelf endRefresh];
+        [SSKJ_NoDataView showNoData:self.recordArray.count toView:self.tableView offY:Height_NavBar];
     }];
             
 }
@@ -188,15 +196,18 @@ static NSString *cellID = @"BuyCoin_TableViewCell";
     }
     
     
-    if (array.count != 10) {
+    if (array.count != 10)
+    {
         self.tableView.mj_footer.state = MJRefreshStateNoMoreData;
-    }else{
+    }
+    else
+    {
         self.tableView.mj_footer.state = MJRefreshStateIdle;
     }
     
     [self.recordArray addObjectsFromArray:array];
     
-    [SSKJ_NoDataView showNoData:self.recordArray.count toView:self.tableView offY:0];
+    [SSKJ_NoDataView showNoData:self.recordArray.count toView:self.tableView offY:Height_NavBar];
     
     self.page++;
     

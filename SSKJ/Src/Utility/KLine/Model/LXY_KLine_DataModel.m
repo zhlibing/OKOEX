@@ -9,6 +9,7 @@
 #import "LXY_KLine_DataModel.h"
 
 @implementation LXY_KLine_DataModel
+
 + (NSDictionary *)mj_replacedKeyFromPropertyName{
     
     return @{
@@ -17,6 +18,36 @@
              @"high": @"highestPrice",
              @"low": @"lowestPrice",
              };
+}
+
+
+- (void)setTimestamp:(NSString *)timestamp
+{
+    _timestamp = [NSString stringWithFormat:@"%@",timestamp];
+    if (_timestamp.length > 10)
+    {
+        _timestamp = [_timestamp substringToIndex:10];
+    }
+}
+
+- (void)setClose:(NSString *)close
+{
+    _close = [NSString stringWithFormat:@"%@",close];
+}
+
+- (void)setHigh:(NSString *)high
+{
+    _high = [NSString stringWithFormat:@"%@",high];
+}
+
+- (void)setLow:(NSString *)low
+{
+    _low = [NSString stringWithFormat:@"%@",low];
+}
+
+- (void)setVolume:(NSString *)volume
+{
+    _volume = [NSString stringWithFormat:@"%@",volume];
 }
 
 -(void)setData

@@ -24,11 +24,11 @@
 
 
 
-#define ProductBaseServer  @"https://dev.atex.kim"
-
-#define ImageBaseServer  @"http://atex001.oss-cn-hongkong.aliyuncs.com"
-
-#define MarketSocketUrl @"wss://dev.atex.kim/ws"
+//#define ProductBaseServer  @"https://dev.atex.kim"
+//
+//#define ImageBaseServer  @"http://atex001.oss-cn-hongkong.aliyuncs.com"
+//
+//#define MarketSocketUrl @"wss://dev.atex.kim/ws"
 
 
 
@@ -36,11 +36,11 @@
 
 
 
-//#define ProductBaseServer  @"https://okoex.vip"
-//
-//#define ImageBaseServer  @"http://atex001.oss-cn-hongkong.aliyuncs.com"
-//
-//#define MarketSocketUrl @"wss://okoex.vip/ws"
+#define ProductBaseServer  @"https://okoex.vip"
+
+#define ImageBaseServer  @"http://atex001.oss-cn-hongkong.aliyuncs.com"
+
+#define MarketSocketUrl @"wss://okoex.vip/ws"
 
 
 
@@ -272,8 +272,11 @@
 //!< 用户签到
 //#define BI_UserSign_URL [NSString stringWithFormat:@"%@%@",ProductBaseServer,@"/app/user/userSign"]
 
-//!< 绑定手机号或邮箱
-#define BI_BindTelOrEmail_URL [NSString stringWithFormat:@"%@%@",ProductBaseServer,@"/app/user/bindTelOrEmail"]
+//!< 绑定手机号
+#define BI_BindTel_URL [NSString stringWithFormat:@"%@%@",ProductBaseServer,@"/api/user/phoneBind"]
+//!< 绑定邮箱
+#define BI_BindEmail_URL [NSString stringWithFormat:@"%@%@",ProductBaseServer,@"/api/user/emailBind"]
+
 //!< 修改手机号或邮箱
 #define BI_UpdataTelOrEmail_URL [NSString stringWithFormat:@"%@%@",ProductBaseServer,@"/app/user/updataTelOrEmail"]
 
@@ -479,6 +482,7 @@
 
 //!< 实名认证 （身份认证） ATEX
 #define BI_BaseAuth_URL [NSString stringWithFormat:@"%@%@",ProductBaseServer,@"/api/authentication/advancedCertification"]
+
 //!< 高级认证 （身份认证）
 #define BI_AdvancedAuth_URL [NSString stringWithFormat:@"%@%@",ProductBaseServer,@"/app/user/inspectAuth"]
 

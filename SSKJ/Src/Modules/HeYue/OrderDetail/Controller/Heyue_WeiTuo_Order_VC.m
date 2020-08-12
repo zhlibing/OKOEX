@@ -13,7 +13,7 @@
 #import "HeYue_CheDan_AlertView.h"//撤单弹框
 
 #import "Heyue_OrderDdetail_Model.h"
-
+#import "Heyue_AllPingCang_AlertView.h"
 #import "SSKJ_NoDataView.h"
 #define kPageSize @"50"
 
@@ -21,7 +21,8 @@ static NSString *WeiTuoOrderID = @"WeiTuoOrderID";
 
 @interface Heyue_WeiTuo_Order_VC ()<UITableViewDelegate,UITableViewDataSource>
 
-@property (nonatomic,strong) UITableView * tableView;
+@property (nonatomic, assign) CGPoint begin;
+@property (nonatomic,strong) SSKJ_TableView * tableView;
 
 @property (nonatomic,strong) NSMutableArray * dataSource;
 
@@ -32,6 +33,11 @@ static NSString *WeiTuoOrderID = @"WeiTuoOrderID";
 @property (nonatomic, assign) NSInteger index;
 
 @property (nonatomic, assign) NSInteger page;
+@property (nonatomic, strong) UIButton *allBtn;
+@property (nonatomic, strong) Heyue_AllPingCang_AlertView *allPingCangAlertView;
+
+
+
 @end
 
 @implementation Heyue_WeiTuo_Order_VC
@@ -46,8 +52,10 @@ static NSString *WeiTuoOrderID = @"WeiTuoOrderID";
     self.page = 1;
 
     [self requestWeiTuoOrder_URL];
-    
+
     [self openTimer];
+    
+    [self allBtn];
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -73,25 +81,14 @@ static NSString *WeiTuoOrderID = @"WeiTuoOrderID";
 }
 
 
-- (UITableView *)tableView{
-    if (_tableView == nil) {
-        _tableView = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStyleGrouped];
-        _tableView.delegate = self;
-        _tableView.dataSource = self;
-        _tableView.backgroundColor = kSubBgColor;
-        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        if (@available(iOS 11.0, *)){
-            _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-            _tableView.estimatedRowHeight = 0;
-            _tableView.estimatedSectionHeaderHeight = 0;
-            _tableView.estimatedSectionFooterHeight = 0;
-        }else{
-            self.automaticallyAdjustsScrollViewInsets = NO;
-        }
+- (SSKJ_TableView *)tableView{
+    if (_tableView == nil)
+    {
+        _tableView = [[SSKJ_TableView alloc]initWitDeletage:self];
         [_tableView registerClass:[Heyue_WeiTuo_Order_Cell class] forCellReuseIdentifier:WeiTuoOrderID];
-        
         [self.view addSubview:_tableView];
-        [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        [_tableView mas_makeConstraints:^(MASConstraintMaker *make)
+        {
             make.top.equalTo(@(ScaleW(5)));
             make.left.bottom.right.equalTo(@(ScaleW(0)));
         }];
@@ -288,14 +285,84 @@ static NSString *WeiTuoOrderID = @"WeiTuoOrderID";
     return _dataSource;
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+#pragma mark - 一键平仓
+#pragma mark  全部平仓按钮
+- (UIButton *)allBtn
+{
+    if (_allBtn == nil)
+    {
+        _allBtn = [WLTools allocButton:nil textColor:nil nom_bg:nil hei_bg:nil frame:CGRectZero];
+        [_allBtn setTag:123];
+        _allBtn.cornerRadius = ScaleW(28);
+        [_allBtn addTarget:self action:@selector(allAction) forControlEvents:UIControlEventTouchUpInside];
+        
+        
+        [_allBtn setBackgroundImage:UIImageNamed(SSKJLanguage(@"hy_pingcang")) forState:UIControlStateNormal];
+        
+        [self.view addSubview:_allBtn];
+        [_allBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(@(ScaleW(-16)));
+            make.bottom.equalTo(@(ScaleW(-100)));
+            make.width.height.equalTo(@(ScaleW(56)));
+        }];
+    }
+    return _allBtn;
 }
-*/
+
+#pragma mark 全部平仓 点击事件
+- (void)allAction
+{
+    [self.allPingCangAlertView showWithMessage:SSKJLocalized(@"是否确认要全部平仓?", nil)];
+}
+
+#pragma mark 键平仓
+- (Heyue_AllPingCang_AlertView *)allPingCangAlertView
+{
+    if (_allPingCangAlertView == nil) {
+        _allPingCangAlertView = [[Heyue_AllPingCang_AlertView alloc]initWithFrame:self.view.bounds];
+        WS(weakSelf);
+        self.allPingCangAlertView.AllPingCangBlock = ^{
+            [weakSelf allPingCangRequstion];
+        };
+    }
+    return _allPingCangAlertView;
+}
+
+
+#pragma mark - 一键平仓请求
+- (void)allPingCangRequstion{
+    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    WS(weakSelf);
+    //Heyue_AllPingcang_Api
+    [[WLHttpManager shareManager] requestWithURL_HTTPCode:URL_HEYUE_DoneAll_URL RequestType:RequestTypePost Parameters:nil Success:^(NSInteger statusCode, id responseObject) {
+        [hud hideAnimated:YES];
+        
+        WL_Network_Model *netModel = [WL_Network_Model mj_objectWithKeyValues:responseObject];
+        if (netModel.status.integerValue == 200) {
+            [weakSelf.allPingCangAlertView removeFromSuperview];
+            [MBProgressHUD showError:SSKJLocalized(@"平仓成功", nil)];
+            [weakSelf headerRefresh];
+        }else{
+            [MBProgressHUD showError:SSKJLocalized(@"平仓失败", nil)];
+        }
+        
+    } Failure:^(NSError *error, NSInteger statusCode, id responseObject) {
+        [hud hideAnimated:YES];
+    }];
+}
+
+
+
+
+
+
+
+
+
+
+
 
 @end

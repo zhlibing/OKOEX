@@ -61,15 +61,11 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-//    [self.navigationController setNavigationBarHidden:YES animated:YES];
-    [self setNavgationBackgroundColor:kSubBgColor alpha:0];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-//    [self.navigationController setNavigationBarHidden:NO animated:YES];
-    [self setNavgationBackgroundColor:kSubBgColor alpha:1];
 
 }
 #pragma mark - 用户操作

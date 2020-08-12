@@ -12,13 +12,10 @@
 
 @property (nonatomic, strong) UILabel *safeTipLabel; //!< 安全提示标签
 @property (nonatomic, strong) UILabel *safeLevelLabel; //!< 安全级别标签
-@property (nonatomic, strong) UIView *safelowLevelView; //!< 安全低级别标签
-@property (nonatomic, strong) UIView *safemiddLevelView; //!< 安全中级别标签
-
-@property (nonatomic, strong) UIView *safeheightLevelView; //!< 安全级别标签
+@property (nonatomic, strong) UIView *safeBgLevelView; //!< 安全低级别标签
+@property (nonatomic, strong) UIView *safeInstructionsLevelView; //!< 安全级别标签
 
 @property (nonatomic, strong) UILabel *moreTipLabel; //!< 多重验证提示标签
-@property (nonatomic, strong) UILabel *moreTitleLabel; //!< 多重验证提示标签
 
 @end
 
@@ -34,11 +31,9 @@
         
         [self addSubview:self.safeTipLabel];
         [self addSubview:self.safeLevelLabel];
-        [self addSubview:self.safelowLevelView];
-        [self addSubview:self.safemiddLevelView];
-        [self addSubview:self.safeheightLevelView];
+        [self addSubview:self.safeBgLevelView];
+        [self addSubview:self.safeInstructionsLevelView];
         [self addSubview:self.moreTipLabel];
-        [self addSubview:self.moreTitleLabel];
         
         [self.safeTipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
            
@@ -56,45 +51,27 @@
         }];
         
         
-        [self.safelowLevelView mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.safeBgLevelView mas_makeConstraints:^(MASConstraintMaker *make) {
            
             make.top.equalTo(self.safeTipLabel.mas_bottom).offset(ScaleW(10));
             make.left.equalTo(self.safeTipLabel.mas_left);
-            make.width.equalTo(@(ScaleW(45)));
-            make.height.equalTo(@(ScaleW(13)));
+            make.right.equalTo(self.mas_right).offset(-ScaleW(15));
+            make.height.equalTo(@(5));
             
         }];
         
-        [self.safemiddLevelView mas_makeConstraints:^(MASConstraintMaker *make) {
-           
-            make.left.equalTo(self.safelowLevelView.mas_right).offset(ScaleW(10));
-            make.height.width.equalTo(self.safelowLevelView);
-            make.centerY.equalTo(self.safelowLevelView);
-            
-        }];
+
         
-        [self.safeheightLevelView mas_makeConstraints:^(MASConstraintMaker *make) {
-           
-            make.left.equalTo(self.safemiddLevelView.mas_right).offset(ScaleW(10));
-            make.height.width.equalTo(self.safelowLevelView);
-            make.centerY.equalTo(self.safelowLevelView);
-            
-        }];
+        
         
         [self.moreTipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             
-            make.top.equalTo(self.safelowLevelView.mas_bottom).offset(ScaleW(18));
+            make.top.equalTo(self.safeBgLevelView.mas_bottom).offset(ScaleW(18));
             make.left.equalTo(self.safeTipLabel.mas_left);
             
         }];
         
-        [self.moreTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-           
-            
-            make.centerY.equalTo(self.moreTipLabel.mas_centerY); make.right.equalTo(self.mas_right).offset(-ScaleW(15));
-            
-            
-        }];
+
         
         
     }
@@ -111,23 +88,36 @@
         case 1:
         {
             [self.safeLevelLabel setText:SSKJLanguage(@"低")];
-            [self.safelowLevelView setBackgroundColor:RED_HEX_COLOR];
+            [self.safeInstructionsLevelView mas_makeConstraints:^(MASConstraintMaker *make) {
+               
+                make.centerY.equalTo(self.safeBgLevelView.mas_centerY);
+                make.left.height.equalTo(self.safeBgLevelView);
+                make.right.equalTo(self.safeBgLevelView.mas_centerX);
+                
+            }];
             
         }
             break;
         case 2:
         {
-            [self.safeLevelLabel setText:SSKJLanguage(@"中")];
-            [self.safelowLevelView setBackgroundColor:kBlueColor];
-            [self.safemiddLevelView setBackgroundColor:kBlueColor];
+            [self.safeLevelLabel setText:SSKJLanguage(@"高")];
+            [self.safeInstructionsLevelView mas_makeConstraints:^(MASConstraintMaker *make) {
+               
+                make.centerY.equalTo(self.safeBgLevelView.mas_centerY);
+                make.left.height.right.equalTo(self.safeBgLevelView);
+                
+            }];
         }
             break;
-        case 3:
+        default:
         {
             [self.safeLevelLabel setText:SSKJLanguage(@"高")];
-            [self.safelowLevelView setBackgroundColor:kBlueColor];
-            [self.safemiddLevelView setBackgroundColor:kBlueColor];
-            [self.safeheightLevelView setBackgroundColor:kBlueColor];
+            [self.safeInstructionsLevelView mas_makeConstraints:^(MASConstraintMaker *make) {
+               
+                make.centerY.equalTo(self.safeBgLevelView.mas_centerY);
+                make.left.height.right.equalTo(self.safeBgLevelView);
+                
+            }];
         }
             break;
     }
@@ -154,35 +144,24 @@
     return _safeLevelLabel;
 }
 
--(UIView *)safelowLevelView
+-(UIView *)safeBgLevelView
 {
-    if (!_safelowLevelView)
+    if (!_safeBgLevelView)
     {
-        _safelowLevelView = [[UIView alloc]init];
-        [_safelowLevelView setBackgroundColor:kBlueColor];
+        _safeBgLevelView = [[UIView alloc]init];
+        [_safeBgLevelView setBackgroundColor:kLineColor];
     }
-    return _safelowLevelView;
+    return _safeBgLevelView;
 }
 
--(UIView *)safemiddLevelView
+-(UIView *)safeInstructionsLevelView
 {
-    if (!_safemiddLevelView)
+    if (!_safeInstructionsLevelView)
     {
-        _safemiddLevelView = [[UIView alloc]init];
-        [_safemiddLevelView setBackgroundColor:kBlueColor];
+        _safeInstructionsLevelView = [[UIView alloc]init];
+        [_safeInstructionsLevelView setBackgroundColor:kBlueColor];
     }
-    return _safemiddLevelView;
-}
-
-
--(UIView *)safeheightLevelView
-{
-    if (!_safeheightLevelView)
-    {
-        _safeheightLevelView = [[UIView alloc]init];
-        [_safeheightLevelView setBackgroundColor:kBlueColor];
-    }
-    return _safeheightLevelView;
+    return _safeInstructionsLevelView;
 }
 
 
@@ -190,18 +169,10 @@
 {
     if (!_moreTipLabel)
     {
-        _moreTipLabel  = [FactoryUI createLabelWithFrame:CGRectZero text:SSKJLanguage(@"多重验证") textColor:kBlueColor font:systemFont(ScaleW(14))];
+        _moreTipLabel  = [FactoryUI createLabelWithFrame:CGRectZero text:SSKJLanguage(@"请至少开启两项安全验证") textColor:kBlueColor font:systemFont(ScaleW(10))];
     }
     return _moreTipLabel;
 }
 
--(UILabel *)moreTitleLabel
-{
-    if (!_moreTitleLabel)
-    {
-        _moreTitleLabel  = [FactoryUI createLabelWithFrame:CGRectZero text:SSKJLanguage(@"以下三种验证方式至少开启一种") textColor:kBlueColor font:systemFont(ScaleW(14))];
-    }
-    return _moreTitleLabel;
-}
 
 @end

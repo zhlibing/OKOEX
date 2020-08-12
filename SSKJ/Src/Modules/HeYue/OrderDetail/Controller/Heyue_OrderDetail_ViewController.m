@@ -10,7 +10,6 @@
 
 #import "Heyue_orderDetail_headerView.h"
 
-#import "NinaPagerView.h"
 
 #import "Heyue_ChiCang_Order_VC.h"
 
@@ -20,16 +19,12 @@
 
 #import "Heyue_OrderInfo_Model.h"
 
-@interface Heyue_OrderDetail_ViewController ()<NinaPagerViewDelegate,UIScrollViewDelegate>
+@interface Heyue_OrderDetail_ViewController ()<UIScrollViewDelegate>
 
 @property (nonatomic,strong) Heyue_orderDetail_headerView *headerView;
 
 @property (nonatomic, strong) Home_Segment_View *segmentControl;
-@property (nonatomic, strong) UIScrollView *scrollView;
-
-
-@property (nonatomic, strong) NinaPagerView *ninaPagerView;
-
+@property (nonatomic, strong) SSKJ_ScrollView *scrollView;
 @property (nonatomic, strong) Heyue_ChiCang_Order_VC *chicangVC;
 
 @property (nonatomic, strong) Heyue_WeiTuo_Order_VC *weituoVC;
@@ -48,9 +43,8 @@
     
     self.title = SSKJLocalized(@"订单明细", nil);
     self.view.backgroundColor = kBgColor;
+    [self.navigationItem setTitleView:self.segmentControl];
     [self.view addSubview:self.headerView];
-//    [self ninaPagerView];
-    [self.view addSubview:self.segmentControl];
     [self.view addSubview:self.scrollView];
     
     
@@ -60,7 +54,6 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self setNavgationBackgroundColor:kSubBgColor alpha:1];
 
 }
 
@@ -80,71 +73,15 @@
     _timer = nil;
 }
 
-- (Heyue_orderDetail_headerView *)headerView{
-    if (_headerView == nil) {
-        _headerView = [[Heyue_orderDetail_headerView alloc]initWithFrame:CGRectMake(0, Height_NavBar, ScreenWidth, ScaleW(175))];
+- (Heyue_orderDetail_headerView *)headerView
+{
+    if (_headerView == nil)
+    {
+        _headerView = [[Heyue_orderDetail_headerView alloc]initWithFrame:CGRectMake(0, Height_NavBar, ScreenWidth,175)];
     }
     return _headerView;
 }
 
-- (NinaPagerView *) ninaPagerView
-{
-    if (!_ninaPagerView)
-    {
-        //持仓
-        self.chicangVC= [[Heyue_ChiCang_Order_VC alloc]init];
-        WS(weakSelf);
-        self.chicangVC.updateBlock = ^(NSArray * array) {
-            [weakSelf.headerView updateWith:array];
-        };
-        
-        //委托
-        self.weituoVC = [[Heyue_WeiTuo_Order_VC alloc]init];
-//        self.weituoVC.model = self.model;
-
-        //成交
-        self.chengjiaoVC = [[Heyue_CengJiao_Order_VC alloc]init];
-//        self.chengjiaoVC.model = self.model;
-
-        NSArray *controllers=@[self.chicangVC,
-                               self.weituoVC,
-                               self.chengjiaoVC
-                               ];
-
-        NSArray *titleArray =@[SSKJLocalized(@"持仓", nil),
-                               SSKJLocalized(@"委托", nil),
-                               SSKJLocalized(@"成交", nil)
-                               ];
-        _ninaPagerView = [[NinaPagerView alloc]initWithFrame:CGRectMake(0, _headerView.bottom + ScaleW(10), ScreenWidth, ScreenHeight  - _headerView.bottom - Height_NavBar) WithTitles:titleArray WithObjects:controllers];
-        
-        _ninaPagerView.topTabBackGroundColor = kSubBgColor;
-        
-        _ninaPagerView.topTabHeight = ScaleW(45);
-        
-        _ninaPagerView.titleFont = ScaleW(15);
-        
-        
-        _ninaPagerView.selectTitleColor = kBlueColor;
-        _ninaPagerView.unSelectTitleColor = kTitleColor;
-
-        _ninaPagerView.underlineColor = kBlueColor;
-        
-        _ninaPagerView.nina_autoBottomLineEnable = YES;
-        
-        _ninaPagerView.nina_scrollEnabled = YES;
-        
-        _ninaPagerView.delegate = self;
-        
-        _ninaPagerView.ninaDefaultPage = self.seletedIndex;
-        
-        _ninaPagerView.selectBottomLinePer = .2;
-        
-        _ninaPagerView.selectBottomLineHeight = ScaleW(2);
-                
-        [self.view addSubview:_ninaPagerView];
-    }
-    return _ninaPagerView;
-}
 
 - (void)ninaCurrentPageIndex:(NSInteger)currentPage currentObject:(id)currentObject lastObject:(id)lastObject
 {
@@ -185,8 +122,7 @@
 {
     if (nil == _segmentControl) {
         
-        _segmentControl = [[Home_Segment_View alloc]initWithFrame:CGRectMake(0, self.headerView.bottom + ScaleW(10), ScreenWidth, ScaleW(40)) titles:@[SSKJLocalized(@"持仓", nil),SSKJLocalized(@"委托", nil),SSKJLocalized(@"成交", nil)] normalColor:kTitleColor selectedColor:kBlueColor fontSize:ScaleW(15)];
-        [_segmentControl setBackgroundColor:kSubBgColor];
+        _segmentControl = [[Home_Segment_View alloc]initWithFrame:CGRectMake(0, self.headerView.bottom + ScaleW(10), ScreenWidth-150, ScaleW(40)) titles:@[SSKJLocalized(@"委托",nil),SSKJLocalized(@"持仓", nil), SSKJLocalized(@"成交", nil)] normalColor:kTitleColor selectedColor:kBlueColor fontSize:ScaleW(15)];
         
         WS(weakSelf);
         _segmentControl.selectedIndexBlock = ^(NSInteger index) {
@@ -203,40 +139,30 @@
 }
 
 
-- (UIScrollView *)scrollView{
-    if (!_scrollView) {
-        self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, self.segmentControl.bottom + ScaleW(2), ScreenWidth, ScreenHeight - self.segmentControl.bottom - ScaleW(2))];
-        [self.view addSubview:_scrollView];
-
-        
-        if (@available(iOS 11.0, *)){
-            _scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-        }else{
-            self.automaticallyAdjustsScrollViewInsets = NO;
-        }
-
+- (SSKJ_ScrollView *)scrollView
+{
+    if (!_scrollView)
+    {
+        self.scrollView = [[SSKJ_ScrollView alloc] initWithFrame:CGRectMake(0, self.headerView.bottom , ScreenWidth, ScreenHeight - self.headerView.bottom) withDeletage:self];
         _scrollView.contentSize = CGSizeMake(ScreenWidth * 3, 0);
-        _scrollView.pagingEnabled = YES;
-        _scrollView.bounces = NO;
-        _scrollView.delegate = self;
-        _scrollView.showsHorizontalScrollIndicator = NO;
         _scrollView.backgroundColor = kBgColor;
         
         
-        self.chicangVC= [[Heyue_ChiCang_Order_VC alloc]init];
+        self.weituoVC= [[Heyue_WeiTuo_Order_VC alloc]init];
+        [self addChildViewController:self.weituoVC];
+        [self.scrollView addSubview:self.weituoVC.view];
+        self.weituoVC.view.frame = CGRectMake(0, 0, ScreenWidth, self.scrollView.height);
+        
+        
+        //委托
+        self.chicangVC = [[Heyue_ChiCang_Order_VC alloc]init];
         [self addChildViewController:self.chicangVC];
         [self.scrollView addSubview:self.chicangVC.view];
-        self.chicangVC.view.frame = CGRectMake(0, 0, ScreenWidth, self.scrollView.height);
+        self.chicangVC.view.frame = CGRectMake(ScreenWidth, 0, ScreenWidth, self.scrollView.height);
         WS(weakSelf);
         self.chicangVC.updateBlock = ^(NSArray * array) {
             [weakSelf.headerView updateWith:array];
         };
-        
-        //委托
-        self.weituoVC = [[Heyue_WeiTuo_Order_VC alloc]init];
-        [self addChildViewController:self.weituoVC];
-        [self.scrollView addSubview:self.weituoVC.view];
-        self.weituoVC.view.frame = CGRectMake(ScreenWidth, 0, ScreenWidth, self.scrollView.height);
 
         //成交
         self.chengjiaoVC = [[Heyue_CengJiao_Order_VC alloc]init];
@@ -249,7 +175,8 @@
 }
 
 #pragma mark -- 网络请求 浮动盈亏 爆仓率 --
-- (void)request_Tongji_URL{
+- (void)request_Tongji_URL
+{
     
     //Heyue_Tongji_Api
     [[WLHttpManager shareManager] requestWithURL_HTTPCode:URL_HEYUE_Info_URL RequestType:RequestTypeGet Parameters:nil Success:^(NSInteger statusCode, id responseObject) {
@@ -318,14 +245,5 @@
     }
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

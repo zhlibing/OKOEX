@@ -11,6 +11,7 @@
 #import "Lion_Forget_SetViewController.h"
 #import "Mine_SetFundPwd_ViewController.h"  //!< 设置资金密码
 #import "Mine_BindPhone_ViewController.h"  //!< 绑定手机号
+#import "Mine_BindEmail_ViewController.h"   //!< 绑定邮箱
 #import "My_GoogleVerify_ViewController.h"  //!< 开启谷歌验证
 #import "Mine_PrimaryCertificate_ViewController.h"  //!< 身份认证
   
@@ -58,9 +59,6 @@ static NSString *safeCell = @"safeCell";
 {
     [super viewDidLoad];
     self.title = SSKJLocalized(@"安全中心", nil);
-    
-    
-    
     [self.view addSubview:self.tableView];
     
 }
@@ -76,9 +74,8 @@ static NSString *safeCell = @"safeCell";
 {
     if (!_cellTitleArr)
     {
-        _cellTitleArr = @[SSKJLocalized(@"手机(短信验证)", nil),
-        SSKJLocalized(@"邮箱", nil),
-        SSKJLocalized(@"谷歌身份验证器", nil)];
+        _cellTitleArr = @[SSKJLanguage(@"手机(短信验证)"),
+        SSKJLanguage(@"邮箱"),SSKJLanguage(@"身份认证")];
     }
     
     return _cellTitleArr;
@@ -149,7 +146,8 @@ static NSString *safeCell = @"safeCell";
 #pragma mark 设置登录密码
 -(void)setLoginPwdAction:(UIControl*)sender
 {
-   Mine_ChangePWD_ViewController *resetPwdVC = [[Mine_ChangePWD_ViewController alloc] init];
+    Mine_ChangePWD_ViewController *resetPwdVC = [[Mine_ChangePWD_ViewController alloc] init];
+    [resetPwdVC setPhoneNumber:kAccount];
     [self.navigationController pushViewController:resetPwdVC animated:YES];
     
 }
@@ -158,7 +156,7 @@ static NSString *safeCell = @"safeCell";
 -(void)setPayPwdAction:(UIControl*)sender
 {
     Mine_SetFundPwd_ViewController *setTPWD = [[Mine_SetFundPwd_ViewController alloc]init];
-    
+    [setTPWD setPhoneNumber:kAccount];
     switch ([[SSKJ_User_Tool sharedUserTool].userInfoModel.config.payment_password_set integerValue])
     {
         case 1:
@@ -202,6 +200,7 @@ static NSString *safeCell = @"safeCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    WS(weakSelf);
     switch (indexPath.row)
     {
 #pragma mark case 0 绑定手机
@@ -213,9 +212,13 @@ static NSString *safeCell = @"safeCell";
             }
             else
             {
+                
                 Mine_BindPhone_ViewController *vc = [[Mine_BindPhone_ViewController alloc]init];
-                           vc.bindType = BindTypePhone;
-                           vc.successBlock = ^(NSString * _Nonnull account) {};
+                [vc setSuccessBlock:^(NSString * _Nonnull account) {
+                    
+                    [[SSKJ_User_Tool sharedUserTool].userInfoModel.config setPhone_bind:@"1"];
+                    [weakSelf.tableView reloadData];
+                }];
                 [self.navigationController pushViewController:vc animated:YES];;
             }
             
@@ -230,16 +233,19 @@ static NSString *safeCell = @"safeCell";
             }
             else
             {
-                Mine_BindPhone_ViewController *vc = [[Mine_BindPhone_ViewController alloc]init];
-                vc.bindType = BindTypeEmail;
-                vc.successBlock = ^(NSString * _Nonnull account) {};
+                Mine_BindEmail_ViewController *vc = [[Mine_BindEmail_ViewController alloc]init];
+                [vc setSuccessBlock:^(NSString * _Nonnull account) {
+                    
+                    [[SSKJ_User_Tool sharedUserTool].userInfoModel.config setEmail_bind:@"1"];
+                    [weakSelf.tableView reloadData];
+                }];
+                
                 [self.navigationController pushViewController:vc animated:YES];;
             }
-            
         }
             break;
-#pragma mark case 2 绑定谷歌认证
-        case 2:
+#pragma mark case 20 绑定谷歌认证
+        case 20:
         {
             if ([SSKJ_User_Tool sharedUserTool].userInfoModel.config.google_bind.integerValue == 1)
             {
@@ -273,8 +279,8 @@ static NSString *safeCell = @"safeCell";
             
         }
             break;
-#pragma mark case 4 身份认证
-        case 4:
+#pragma mark case 2 身份认证
+        case 2:
         {
             
             Mine_PrimaryCertificate_ViewController *vc = [[Mine_PrimaryCertificate_ViewController alloc]init];
@@ -316,7 +322,7 @@ static NSString *safeCell = @"safeCell";
             status = SSKJLocalized(@"未绑定", nil);
         }
     }
-    else if (indexPath.row == 4)
+    else if (indexPath.row == 3)
     {
         //!<（0未认证 1初级认证 2高级认证待审核 3高级认证通过 4高级认证拒绝）
         switch (model.authentication.integerValue)
