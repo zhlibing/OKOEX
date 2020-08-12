@@ -220,7 +220,7 @@
 {
     if (nil == _segmentControl) {
         
-        _segmentControl = [[Home_Segment_View alloc]initWithFrame:CGRectMake(0, self.headerView.bottom + ScaleW(10), ScreenWidth, ScaleW(40)) titles:@[SSKJLocalized(@"充币记录", nil),SSKJLocalized(@"提币记录", nil),SSKJLocalized(@"其他", nil)] normalColor:kTitleColor selectedColor:kBlueColor fontSize:ScaleW(15)];
+        _segmentControl = [[Home_Segment_View alloc]initWithFrame:CGRectMake(0, self.headerView.bottom + ScaleW(10), ScreenWidth, ScaleW(40)) titles:@[SSKJLocalized(@"充币", nil),SSKJLocalized(@"提币", nil),SSKJLocalized(@"其他", nil)] normalColor:kTitleColor selectedColor:kBlueColor fontSize:ScaleW(15)];
         
         WS(weakSelf);
         _segmentControl.selectedIndexBlock = ^(NSInteger index) {
@@ -330,6 +330,10 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    ATEX_AssetRecord_ViewController *vc = [ATEX_AssetRecord_ViewController new];
+    vc.assetType = AssetTypeCharge;
+    [self.navigationController pushViewController:vc animated:YES];
     
 }
 

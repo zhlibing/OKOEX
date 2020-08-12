@@ -108,7 +108,11 @@
 
 @property (nonatomic, copy) NSString *formatterString;
 
+
 @property (nonatomic, assign) LXY_KLINETYPE klineType;
+
+
+@property (nonatomic, copy) NSString *volume;
 
 
 @end
@@ -559,8 +563,19 @@
     
     NSTimeInterval second = [socketDate timeIntervalSinceDate:lastDate1];
     
+    
+    
+    
+    if ([lastModel.volume floatValue] > 0)
+    {
+        [self setVolume:lastModel.volume];
+    }
+    
+    
+    
     if (second / 60 >= minuteInvital && minuteInvital != 0)
     {
+        [socketModel setVolume:self.volume];
         [self.dataSource addObject:socketModel];
         
         [self startDrawView];
@@ -579,7 +594,6 @@
         
         lastModel.buy = socketModel.buy;
         lastModel.sell = socketModel.sell;
-        lastModel.volume = socketModel.volume;
         
         self.kLine_MainView.dataSource = self.dataSource;
         self.kLine_VolumeView.dataSource = self.dataSource;

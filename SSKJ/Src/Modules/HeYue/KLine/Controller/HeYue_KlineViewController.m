@@ -637,7 +637,6 @@ static NSString *marketSocketIdentifier = @"maekSocketIdentifier";
             model.close = [dic[@"close"] stringValue];
             model.price = [dic[@"close"] stringValue];
             model.timestamp =  dic[@"timestamp"];
-            model.volume = dic[@"volume"];
             [self.kLineView refreshWithSocketData:model minuteInvital:currentModel.minute];
             [self.kLineView setCurrentPrice:model.price];
         }

@@ -92,37 +92,22 @@ static NSString *cellID = @"ChargeRecord_Cell";
 
 #pragma mark - UITableViewDelegate,UITableViewDataSource
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return self.dataSource.count;
 }
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return 1;
-}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return ScaleW(138);
+    return ScaleW(125);
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return ScaleW(10);
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScaleW(10))];
-    view.backgroundColor = kBgColor;
-    return view;
-}
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ChargeRecord_Cell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    ATEX_Charge_IndexModel *model = self.dataSource[indexPath.section];
+    ATEX_Charge_IndexModel *model = self.dataSource[indexPath.row];
     [cell setCellWithModel:model];
     return cell;
 }

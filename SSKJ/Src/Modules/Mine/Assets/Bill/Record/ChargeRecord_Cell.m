@@ -9,8 +9,8 @@
 #import "ChargeRecord_Cell.h"
 
 @interface ChargeRecord_Cell ()
-@property (nonatomic, strong) UIView *backView;
-@property (nonatomic, strong) UIView *topView;
+
+@property (nonatomic, strong) UIView *lineView;
 @property (nonatomic, strong) UILabel *addressTitleLabel;
 @property (nonatomic, strong) UILabel *addressLabel;
 @property (nonatomic, strong) UILabel *numberTitleLabel;
@@ -19,6 +19,7 @@
 @property (nonatomic, strong) UILabel *timeLabel;
 @property (nonatomic, strong) UILabel *describeTitleLabel;
 @property (nonatomic, strong) UILabel *describeLabel;
+
 
 @end
 
@@ -30,53 +31,113 @@
     {
         self.backgroundColor = kBgColor;
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        [self addSubview:self.backView];
-        [self.backView addSubview:self.topView];
-        [self.topView addSubview:self.addressTitleLabel];
-        [self.topView addSubview:self.addressLabel];
-        [self.backView addSubview:self.numberTitleLabel];
-        [self.backView addSubview:self.numberLabel];
-        [self.backView addSubview:self.timeTitleLabel];
-        [self.backView addSubview:self.timeLabel];
-        [self.backView addSubview:self.describeTitleLabel];
-        [self.backView addSubview:self.describeLabel];
+        [self.contentView addSubview:self.lineView];
+        [self.contentView addSubview:self.addressTitleLabel];
+        [self.contentView addSubview:self.addressLabel];
+        [self.contentView addSubview:self.numberTitleLabel];
+        [self.contentView addSubview:self.numberLabel];
+        [self.contentView addSubview:self.timeTitleLabel];
+        [self.contentView addSubview:self.timeLabel];
+        [self.contentView addSubview:self.describeTitleLabel];
+        [self.contentView addSubview:self.describeLabel];
+        
+        [self.addressTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+           
+            make.left.equalTo(self.contentView.mas_left).offset(ScaleW(15));
+            make.top.equalTo(self.contentView.mas_top).offset(ScaleW(10));
+            make.width.equalTo(@(ScaleW(100)));
+        }];
+        
+        
+        [self.addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            
+            make.left.equalTo(self.addressTitleLabel.mas_right).offset(ScaleW(10));
+            make.right.equalTo(self.contentView.mas_right).offset(-ScaleW(5));
+            make.height.equalTo(@(ScaleW(40)));
+            make.centerY.equalTo(self.addressTitleLabel);
+        }];
+        
+        
+        [self.numberTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+           
+            make.top.equalTo(self.addressTitleLabel.mas_bottom).offset(ScaleW(10));
+            make.left.equalTo(self.addressTitleLabel);
+            
+        }];
+        
+        
+        [self.numberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+           
+            make.left.right.equalTo(self.addressLabel);
+            make.centerY.equalTo(self.numberTitleLabel);
+        }];
+        
+        
+        
+        [self.describeTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+           
+            make.left.equalTo(self.addressTitleLabel);
+            make.top.equalTo(self.numberTitleLabel.mas_bottom).offset(ScaleW(10));
+            
+        }];
+        
+        [self.describeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+           
+            make.left.right.equalTo(self.addressLabel);
+            make.centerY.equalTo(self.describeTitleLabel);
+            
+        }];
+        
+        
+        [self.timeTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+           
+            make.left.equalTo(self.addressTitleLabel);
+            make.top.equalTo(self.describeTitleLabel.mas_bottom).offset(ScaleW(10));
+            
+        }];
+        
+        [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+           
+            make.left.right.equalTo(self.addressLabel);
+            make.centerY.equalTo(self.timeTitleLabel);
+        }];
+        
+        
+        
+        
+        [self.lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+            
+           
+            make.left.right.bottom.equalTo(self.contentView);
+            make.height.equalTo(@(ScaleW(0.5)));
+        }];
+        
+        
+        
+        
     }
     return self;
 }
 
 
--(UIView *)backView
+-(UIView *)lineView
 {
-    if (nil == _backView) {
-        _backView = [[UIView alloc]initWithFrame:CGRectMake(ScaleW(15), 0, ScreenWidth - ScaleW(30), ScaleW(138))];
-        _backView.backgroundColor = kSubBgColor;
-        _backView.layer.masksToBounds = YES;
-        _backView.layer.cornerRadius = ScaleW(5);
+    if (nil == _lineView)
+    {
+        _lineView = [[UIView alloc]init];
+        _lineView.backgroundColor = kLineColor;
     }
-    return _backView;
-}
--(UIView *)topView
-{
-    if (nil == _topView) {
-        _topView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.backView.width, ScaleW(39))];
-        _topView.backgroundColor = UIColorFromRGB(0x1C2C44);
-    }
-    return _topView;
+    return _lineView;
 }
 
 - (UILabel *)addressTitleLabel
 {
-    if (nil == _addressTitleLabel) {
-        
-        NSString *lan = [[SSKJLocalized sharedInstance]currentLanguage];
-        CGFloat width = ScaleW(60);
-        if ([lan containsString:@"en"]) {
-            width = ScaleW(100);
-        }
-
-        
-        _addressTitleLabel = [WLTools allocLabel:SSKJLocalized(@"充币地址", nil) font:systemFont(ScaleW(14)) textColor:kSubTitleColor frame:CGRectMake(ScaleW(15), 0, width, ScaleW(20)) textAlignment:NSTextAlignmentLeft];
-        _addressTitleLabel.centerY = self.topView.height / 2;
+    if (nil == _addressTitleLabel)
+    {
+        _addressTitleLabel = [[UILabel alloc]init];
+        [_addressTitleLabel setFont:systemFont(ScaleW(14))];
+        [_addressTitleLabel setText:SSKJLanguage(@"充币地址")];
+        [_addressTitleLabel setTextColor:kSubTitleColor];
     }
     return _addressTitleLabel;
 }
@@ -84,10 +145,12 @@
 
 - (UILabel *)addressLabel
 {
-    if (nil == _addressLabel) {
-        _addressLabel = [WLTools allocLabel:SSKJLocalized(@"----", nil) font:systemFont(ScaleW(14)) textColor:kTitleColor frame:CGRectMake(self.addressTitleLabel.right + ScaleW(10), 0, self.topView.width - ScaleW(25) - self.addressTitleLabel.right, ScaleW(20)) textAlignment:NSTextAlignmentLeft];
-        _addressLabel.centerY = self.addressTitleLabel.centerY;
-        _addressLabel.adjustsFontSizeToFitWidth = YES;
+    if (nil == _addressLabel)
+    {
+        _addressLabel = [[UILabel alloc]init];
+        [_addressLabel setFont:systemFont(ScaleW(14))];
+        [_addressLabel setTextColor:kTitleColor];
+        [_addressLabel setNumberOfLines:0];
     }
     return _addressLabel;
 }
@@ -96,7 +159,10 @@
 - (UILabel *)numberTitleLabel
 {
     if (nil == _numberTitleLabel) {
-        _numberTitleLabel = [WLTools allocLabel:SSKJLocalized(@"充币数量", nil) font:systemFont(ScaleW(14)) textColor:kSubTitleColor frame:CGRectMake(ScaleW(15), self.topView.bottom + ScaleW(20),self.addressTitleLabel.width, ScaleW(14)) textAlignment:NSTextAlignmentLeft];
+        _numberTitleLabel = [[UILabel alloc]init];
+        [_numberTitleLabel setFont:systemFont(ScaleW(14))];
+        [_numberTitleLabel setText:SSKJLanguage(@"充币数量")];
+        [_numberTitleLabel setTextColor:kSubTitleColor];
     }
     return _numberTitleLabel;
 }
@@ -105,8 +171,9 @@
 - (UILabel *)numberLabel
 {
     if (nil == _numberLabel) {
-        _numberLabel = [WLTools allocLabel:SSKJLocalized(@"----", nil) font:systemFont(ScaleW(14)) textColor:kTitleColor frame:CGRectMake(self.addressLabel.x, self.numberTitleLabel.y, self.addressLabel.width, ScaleW(14)) textAlignment:NSTextAlignmentLeft];
-        _numberLabel.centerY = self.numberTitleLabel.centerY;
+        _numberLabel = [[UILabel alloc]init];
+        [_numberLabel setFont:systemFont(ScaleW(14))];
+        [_numberLabel setTextColor:kTitleColor];
     }
     return _numberLabel;
 }
@@ -115,7 +182,10 @@
 - (UILabel *)timeTitleLabel
 {
     if (nil == _timeTitleLabel) {
-        _timeTitleLabel = [WLTools allocLabel:SSKJLocalized(@"充币时间", nil) font:systemFont(ScaleW(14)) textColor:kSubTitleColor frame:CGRectMake(ScaleW(15), self.numberTitleLabel.bottom + ScaleW(13), self.addressTitleLabel.width, ScaleW(14)) textAlignment:NSTextAlignmentLeft];
+        _timeTitleLabel = [[UILabel alloc]init];
+        [_timeTitleLabel setFont:systemFont(ScaleW(14))];
+        [_timeTitleLabel setText:SSKJLanguage(@"充币时间")];
+        [_timeTitleLabel setTextColor:kSubTitleColor];
     }
     return _timeTitleLabel;
 }
@@ -124,8 +194,9 @@
 - (UILabel *)timeLabel
 {
     if (nil == _timeLabel) {
-        _timeLabel = [WLTools allocLabel:SSKJLocalized(@"----", nil) font:systemFont(ScaleW(14)) textColor:kTitleColor frame:CGRectMake(self.addressLabel.x, self.timeTitleLabel.y, self.addressLabel.width, ScaleW(14)) textAlignment:NSTextAlignmentLeft];
-        _timeLabel.centerY = self.timeTitleLabel.centerY;
+        _timeLabel = [[UILabel alloc]init];
+        [_timeLabel setFont:systemFont(ScaleW(14))];
+        [_timeLabel setTextColor:kTitleColor];
     }
     return _timeLabel;
 }
@@ -136,7 +207,10 @@
 {
     if (nil == _describeTitleLabel)
     {
-        _describeTitleLabel = [WLTools allocLabel:SSKJLocalized(@"充值说明", nil) font:systemFont(ScaleW(14)) textColor:kSubTitleColor frame:CGRectMake(ScaleW(15), self.timeTitleLabel.bottom + ScaleW(13), self.addressTitleLabel.width, ScaleW(14)) textAlignment:NSTextAlignmentLeft];
+        _describeTitleLabel = [[UILabel alloc]init];
+        [_describeTitleLabel setFont:systemFont(ScaleW(14))];
+        [_describeTitleLabel setText:SSKJLanguage(@"状态")];
+        [_describeTitleLabel setTextColor:kSubTitleColor];
     }
     return _describeTitleLabel;
 }
@@ -146,37 +220,34 @@
 {
     if (nil == _describeLabel)
     {
-        _describeLabel = [WLTools allocLabel:SSKJLocalized(@"----", nil) font:systemFont(ScaleW(14)) textColor:kTitleColor frame:CGRectMake(self.addressLabel.x, self.describeTitleLabel.y, self.addressLabel.width, ScaleW(14)) textAlignment:NSTextAlignmentLeft];
-        _describeLabel.centerY = self.describeTitleLabel.centerY;
+        _describeLabel = [[UILabel alloc]init];
+        [_describeLabel setFont:systemFont(ScaleW(14))];
+        [_describeLabel setTextColor:kTitleColor];
     }
     return _describeLabel;
 }
 
 
+
+
 -(void)setCellWithModel:(ATEX_Charge_IndexModel *)model
 {
     
-    NSInteger type = model.type.integerValue;
-    if (type == 1)
+    NSInteger status = model.status.integerValue;
+    
+    if (status == 1)
     {
-        self.addressTitleLabel.text = SSKJLocalized(@"后台充值", nil);
-        self.addressLabel.text = nil;
-    }
-    else if (type == 2)
-    {
-        self.addressTitleLabel.text = SSKJLocalized(@"在线充值", nil);
-        self.addressLabel.text = nil;
+        self.describeLabel.text = SSKJLocalized(@"已完成", nil);
     }
     else
     {
-        self.addressTitleLabel.text = SSKJLocalized(@"充币地址", nil);
-        self.addressLabel.text = model.wallet_address;
+        self.describeLabel.text = SSKJLocalized(@"充值失败", nil);
     }
     
-    self.numberLabel.text = [[WLTools noroundingStringWith:model.money.doubleValue afterPointNumber:2] stringByAppendingFormat:@" USDT"];
     
-    self.timeLabel.text = model.arrival_at;
-    [self.describeLabel setText:model.mark];
+    self.numberLabel.text = [NSString stringWithFormat:@"%@%@",[WLTools noroundingStringWith:model.money.doubleValue afterPointNumber:2],model.code];
+    self.timeLabel.text = model.created_at;
+    [self.addressLabel setText:model.wallet_address];
 
     
 }
