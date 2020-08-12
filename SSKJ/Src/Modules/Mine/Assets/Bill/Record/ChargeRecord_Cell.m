@@ -44,7 +44,7 @@
         [self.addressTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
            
             make.left.equalTo(self.contentView.mas_left).offset(ScaleW(15));
-            make.top.equalTo(self.contentView.mas_top).offset(ScaleW(10));
+            make.top.equalTo(self.contentView.mas_top).offset(ScaleW(15));
             make.width.equalTo(@(ScaleW(100)));
         }];
         
@@ -74,10 +74,26 @@
         
         
         
-        [self.describeTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        
+        [self.timeTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
            
             make.left.equalTo(self.addressTitleLabel);
             make.top.equalTo(self.numberTitleLabel.mas_bottom).offset(ScaleW(10));
+            
+        }];
+        
+        [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+           
+            make.left.right.equalTo(self.addressLabel);
+            make.centerY.equalTo(self.timeTitleLabel);
+        }];
+        
+        
+        [self.describeTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+           
+            make.left.equalTo(self.addressTitleLabel);
+            make.top.equalTo(self.timeTitleLabel.mas_bottom).offset(ScaleW(10));
             
         }];
         
@@ -88,19 +104,6 @@
             
         }];
         
-        
-        [self.timeTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-           
-            make.left.equalTo(self.addressTitleLabel);
-            make.top.equalTo(self.describeTitleLabel.mas_bottom).offset(ScaleW(10));
-            
-        }];
-        
-        [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-           
-            make.left.right.equalTo(self.addressLabel);
-            make.centerY.equalTo(self.timeTitleLabel);
-        }];
         
         
         
@@ -151,6 +154,7 @@
         [_addressLabel setFont:systemFont(ScaleW(14))];
         [_addressLabel setTextColor:kTitleColor];
         [_addressLabel setNumberOfLines:0];
+
     }
     return _addressLabel;
 }
@@ -209,7 +213,7 @@
     {
         _describeTitleLabel = [[UILabel alloc]init];
         [_describeTitleLabel setFont:systemFont(ScaleW(14))];
-        [_describeTitleLabel setText:SSKJLanguage(@"状态")];
+        [_describeTitleLabel setText:SSKJLanguage(@"描述")];
         [_describeTitleLabel setTextColor:kSubTitleColor];
     }
     return _describeTitleLabel;
@@ -233,15 +237,15 @@
 -(void)setCellWithModel:(ATEX_Charge_IndexModel *)model
 {
     
-    NSInteger status = model.status.integerValue;
-    
-    if (status == 1)
+    NSInteger type = model.type.integerValue;
+    if (type == 1)
     {
-        self.describeLabel.text = SSKJLocalized(@"已完成", nil);
+        self.describeLabel.text = SSKJLocalized(@"后台充值", nil);
+
     }
-    else
+    else if (type == 2)
     {
-        self.describeLabel.text = SSKJLocalized(@"充值失败", nil);
+        self.describeLabel.text = SSKJLocalized(@"在线充值", nil);
     }
     
     
@@ -251,10 +255,8 @@
 
     
 }
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
 
-    // Configure the view for the selected state
-}
+
+
 
 @end

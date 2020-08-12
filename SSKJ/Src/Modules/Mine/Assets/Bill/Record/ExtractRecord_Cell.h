@@ -11,6 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ExtractRecord_Cell : UITableViewCell
+
 -(void)setCellWithModel:(ATEX_Extract_IndexModel *)model;
 
 @end

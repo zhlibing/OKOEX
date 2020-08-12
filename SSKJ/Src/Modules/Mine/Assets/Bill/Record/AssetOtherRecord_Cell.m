@@ -9,7 +9,9 @@
 #import "AssetOtherRecord_Cell.h"
 
 @interface AssetOtherRecord_Cell ()
-@property (nonatomic, strong) UIView *backView;
+
+
+@property (nonatomic, strong) UIView *lineView;
 
 @property (nonatomic, strong) UILabel *timeTitleLabel;
 @property (nonatomic, strong) UILabel *timeLabel;
@@ -26,33 +28,43 @@
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
-    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])
+    {
         self.backgroundColor = kBgColor;
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        [self addSubview:self.backView];
-        [self.backView addSubview:self.timeTitleLabel];
-        [self.backView addSubview:self.timeLabel];
+        [self.contentView addSubview:self.timeTitleLabel];
+        [self.contentView addSubview:self.timeLabel];
 
-        [self.backView addSubview:self.numberTitleLabel];
-        [self.backView addSubview:self.numberLabel];
+        [self.contentView addSubview:self.numberTitleLabel];
+        [self.contentView addSubview:self.numberLabel];
         
-        [self.backView addSubview:self.remarkTitleLabel];
-        [self.backView addSubview:self.remarkLabel];
+        [self.contentView addSubview:self.remarkTitleLabel];
+        [self.contentView addSubview:self.remarkLabel];
+        
+        [self.contentView addSubview:self.lineView];
+        
+        
+        [self.lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+           
+            make.left.right.bottom.equalTo(self.contentView);
+            make.height.equalTo(@(ScaleW(0.5)));
+            
+        }];
 
     }
     return self;
 }
 
 
--(UIView *)backView
+
+- (UIView *)lineView
 {
-    if (nil == _backView) {
-        _backView = [[UIView alloc]initWithFrame:CGRectMake(ScaleW(15), 0, ScreenWidth - ScaleW(30), ScaleW(95))];
-        _backView.backgroundColor = kSubBgColor;
-        _backView.layer.masksToBounds = YES;
-        _backView.layer.cornerRadius = ScaleW(5);
+    if (!_lineView)
+    {
+        _lineView = [[UIView alloc]init];
+        [_lineView setBackgroundColor:kLineColor];
     }
-    return _backView;
+    return _lineView;
 }
 
 
@@ -69,7 +81,7 @@
 - (UILabel *)timeLabel
 {
     if (nil == _timeLabel) {
-        _timeLabel = [WLTools allocLabel:SSKJLocalized(@"----", nil) font:systemFont(ScaleW(14)) textColor:kTitleColor frame:CGRectMake(self.timeTitleLabel.right + ScaleW(10), self.timeTitleLabel.y, self.backView.width - ScaleW(25) - self.timeTitleLabel.right, ScaleW(14)) textAlignment:NSTextAlignmentLeft];
+        _timeLabel = [WLTools allocLabel:SSKJLocalized(@"----", nil) font:systemFont(ScaleW(14)) textColor:kTitleColor frame:CGRectMake(self.timeTitleLabel.right + ScaleW(10), self.timeTitleLabel.y, self.width - ScaleW(25) - self.timeTitleLabel.right, ScaleW(14)) textAlignment:NSTextAlignmentLeft];
         _timeLabel.centerY = self.timeTitleLabel.centerY;
     }
     return _timeLabel;
