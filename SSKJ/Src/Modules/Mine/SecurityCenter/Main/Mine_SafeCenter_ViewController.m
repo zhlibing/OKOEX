@@ -282,6 +282,11 @@ static NSString *safeCell = @"safeCell";
 #pragma mark case 2 身份认证
         case 2:
         {
+            if (![self judgeFristCertificate])
+            {
+                return;
+            }
+            
             
             Mine_PrimaryCertificate_ViewController *vc = [[Mine_PrimaryCertificate_ViewController alloc]init];
             [self.navigationController pushViewController:vc animated:YES];
@@ -305,24 +310,6 @@ static NSString *safeCell = @"safeCell";
         status = (model.config.email_bind.integerValue == 1) ? SSKJLocalized(@"已开启", nil)   : SSKJLocalized(@"未绑定", nil);
     }
     else if (indexPath.row == 2)
-    {
-        if (model.config.google_bind.integerValue == 1)
-        {
-            if(model.config.google_verify.integerValue == 1)
-            {  // 已认证
-                status = SSKJLocalized(@"已开启", nil);
-            }
-            else
-            {
-                status = SSKJLocalized(@"未绑定", nil);
-            }
-        }
-        else
-        {
-            status = SSKJLocalized(@"未绑定", nil);
-        }
-    }
-    else if (indexPath.row == 3)
     {
         //!<（0未认证 1初级认证 2高级认证待审核 3高级认证通过 4高级认证拒绝）
         switch (model.authentication.integerValue)
@@ -480,9 +467,11 @@ static NSString *safeCell = @"safeCell";
         WL_Network_Model *netModel = [WL_Network_Model mj_objectWithKeyValues:responseObject];
         if (netModel.status.integerValue == 200)
         {
-//            [[SSKJ_User_Tool sharedUserTool].userInfoModel setObject:netModel.data];
-            [weakSelf.headerView setUserInfo:[SSKJ_User_Tool sharedUserTool].userInfoModel];
-            [weakSelf.footerView setUserInfo:[SSKJ_User_Tool sharedUserTool].userInfoModel];
+            SSKJ_UserInfo_Model *userModel = [SSKJ_UserInfo_Model mj_objectWithKeyValues:netModel.data];
+            [[SSKJ_User_Tool sharedUserTool] setUserInfoModel:userModel];
+            [weakSelf.headerView setUserInfo:userModel];
+            [weakSelf.footerView setUserInfo:userModel];
+            [weakSelf.tableView reloadData];
         }
         else
         {

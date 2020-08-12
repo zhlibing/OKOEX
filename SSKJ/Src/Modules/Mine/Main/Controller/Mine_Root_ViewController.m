@@ -17,6 +17,7 @@
 #import "Mine_PrimaryCertificate_ViewController.h"
 #import "Mine_CertificationState_ViewController.h"
 #import "SY_InviteViewController.h"
+#import "Mine_information_ViewController.h"
 
 
 
@@ -492,7 +493,8 @@
 #pragma mark - case 0 -> 0 个人资料
             case 0:
             {
-                
+                Mine_information_ViewController *info = [[Mine_information_ViewController alloc]init];
+                [self.navigationController pushViewController:info animated:YES];
             }
                 break;
 #pragma mark - case 0 -> 1 安全中心

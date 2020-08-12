@@ -179,14 +179,19 @@
         }
     
         [self getEmailCode:email];
-
     
+    
+    [self.phoneView.field resignFirstResponder];
 }
 
 
 #pragma mark 提交按钮响应事件
 -(void)submitEvent
 {
+    [self.phoneView.field resignFirstResponder];
+    [self.codeOptionView.field resignFirstResponder];
+    
+    
     NSString *email = self.phoneView.valueString;
     NSString *code = self.codeOptionView.valueString;
     if (email.length == 0)

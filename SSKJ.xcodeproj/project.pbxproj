@@ -445,6 +445,8 @@
 		96666F7324DD448400080BED /* My_Google_Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 96666F7124DD448300080BED /* My_Google_Model.m */; };
 		96666F7624DD47E500080BED /* My_BindGoogle_AlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96666F7424DD47E500080BED /* My_BindGoogle_AlertView.m */; };
 		96666F7924DD8D9200080BED /* MineHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96666F7824DD8D9200080BED /* MineHeaderView.m */; };
+		966A912B24E42BDD0086DE19 /* Mine_information_ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 966A912A24E42BDC0086DE19 /* Mine_information_ViewController.m */; };
+		966A912E24E42CB90086DE19 /* Mine_informationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 966A912D24E42CB90086DE19 /* Mine_informationTableViewCell.m */; };
 		96759CED246D193E00C9432D /* Lion_AboutUsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 96759CEB246D193E00C9432D /* Lion_AboutUsVC.m */; };
 		9689A58224E2269300E098C9 /* SSKJ_ScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9689A58124E2269300E098C9 /* SSKJ_ScrollView.m */; };
 		9689A58524E22C7100E098C9 /* HEYueBoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9689A58424E22C7100E098C9 /* HEYueBoardViewController.m */; };
@@ -1378,6 +1380,10 @@
 		96666F7524DD47E500080BED /* My_BindGoogle_AlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = My_BindGoogle_AlertView.h; sourceTree = "<group>"; };
 		96666F7724DD8D9200080BED /* MineHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MineHeaderView.h; sourceTree = "<group>"; };
 		96666F7824DD8D9200080BED /* MineHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MineHeaderView.m; sourceTree = "<group>"; };
+		966A912924E42BDC0086DE19 /* Mine_information_ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Mine_information_ViewController.h; sourceTree = "<group>"; };
+		966A912A24E42BDC0086DE19 /* Mine_information_ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Mine_information_ViewController.m; sourceTree = "<group>"; };
+		966A912C24E42CB90086DE19 /* Mine_informationTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Mine_informationTableViewCell.h; sourceTree = "<group>"; };
+		966A912D24E42CB90086DE19 /* Mine_informationTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Mine_informationTableViewCell.m; sourceTree = "<group>"; };
 		96759CEB246D193E00C9432D /* Lion_AboutUsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Lion_AboutUsVC.m; path = "SSKJ/Src/Modules/Mine/Main/¹ØÓÚÎÒÃÇ/Lion_AboutUsVC.m"; sourceTree = SOURCE_ROOT; };
 		96759CEC246D193E00C9432D /* Lion_AboutUsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Lion_AboutUsVC.h; path = "SSKJ/Src/Modules/Mine/Main/¹ØÓÚÎÒÃÇ/Lion_AboutUsVC.h"; sourceTree = SOURCE_ROOT; };
 		9689A58024E2269300E098C9 /* SSKJ_ScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSKJ_ScrollView.h; sourceTree = "<group>"; };
@@ -1882,6 +1888,8 @@
 			children = (
 				3A08BF54234C5D360086ED0F /* Mine_Root_ViewController.h */,
 				3A08BF57234C5D360086ED0F /* Mine_Root_ViewController.m */,
+				966A912924E42BDC0086DE19 /* Mine_information_ViewController.h */,
+				966A912A24E42BDC0086DE19 /* Mine_information_ViewController.m */,
 				439DEF09239B3EFF00B2C07B /* Mine_Item_CollectionViewCell.h */,
 				439DEF0A239B3EFF00B2C07B /* Mine_Item_CollectionViewCell.m */,
 			);
@@ -1906,6 +1914,8 @@
 				3A08BF67234C5D360086ED0F /* Mine_Item_Cell.m */,
 				96666F7724DD8D9200080BED /* MineHeaderView.h */,
 				96666F7824DD8D9200080BED /* MineHeaderView.m */,
+				966A912C24E42CB90086DE19 /* Mine_informationTableViewCell.h */,
+				966A912D24E42CB90086DE19 /* Mine_informationTableViewCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3892,6 +3902,7 @@
 				06D8ABD92446D58300AAC2E7 /* SSKJ_UserInfo_Model.m in Sources */,
 				963F50FF24D59B9C00844D73 /* NSObject+MJClass.m in Sources */,
 				963F516F24D59B9C00844D73 /* SDImageCacheConfig.m in Sources */,
+				966A912B24E42BDD0086DE19 /* Mine_information_ViewController.m in Sources */,
 				963F517824D59B9C00844D73 /* _YYWebImageSetter.m in Sources */,
 				963F510724D59B9C00844D73 /* MJRefreshConst.m in Sources */,
 				43592803236031EA0005C1AA /* News_Trading_Cell.m in Sources */,
@@ -3981,6 +3992,7 @@
 				044AFD92241B528B00326874 /* RPTaggedNavView.m in Sources */,
 				963F515F24D59B9C00844D73 /* SDWebImageDownloader.m in Sources */,
 				963F512624D59B9C00844D73 /* MASConstraintMaker.m in Sources */,
+				966A912E24E42CB90086DE19 /* Mine_informationTableViewCell.m in Sources */,
 				3A08C2CC234C5D380086ED0F /* SSKJ_TabbarController.m in Sources */,
 				963F513424D59B9C00844D73 /* IQUIView+IQKeyboardToolbar.m in Sources */,
 				3A08C335234C5D380086ED0F /* UILabel+WJFUN.m in Sources */,

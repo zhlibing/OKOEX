@@ -72,6 +72,7 @@
         {
             make.left.equalTo(self.backView.mas_left).offset(ScaleW(10));
             make.centerY.equalTo(self.backView.mas_centerY);
+            make.right.equalTo(self.backView.mas_right).offset(-ScaleW(10));
         }];
         
         

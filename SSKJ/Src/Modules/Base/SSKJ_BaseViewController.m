@@ -255,15 +255,21 @@
             [self.navigationController pushViewController:vc animated:YES];
         }];
         
-    }else if (status == 3){         // 已认证
+    }
+    else if (status == 3)
+    {         // 已认证
         return YES;
-    }else if (status == 4){
+    }
+    else if (status == 4)
+    {
         [SSKJ_Default_AlertView showWithTitle:SSKJLocalized(@"提醒", nil) message:SSKJLocalized(@"您的身份认证被拒绝，请重新认证", nil) cancleTitle:SSKJLocalized(@"取消", nil) confirmTitle:SSKJLocalized(@"重新认证", nil) confirmBlock:^{
             Mine_PrimaryCertificate_ViewController *vc = [[Mine_PrimaryCertificate_ViewController alloc]init];
             [self.navigationController pushViewController:vc animated:YES];
         }];
         return NO;
-    }else if (status == 2){
+    }
+    else if (status == 2)
+    {
         [MBProgressHUD showError:SSKJLocalized(@"您的身份认证正在审核中，请耐心等待！", nil)];
         return NO;
     }

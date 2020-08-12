@@ -51,19 +51,11 @@
         }];
         
         
-        [self.safeBgLevelView mas_makeConstraints:^(MASConstraintMaker *make) {
-           
-            make.top.equalTo(self.safeTipLabel.mas_bottom).offset(ScaleW(10));
-            make.left.equalTo(self.safeTipLabel.mas_left);
-            make.right.equalTo(self.mas_right).offset(-ScaleW(15));
-            make.height.equalTo(@(5));
-            
-        }];
-        
-
+        [self.safeBgLevelView setFrame:CGRectMake(ScaleW(15), ScaleW(69), ScreenWidth-ScaleW(30), 5)];
         
         
         
+    
         [self.moreTipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             
             make.top.equalTo(self.safeBgLevelView.mas_bottom).offset(ScaleW(18));
@@ -83,45 +75,39 @@
 /// @param userinfo SSKJ_UserInfo_Model 用户对象
 -(void)setUserInfo:(SSKJ_UserInfo_Model*)userinfo
 {
-    switch ([userinfo.config.security_level intValue])
+    
+    BOOL BindPhone = NO;
+    BOOL BindEmail = NO;
+    BOOL BindAuthentication = NO;
+    
+    
+    BindPhone = [RegularExpression validateMobile:userinfo.phone];
+    BindEmail = [WLTools validateEmail:userinfo.email];
+    
+    
+    
+    if (userinfo.authentication.integerValue == 3)
     {
-        case 1:
-        {
-            [self.safeLevelLabel setText:SSKJLanguage(@"低")];
-            [self.safeInstructionsLevelView mas_makeConstraints:^(MASConstraintMaker *make) {
-               
-                make.centerY.equalTo(self.safeBgLevelView.mas_centerY);
-                make.left.height.equalTo(self.safeBgLevelView);
-                make.right.equalTo(self.safeBgLevelView.mas_centerX);
-                
-            }];
-            
-        }
-            break;
-        case 2:
-        {
-            [self.safeLevelLabel setText:SSKJLanguage(@"高")];
-            [self.safeInstructionsLevelView mas_makeConstraints:^(MASConstraintMaker *make) {
-               
-                make.centerY.equalTo(self.safeBgLevelView.mas_centerY);
-                make.left.height.right.equalTo(self.safeBgLevelView);
-                
-            }];
-        }
-            break;
-        default:
-        {
-            [self.safeLevelLabel setText:SSKJLanguage(@"高")];
-            [self.safeInstructionsLevelView mas_makeConstraints:^(MASConstraintMaker *make) {
-               
-                make.centerY.equalTo(self.safeBgLevelView.mas_centerY);
-                make.left.height.right.equalTo(self.safeBgLevelView);
-                
-            }];
-        }
-            break;
+        BindAuthentication = YES;
     }
     
+    if (BindPhone && BindEmail && BindAuthentication)
+    {
+        [self.safeLevelLabel setText:SSKJLanguage(@"高")];
+        [self.safeInstructionsLevelView setFrame:CGRectMake(self.safeBgLevelView.x, self.safeBgLevelView.y, self.safeBgLevelView.width, self.safeBgLevelView.height)];
+        
+    }
+    else if ((BindPhone & BindEmail) || (BindPhone && BindAuthentication) || (BindEmail && BindAuthentication))
+    {
+        [self.safeLevelLabel setText:SSKJLanguage(@"中")];
+        [self.safeInstructionsLevelView setFrame:CGRectMake(self.safeBgLevelView.x, self.safeBgLevelView.y, (((ScreenWidth-ScaleW(30))/3)*2), self.safeBgLevelView.height)];
+        
+    }
+    else if (BindPhone || BindEmail || BindAuthentication)
+    {
+        [self.safeLevelLabel setText:SSKJLanguage(@"低")];
+        [self.safeInstructionsLevelView setFrame:CGRectMake(self.safeBgLevelView.x, self.safeBgLevelView.y, (((ScreenWidth-ScaleW(30))/3.0)*1), self.safeBgLevelView.height)];
+    }
 }
 
 
@@ -139,7 +125,7 @@
 {
     if (!_safeLevelLabel)
     {
-        _safeLevelLabel  = [FactoryUI createLabelWithFrame:CGRectZero text:@"中" textColor:UIColorFromRGB(0x2FE091) font:systemFont(ScaleW(14))];
+        _safeLevelLabel  = [FactoryUI createLabelWithFrame:CGRectZero text:SSKJLanguage(@"低") textColor:UIColorFromRGB(0x2FE091) font:systemFont(ScaleW(14))];
     }
     return _safeLevelLabel;
 }
