@@ -17,13 +17,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UITextField *field;
 @property(nonatomic, copy) NSString *valueString;
 
-
+- (instancetype)initWithType:(NSInteger)type;
 
 
 - (void)setTitle:(NSString *)title placeholder:(NSString *)placeholder secureTextEntry:(BOOL)secureTextEntry;
-
+- (void)setImageName:(NSString*)name placeholder:(NSString *)placeholder secureTextEntry:(BOOL)secureTextEntry;
 
 - (void)setPlaceholder:(NSString *)placeholder secureTextEntry:(BOOL)secureTextEntry;
+
 
 
 

@@ -22,7 +22,7 @@
 @property (nonatomic, strong) UILabel *middleTipLabel; //!<  手机号或者邮箱
 @property (nonatomic, strong) UILabel *rightTipLabel; //!< 收到的短信验证码
 
-@property (nonatomic, strong) void (^submitBlock)(NSString *code,NSString * googleCode);
+@property (nonatomic, strong) void (^submitBlock)(NSString *code);
 
 
 
@@ -35,7 +35,7 @@
 @implementation LA_Extract_SafeVerify_AlertView
 
 
-+(void)showsubmitBlock:(void(^)(NSString *code,NSString *googleCode))submitBlcok
++(void)showsubmitBlock:(void(^)(NSString *code))submitBlcok
 {
     LA_Extract_SafeVerify_AlertView *alert = [[LA_Extract_SafeVerify_AlertView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
     
@@ -78,7 +78,6 @@
         [self.boardView addSubview:self.rightTipLabel];
         
         [self.boardView addSubview:self.codeView];
-        [self.boardView addSubview:self.gooleCodeView];
         [self.codeView addSubview:self.codeButton];
         [self.boardView addSubview:self.submitButton];
         
@@ -129,17 +128,10 @@
         }];
         
         
-        [self.gooleCodeView mas_makeConstraints:^(MASConstraintMaker *make) {
-           
-            make.top.equalTo(self.codeView.mas_bottom).offset(10);
-            make.left.height.right.equalTo(self.codeView);
-            
-        }];
-        
-        
+
         [self.submitButton mas_makeConstraints:^(MASConstraintMaker *make) {
            
-            make.top.equalTo(self.gooleCodeView.mas_bottom).offset(20);
+            make.top.equalTo(self.codeView.mas_bottom).offset(40);
             make.right.equalTo(self.boardView.mas_right).offset(-15);
             make.left.equalTo(self.titleLabel);
             make.height.equalTo(@(45));
@@ -171,7 +163,7 @@
 {
     if (nil == _boardView)
     {
-        _boardView = [[UIView alloc]initWithFrame:CGRectMake(0, ScreenHeight, ScreenWidth, 391)];
+        _boardView = [[UIView alloc]initWithFrame:CGRectMake(0, ScreenHeight, ScreenWidth, 350)];
         [_boardView setBackgroundColor:kBgColor];
     }
     return _boardView;
@@ -244,6 +236,8 @@
     return _codeView;
 }
 
+
+
 - (SSKJ_TextFieldView *)gooleCodeView
 {
     if (nil == _gooleCodeView)
@@ -297,7 +291,7 @@
     WS(weakSelf);
     [UIView animateWithDuration:0.3 animations:^{
         
-        [weakSelf.boardView setY:(ScreenHeight - 390)];
+        [weakSelf.boardView setY:(ScreenHeight - 350)];
     }];
 }
 
@@ -323,14 +317,11 @@
     {
            [MBProgressHUD showError:SSKJLocalized(@"请输入短信验证码", nil)];
     }
-    else if (self.gooleCodeView.valueString.length == 0)
-    {
-        [MBProgressHUD showError:SSKJLocalized(@"请输入谷歌验证码", nil)];
-    }
+
     
     if (self.submitBlock)
     {
-        self.submitBlock(self.codeView.valueString,self.gooleCodeView.valueString);
+        self.submitBlock(self.codeView.valueString);
     }
     
     [self hide];

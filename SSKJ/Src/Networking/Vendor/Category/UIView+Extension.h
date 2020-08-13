@@ -104,4 +104,7 @@
 -(void)setMasksToBounds:(BOOL)mask;
 
 
++ (UIImage *)captureWithView:(UIView *)view;
+
+
 @end

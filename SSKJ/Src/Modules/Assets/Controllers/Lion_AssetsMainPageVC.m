@@ -149,9 +149,11 @@
 
 - (void)requestAssetInfo
 {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     WS(weakSelf);
     [[WLHttpManager shareManager]requestWithURL_HTTPCode:Lion_Asset_URL RequestType:RequestTypeGet Parameters:nil Success:^(NSInteger statusCode, id responseObject) {
         
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         WL_Network_Model * netWorkModel = [WL_Network_Model mj_objectWithKeyValues:responseObject];
         
         if (netWorkModel.status.integerValue == SUCCESSED )
@@ -168,9 +170,10 @@
         {
             [MBProgressHUD showError:netWorkModel.msg];
         }
-    } Failure:^(NSError *error, NSInteger statusCode, id responseObject) {
+    } Failure:^(NSError *error, NSInteger statusCode, id responseObject)
+    {
         [MBProgressHUD showError:SSKJLanguage(@"网络异常")];
-
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
     }];
 }
 
@@ -194,20 +197,20 @@
 #pragma mark 提币
 -(void)extractEvent
 {
-//    if (!kLogin)
-//    {
-//        [self presentLoginController];
-//        return;
-//    }
-//
-//    if (![self judgeFristCertificate])
-//    {
-//        return;
-//    }
-//
-//    if (![self judgePayPassword]) {
-//        return;
-//    }
+    if (!kLogin)
+    {
+        [self presentLoginController];
+        return;
+    }
+
+    if (![self judgeFristCertificate])
+    {
+        return;
+    }
+
+    if (![self judgePayPassword]) {
+        return;
+    }
     
     
     Mine_Extract_ViewController *extractVc = [[Mine_Extract_ViewController alloc]init];

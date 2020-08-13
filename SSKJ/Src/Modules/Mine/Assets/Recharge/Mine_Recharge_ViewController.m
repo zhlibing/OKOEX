@@ -140,7 +140,7 @@
 {
     if (nil == _warnLabel)
     {
-        _warnLabel = [FactoryUI createLabelWithFrame:CGRectZero text:SSKJLanguage(@"2.平台支持omni及ERC20类型钱包充币。") textColor:kSubTitleColor font:systemFont(ScaleW(14))];
+        _warnLabel = [FactoryUI createLabelWithFrame:CGRectZero text:SSKJLanguage(@"2.平台支持ERC20类型钱包充币。") textColor:kSubTitleColor font:systemFont(ScaleW(14))];
         [_warnLabel setNumberOfLines:0];
     }
     return _warnLabel;

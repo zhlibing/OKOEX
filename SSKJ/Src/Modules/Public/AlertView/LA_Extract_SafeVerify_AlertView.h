@@ -12,7 +12,7 @@
 @interface LA_Extract_SafeVerify_AlertView : UIControl
 
 
-+(void)showsubmitBlock:(void(^)(NSString *code,NSString *googleCode))submitBlcok;
++(void)showsubmitBlock:(void(^)(NSString *code))submitBlcok;
 
 -(void)hide;
 

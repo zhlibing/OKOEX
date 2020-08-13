@@ -20,6 +20,7 @@
 #import "HEYueBoardHeaderView.h"
 #import "Home_Segment_View.h"
 #import "Heyue_OrderInfo_Model.h"
+#import "Heyue_Leverage_Model.h"
 
 
 
@@ -32,6 +33,10 @@
 @property (nonatomic, strong) HEYue_ViewController *heyueVC;
 @property (nonatomic, strong) Heyue_WeiTuo_Order_VC *weituoVC;
 @property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, strong) Heyue_Leverage_Model *leverage_Model;
+@property (nonatomic, strong) SSKJ_Market_Index_Model *model;
+
+
 
 @end
 
@@ -71,6 +76,7 @@
     [super viewWillAppear:animated];
     [self setNavigationBarHidden:NO];
     [self request_Tongji_URL];
+    [self requestGetLeverageURLURL];
 }
 
 
@@ -85,6 +91,7 @@
 
 -(void)refreshModel:(SSKJ_Market_Index_Model*)model
 {
+    [self setModel:model];
     [self.heyueVC setModel:model];
     [self.heyueVC refreshCodeDate];
     self.title = [[model.code uppercaseString] stringByReplacingOccurrencesOfString:@"_" withString:@"/"];
@@ -222,6 +229,35 @@
     } Failure:^(NSError *error, NSInteger statusCode, id responseObject) {
     }];
 }
+
+
+- (void)requestGetLeverageURLURL
+{
+    if (self.model.code.length < 1)
+    {
+        return;
+    }
+    NSDictionary *params = @{@"code":self.model.code};
+    WS(weakSelf);
+    [[WLHttpManager shareManager] requestWithURL_HTTPCode:URL_HEYUE_Setting_URL RequestType:RequestTypeGet Parameters:params Success:^(NSInteger statusCode, id responseObject)
+    {
+        WL_Network_Model *netModel = [WL_Network_Model mj_objectWithKeyValues:responseObject];
+        if (netModel.status.integerValue == 200)
+        {
+            weakSelf.leverage_Model = [Heyue_Leverage_Model mj_objectWithKeyValues:netModel.data];
+            
+            [weakSelf.headerView setLeverageModel:weakSelf.leverage_Model];
+        }
+        else
+        {
+            [MBProgressHUD showError:netModel.msg];
+        }
+    } Failure:^(NSError *error, NSInteger statusCode, id responseObject)
+    {
+        
+    }];
+}
+
 
 
 #pragma mark - scroll delegate

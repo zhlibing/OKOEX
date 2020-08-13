@@ -246,17 +246,23 @@
         WS(weakSelf);
         [SSKJ_Default_AlertView showWithTitle:SSKJLocalized(@"保存二维码", nil)  message:SSKJLocalized(@"保存二维码到相册", nil) cancleTitle:SSKJLocalized(@"取消", nil) confirmTitle:SSKJLocalized(@"保存", nil) confirmBlock:^{
             
-            UIImage *img = weakSelf.leftImageView.image;
+            
+            
+            UIImage *img = [UIView captureWithView:weakSelf.leftImageView];
             switch (weakSelf.type)
             {
                 case 1:
                 {
-                    img = weakSelf.leftImageView.image;
+                    [weakSelf.leftImageView setCornerRadius:0];
+                    [weakSelf.leftselectImageView setHidden:YES];
+                    img = [UIView captureWithView:weakSelf.leftImageView];
                 }
                     break;
                 case 2:
                 {
-                    img = weakSelf.rightImageView.image;
+                    [weakSelf.rightImageView setCornerRadius:0];
+                    [weakSelf.rightselectImageView setHidden:YES];
+                    img = [UIView captureWithView:weakSelf.rightImageView];
                 }
                     break;;
             }
@@ -270,6 +276,7 @@
 // 需要实现下面的方法,或者传入三个参数即可
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
 {
+    [self hide];
     if (error)
     {
         [MBProgressHUD showError:SSKJLocalized(@"保存失败", nil)];

@@ -2028,7 +2028,6 @@
                 //设置界面的按钮显示 根据自己需求设置
                 [button setTitle:[NSString stringWithFormat:@"%@%@",strTime,SSKJLocalized(@"S", nil)] forState:UIControlStateDisabled];
 
-                [button setAttributedTitle:[WLTools setAttributeTextWithString:[NSString stringWithFormat:@"%@%@",strTime,SSKJLocalized(@"S", nil)] colorString:[NSString stringWithFormat:@"%.2dS",seconds] color:kWhiteColor] forState:UIControlStateDisabled];
 
                 //标记第一次点击的时候，当在此启用倒计时的时候 可点击
                 

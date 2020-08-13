@@ -69,7 +69,7 @@
         {
             NSString *imageURL = netModel.data;
             
-            [weakSelf.imageView sd_setImageWithURL:[NSURL URLWithString:[WLTools imageURLWithURL:imageURL]]];
+            [weakSelf.imageView sd_setImageWithURL:[NSURL URLWithString:imageURL]];
             [weakSelf addRightNavItemWithTitle:SSKJLocalized(@"保存", nil) color:kTitleColor font:systemFont(ScaleW(14))];
 
             

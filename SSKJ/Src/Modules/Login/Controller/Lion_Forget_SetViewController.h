@@ -12,7 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface Lion_Forget_SetViewController : SSKJ_BaseViewController
 
-@property (nonatomic,copy) NSString *account;
+@property (nonatomic, copy) NSString *account;
+@property (nonatomic, copy) NSString *code;
 
 @property (nonatomic) BOOL isBinding;
 

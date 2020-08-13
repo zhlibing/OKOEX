@@ -228,7 +228,8 @@ static NSString *ChiCangOrderID = @"ChiCangOrderID";
     return _tableView;
 }
 #pragma mark - 上拉、下拉
-- (void)headerRefresh{
+- (void)headerRefresh
+{
     self.index = 1;
     [self requestChiCangOrder_URL];
 }

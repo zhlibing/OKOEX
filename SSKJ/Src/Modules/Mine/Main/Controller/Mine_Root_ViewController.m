@@ -461,7 +461,7 @@
                 break;
             case 1:
             {
-                [cell setIconName:@"lxwm" title:SSKJLanguage(@"联系客服") desc:@"24小时在线客服"];
+                [cell setIconName:@"lxwm" title:SSKJLanguage(@"联系客服") desc:SSKJLanguage(@"24小时在线客服")];
             }
                 break;
             case 2:
@@ -488,6 +488,13 @@
     
     if (indexPath.section == 0)
     {
+        
+        if (!kLogin)
+        {
+            [self presentLoginController];
+            return;
+        }
+        
         switch (indexPath.row)
         {
 #pragma mark - case 0 -> 0 个人资料
@@ -510,6 +517,12 @@
     }
     else if (indexPath.section == 1)
     {
+        if (!kLogin)
+        {
+            [self presentLoginController];
+            return;
+        }
+        
         switch (indexPath.row)
         {
 #pragma mark case 1 -> 0 提币地址

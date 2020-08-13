@@ -10,7 +10,9 @@
 @interface SSKJ_TextFieldView()
 
 @property (nonatomic, strong) UILabel *titlelabel;
+@property (nonatomic, strong) UIButton *leftBtn;
 @property (nonatomic, strong) UIButton *rightBtn;
+
 
 @end
 
@@ -21,7 +23,7 @@
     self = [super initWithFrame:frame];
     if (self)
     {
-        [self unit:YES];
+        
     }
     return self;
 }
@@ -37,6 +39,20 @@
     }
     return self;
 }
+
+
+- (instancetype)initWithType:(NSInteger)type
+{
+    self = [super init];
+    if (self)
+    {
+        [self unitTypes:type];
+    }
+    return self;
+}
+
+
+
 
 
 -(void)unit:(BOOL)unit
@@ -86,10 +102,82 @@
 }
 
 
+-(void)unitType:(BOOL)unit
+{
+    if (unit)
+    {
+        [self setBackgroundColor:kBgColor];
+        [self addSubview:self.backView];
+        [self.backView addSubview:self.leftBtn];
+        [self.backView addSubview:self.field];
+        [self.backView addSubview:self.rightBtn];
+        
+        [self.backView mas_makeConstraints:^(MASConstraintMaker *make)
+        {
+            make.centerY.equalTo(self.mas_centerY);
+            make.left.equalTo(self.mas_left).offset(ScaleW(15));
+            make.right.equalTo(self.mas_right).offset(-ScaleW(15));
+            make.height.equalTo(self);
+        }];
+        
+        
+        [self.leftBtn mas_makeConstraints:^(MASConstraintMaker *make)
+        {
+            make.left.equalTo(self.backView.mas_left).offset(ScaleW(15));
+            make.centerY.equalTo(self.backView.mas_centerY);
+            make.height.width.equalTo(@(ScaleW(22)));
+        }];
+        
+        
+        [self.field mas_makeConstraints:^(MASConstraintMaker *make)
+        {
+            make.left.equalTo(self.leftBtn.mas_right).offset(ScaleW(9));
+            make.centerY.equalTo(self.backView.mas_centerY);
+            make.right.equalTo(self.backView.mas_right).offset(-ScaleW(10));
+        }];
+
+        
+        [self.rightBtn mas_makeConstraints:^(MASConstraintMaker *make)
+        {
+            make.right.equalTo(self.backView.mas_right).offset(-ScaleW(9));
+            make.centerY.equalTo(self.backView.mas_centerY);
+            make.height.width.equalTo(@(ScaleW(44)));
+        }];
+    }
+}
+
+
+-(void)unitTypes:(NSInteger)type
+{
+    switch (type)
+    {
+        case 1:
+        {
+            [self unit:YES];
+        }
+            break;
+        case 2:
+        {
+            [self unitType:YES];
+        }
+            break;
+    }
+}
+
+
 
 - (void)setTitle:(NSString *)title placeholder:(NSString *)placeholder secureTextEntry:(BOOL)secureTextEntry
 {
     [self.titlelabel setText:title];
+    [self.field setPlaceholder:placeholder];
+    [self.field setSecureTextEntry:secureTextEntry];
+    [self.rightBtn setHidden:(!secureTextEntry)];
+}
+
+
+- (void)setImageName:(NSString*)name placeholder:(NSString *)placeholder secureTextEntry:(BOOL)secureTextEntry
+{
+    [self.leftBtn setImage:[UIImage imageNamed:name] forState:UIControlStateNormal];
     [self.field setPlaceholder:placeholder];
     [self.field setSecureTextEntry:secureTextEntry];
     [self.rightBtn setHidden:(!secureTextEntry)];
@@ -143,10 +231,19 @@
         _field.font = kFont(15);
         _field.textColor = kTitleColor;
         [_field setPlaceHolderColor:kSubTitleColor];
-        
     }
     return _field;
 }
+
+- (UIButton *)leftBtn
+{
+    if (_leftBtn == nil)
+    {
+        _leftBtn = [[UIButton alloc]init];
+    }
+    return _leftBtn;
+}
+
 
 - (UIButton *)rightBtn
 {
@@ -159,8 +256,6 @@
     }
     return _rightBtn;
 }
-
-
 
 - (void)rightBtnAction
 {

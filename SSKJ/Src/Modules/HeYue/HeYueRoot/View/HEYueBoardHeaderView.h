@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "Heyue_OrderInfo_Model.h"
+#import "Heyue_Leverage_Model.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 @property (nonatomic, strong) Heyue_OrderInfo_Model *model;
+@property (nonatomic, strong) Heyue_Leverage_Model *leverageModel;
 
 
 @end

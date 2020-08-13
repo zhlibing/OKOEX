@@ -97,7 +97,7 @@
 #pragma mark 生成海报
 -(void)submitBtnACtion:(UIButton*)sender
 {
-    [PosterBoardControl showType:2 withCode:self.code withCodeUrl:self.url];
+    [PosterBoardControl showType:1 withCode:self.code withCodeUrl:self.url];
         
 }
 

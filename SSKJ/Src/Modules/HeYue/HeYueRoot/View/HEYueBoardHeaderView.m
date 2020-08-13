@@ -114,6 +114,22 @@
     [self.fengXianNumberLabel setText:model.risk];
 }
 
+
+#pragma mark - Private Method
+- (void)createbaocangAlertView
+{
+    if (self.leverageModel.bc_rate.length == 0)
+    {
+        return;
+    }
+    
+    [SSKJ_Default_AlertView showWithTitle:SSKJLocalized(@"风险率提醒", nil) message:[NSString stringWithFormat:SSKJLocalized(@"当风险率小于等于%@%%时，系统将自动平仓", nil),self.leverageModel.bc_rate] cancleTitle:@"" confirmTitle:SSKJLocalized(@"确定", nil) confirmBlock:^{
+        
+    }];
+}
+
+
+
 #pragma mark - Getter / Setter
 -(UILabel *)dongTaiNumberLabel
 {
@@ -194,6 +210,10 @@
         [_fengXianTipLabel setTextColor:kSubTitleColor];
         [_fengXianTipLabel setFont:systemFont(ScaleW(13))];
         [_fengXianTipLabel setText:SSKJLanguage(@"风险率")];
+        [_fengXianTipLabel setUserInteractionEnabled:YES];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(createbaocangAlertView)];
+        [_fengXianTipLabel addGestureRecognizer:tap];
+        
     }
     return _fengXianTipLabel;
 }
@@ -209,9 +229,15 @@
         [_markLabel setFont:systemFont(10)];
         [_markLabel setText:@"?"];
         [_markLabel setCornerRadius:7.5];
+        [_markLabel setUserInteractionEnabled:YES];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(createbaocangAlertView)];
+        [_markLabel addGestureRecognizer:tap];
     }
     return _markLabel;
 }
+
+
+
 
 
 

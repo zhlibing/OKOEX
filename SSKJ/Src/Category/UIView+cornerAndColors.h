@@ -19,6 +19,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setCornerRadius:(CGFloat)cornerRadius corners:(UIRectCorner)corners  colors:(NSArray<UIColor *> *)colors;
 
 - (void)setCornerRadius:(CGFloat)cornerRadius corners:(UIRectCorner)corners;
+
+
+
 @end
 
 NS_ASSUME_NONNULL_END

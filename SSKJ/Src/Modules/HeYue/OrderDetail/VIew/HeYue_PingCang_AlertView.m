@@ -538,7 +538,7 @@
 {
     if (_sureBtn == nil) {
         
-        _sureBtn = [FactoryUI createButtonWithFrame:CGRectZero title:SSKJLocalized(@"确认", nil) titleColor:kTitleColor imageName:nil backgroundImageName:nil target:self selector:@selector(sureBtnAction) font:systemBoldFont(15)];
+        _sureBtn = [FactoryUI createButtonWithFrame:CGRectZero title:SSKJLocalized(@"确认", nil) titleColor:kWhiteColor imageName:nil backgroundImageName:nil target:self selector:@selector(sureBtnAction) font:systemBoldFont(15)];
         
         _sureBtn.backgroundColor = kBlueColor;
         
@@ -625,6 +625,8 @@
     self.number = [model.buynum doubleValue];
 
     self.chicangNum = [model.buynum doubleValue];
+    
+    [self.numberTextField setText:model.hands];
 
 }
 

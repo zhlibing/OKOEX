@@ -1,10 +1,72 @@
 
+"注册协议"="Registration Agreement";
+"进入全球团队分红模式"="Enter the global team dividend mode";
+"交易"="Transaction";
+"未绑定"="Unbound";
+"24小时在线客服"="24 hours online customer service";
+"手机号格式不正确"="Phone number format is incorrect";
+"邮箱号格式不正确"="The mailbox number format is incorrect";
+"请再次输入新密码"="Please enter the new password again";
+"邀请好友拿收益"="Invite friends to get revenue";
+"海量资产天天等你拿"="Massive assets are waiting for you every day";
+"立即邀请"="Invite Now";
+"个人资料"="Personal information";
+"安全设置"="Security Settings";
+"团队推广"="Team Promotion";
+"安全级别"="Security Level";
+"请至少开启两项安全验证"="Please enable at least two security verifications";
+"密码设置"="password setting";
+"已设置"="Has been set";
+"账户资产"="Account Assets";
+"总账户管理"="Master Account Management";
+"进入便捷交易"="Enter Convenient Trading";
+"购入数量"="Buy Quantity";
+"确定买币"="OK to buy coins";
+"删除地址"="Delete Address";
+"确认删除该地址吗？"="Are you sure to delete this address?";
+"钱包类型"="Wallet Type";
+"1.请勿向上述地址充值任何非USDT资产，否则资产将不可找回。"="1. Do not deposit any non-USDT assets to the above address, otherwise the assets will not be retrieved.";
+"2.平台支持ERC20类型钱包充币。"="2. The platform supports ERC20 wallet deposits.";
+"我的客户"="My client";
+"邀请好友共享收益"="Invite friends to share revenue";
+"轻松获得持续奖励"="Easily get continuous rewards";
+"发送邀请"="send invitation";
+"给好友"="For Friends";
+"好友完成注册"="Friends complete registration";
+"成为你的下级"="Be your subordinate";
+"获得相应"="Get corresponding";
+"比例佣金"="Proportional Commission";
+"加入经纪人享更多收益，详情联系平台客服"="Join a broker to enjoy more benefits, contact the platform customer service for details";
+"我的邀请链接"="My invitation link";
+"我的邀请码"="My Invitation Code";
+"生成邀请海报"="Generate Invitation Poster";
+"选择海报"="Select Poster";
+"选择推广海报保存到本地"="Select the promotion poster and save it locally";
+"登录Okoex"="Log in to Okoex";
+"请输入手机号码或邮箱"="Please enter your phone number or email";
+"立即注册"="Sign up now";
+"手机找回"="Phone Retrieve";
+"切换邮箱找回"="Switch to mailbox to retrieve";
+"邮箱找回"="Retrieve Mailbox";
+"切换手机找回"="Switch to phone to retrieve";
+"手机注册"="Register your phone";
+"邮箱注册"="email registration";
+"切换手机注册"="Switch to mobile registration";
+"切换邮箱注册"="Switch to email registration";
+"点击注册即表示同意《用户注册协议》"="Clicking to register means agreeing to the 《User Registration Agreement》";
+"已有账号,"="Already have an account,";
+"立即登录"="log in immediately";
 
 
 
 
 
 
+
+
+"请输入8-20位登录密码" = "Please enter the password (8-20 digits + letters)";
+"新再次输入密码"="Please enter a new login password";
+"请输入密码" = "Please enter a new login password";
 "身份证正面确保无水印无污渍，身份信息清晰，非文字反向照片，请勿进行PS处理"="On the front of the ID card, ensure that there is no watermark and no stains, the identity information is clear, and non-text reverse photos, please do not perform PS processing";
 "请上传身份证正面"="Please upload the front of your ID card";
 "身份证背面确保无水印无污渍，身份信息清晰，非文字反向照片，请勿进行PS处理"="On the back of the ID card, ensure that there is no watermark and no stains, the identity information is clear, non-text reverse photos, do not use PS processing";
@@ -32,7 +94,7 @@
 "暂无记录" = "No record";
 "\r版本->请求参数：%@" = "\R version - > request parameter: =@";
 "交易指南" = "Trading Guide";
-"行业资讯" = "Industry information";
+"快讯" = "information";
 "公告详情" = "Announcement details";
 "帮助中心" = "Help center";
 "加载失败" = "Failed to load";
@@ -241,7 +303,7 @@
 "版本更新！" = "Version update!";
 "修改成功" = "Change completed";
 "点击登录" = "Click login";
-"欢迎来到OKOEX" = "Welcome to OKOEX";
+"欢迎登录" = "Welcome to OKOEX";
 "您当前还未登录，请先登录或注册" = "You are not currently logged in. Please log in or register first";
 "登录/注册" = "Sign in / register";
 "提币地址" = "Money withdrawal address";
@@ -286,7 +348,7 @@
 "请输入6-12位字母与数字组合" = "Please enter the password (6-12 digits + letters)";
 "登录OKOEX" = "Login OKOEX";
 "还没有OKOEX账号," = "There is no OKOEX account,";
-"没有账号?" = "There is no account";
+"没有账号？" = "There is no account";
 "马上注册" = "register";
 "欢迎回来" = "Welcome back";
 "欢迎注册" = "Welcome to register";
@@ -453,7 +515,6 @@
 "切换语言" = "Switch language";
 "关闭谷歌验证" = "Turn off Google verification";
 "开启谷歌验证"="Turn on Google verification";
-"请勿向上述地址充值任何非%@资产，否则资产将不可找回。 您充值至上述地址后，需要整个网络节点的确认，6次网络确认后 到账。 您可以在充值记录里查看充值状态！" = "Please do not deposit any non-% @ assets to the above address, otherwise the assets will not be recovered. After you recharge to the above address, you need the confirmation of the entire network node, and the account will be received after 6 network confirmations. You can check the recharge status in the recharge history!";
 "hy_pingcang"="hy_pingcang_en";
 "请先绑定谷歌验证"="Please bind Google verification first";
 "tghb"="tghb_en";

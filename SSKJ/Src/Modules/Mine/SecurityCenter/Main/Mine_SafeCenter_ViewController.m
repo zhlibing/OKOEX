@@ -74,7 +74,7 @@ static NSString *safeCell = @"safeCell";
 {
     if (!_cellTitleArr)
     {
-        _cellTitleArr = @[SSKJLanguage(@"手机(短信验证)"),
+        _cellTitleArr = @[SSKJLanguage(@"手机"),
         SSKJLanguage(@"邮箱"),SSKJLanguage(@"身份认证")];
     }
     

@@ -222,7 +222,7 @@
     [self.daozhangLabel mas_makeConstraints:^(MASConstraintMaker *make) {
        
         make.left.equalTo(self.view.mas_left).offset(15);
-        make.top.equalTo(self.numberBgView.mas_bottom).offset(120);
+        make.top.equalTo(self.numberBgView.mas_bottom).offset(70);
     }];
     
     [self.tibiButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -341,7 +341,7 @@
         _numberLabel = [[UILabel alloc]init];
         [_numberLabel setTextColor:kTitleColor];
         [_numberLabel setFont:systemFont(ScaleW(14))];
-        [_numberLabel setText:@"数量"];
+        [_numberLabel setText:SSKJLanguage(@"数量")];
     }
     return _numberLabel;
 }
@@ -602,9 +602,9 @@
     
     
     WS(weakSelf);
-    [LA_Extract_SafeVerify_AlertView showsubmitBlock:^(NSString *code, NSString *googleCode) {
+    [LA_Extract_SafeVerify_AlertView showsubmitBlock:^(NSString *code) {
       
-        [weakSelf requestExtractWithGoogleCode:googleCode smsCode:code];
+        [weakSelf requestExtractWithCode:code];
         
     }];
     
@@ -696,13 +696,12 @@
 
 #pragma mark - 提币
 
--(void)requestExtractWithGoogleCode:(NSString *)googleCode smsCode:(NSString *)smsCode
+-(void)requestExtractWithCode:(NSString *)code
 {
     NSDictionary *params = @{
                             @"money":self.numberTextField.text,
                             @"payment_password":self.pwdTextField.text,
-                            @"code":smsCode,
-                            @"google_code":googleCode,
+                            @"code":code,
                             @"address":self.addressTextField.text,
                             @"type":@"1"
                             };
