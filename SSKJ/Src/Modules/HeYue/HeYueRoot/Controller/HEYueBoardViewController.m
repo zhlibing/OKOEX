@@ -12,7 +12,7 @@
 #import "UIViewController+CWLateralSlide.h"
 
 #import "HEYue_ViewController.h"
-#import "Heyue_WeiTuo_Order_VC.h"
+#import "Heyue_ChiCang_Order_VC.h"
 #import "HeYue_LeftViewController.h"
 #import "HeYue_KlineViewController.h"
 
@@ -31,7 +31,7 @@
 @property (nonatomic, strong) Home_Segment_View *segmentControl;
 @property (nonatomic, strong) SSKJ_ScrollView *scrollView;
 @property (nonatomic, strong) HEYue_ViewController *heyueVC;
-@property (nonatomic, strong) Heyue_WeiTuo_Order_VC *weituoVC;
+@property (nonatomic, strong) Heyue_ChiCang_Order_VC *chiCangVC;
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, strong) Heyue_Leverage_Model *leverage_Model;
 @property (nonatomic, strong) SSKJ_Market_Index_Model *model;
@@ -66,7 +66,7 @@
     [self.view addSubview:self.scrollView];
     
     
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:2.f target:self selector:@selector(timerRefreash:) userInfo:nil repeats:YES];
+    
     
 }
 
@@ -74,8 +74,8 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:5.f target:self selector:@selector(timerRefreash:) userInfo:nil repeats:YES];
     [self setNavigationBarHidden:NO];
-    [self request_Tongji_URL];
     [self requestGetLeverageURLURL];
 }
 
@@ -123,7 +123,7 @@
 {
     if (nil == _segmentControl) {
         
-        _segmentControl = [[Home_Segment_View alloc]initWithFrame:CGRectMake(0, self.headerView.bottom+10, ScreenWidth, 45) titles:@[SSKJLocalized(@"交易", nil),SSKJLocalized(@"委托", nil)] normalColor:kTitleColor selectedColor:kBlueColor fontSize:ScaleW(15) lineWidth:(ScreenWidth/2.0)];
+        _segmentControl = [[Home_Segment_View alloc]initWithFrame:CGRectMake(0, self.headerView.bottom+10, ScreenWidth, 45) titles:@[SSKJLocalized(@"交易", nil),SSKJLocalized(@"持仓", nil)] normalColor:kTitleColor selectedColor:kBlueColor fontSize:ScaleW(15) lineWidth:(ScreenWidth/2.0)];
         [_segmentControl setBackgroundColor:kBgColor];
         
         WS(weakSelf);
@@ -156,10 +156,10 @@
         self.heyueVC.view.frame = CGRectMake(0, 0, ScreenWidth, (self.scrollView.height));
         
         //委托
-        self.weituoVC = [[Heyue_WeiTuo_Order_VC alloc]init];
-        [self addChildViewController:self.weituoVC];
-        [self.scrollView addSubview:self.weituoVC.view];
-        self.weituoVC.view.frame = CGRectMake(ScreenWidth, 0, ScreenWidth, (self.scrollView.height));
+        self.chiCangVC = [[Heyue_ChiCang_Order_VC alloc]init];
+        [self addChildViewController:self.chiCangVC];
+        [self.scrollView addSubview:self.chiCangVC.view];
+        self.chiCangVC.view.frame = CGRectMake(ScreenWidth, 0, ScreenWidth, (self.scrollView.height));
         
     }
     return _scrollView;
@@ -191,8 +191,12 @@
 
 
 
--(void)timerRefreash:(NSTimer *)timer{
-    [self request_Tongji_URL];
+-(void)timerRefreash:(NSTimer *)timer
+{
+    if (kLogin)
+    {
+        [self request_Tongji_URL];
+    }
 }
 
 
@@ -265,12 +269,15 @@
     
     CGPoint offset = scrollView.contentOffset;
     
-    if (offset.x < 0) {
+    if (offset.x < 0)
+    {
         return;
     }
+    
+    
+    
 
     self.segmentControl.selectedIndex = offset.x/ScreenWidth;
-    
     [self setCurrentIndex:self.segmentControl.selectedIndex];
 
 }
@@ -278,11 +285,12 @@
 
 -(void)setCurrentIndex:(NSInteger)index
 {
-    switch (index) {
+    switch (index)
+    {
         case 0:
         {
-
-//            [self.weituoVC closetimer];
+            [self.heyueVC refreshCodeDate];
+            //[self.weituoVC closetimer];
         }
             break;
         case 1:

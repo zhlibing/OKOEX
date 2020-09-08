@@ -48,7 +48,7 @@
     [self.view addSubview:self.scrollView];
     
     
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:2.f target:self selector:@selector(timerRefreash:) userInfo:nil repeats:YES];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:5.f target:self selector:@selector(timerRefreash:) userInfo:nil repeats:YES];
 }
 
 -(void)viewDidAppear:(BOOL)animated

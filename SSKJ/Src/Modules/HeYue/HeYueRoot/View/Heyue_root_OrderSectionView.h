@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic,copy) void (^AllOrderBlock)(void);
 @property (nonatomic,strong) UIButton * allOrderBtn;
+@property (nonatomic, strong) UIImageView *imageView;
 
 //0 为永续   1为 时间
 @property (nonatomic)BOOL isTimeHeyue;

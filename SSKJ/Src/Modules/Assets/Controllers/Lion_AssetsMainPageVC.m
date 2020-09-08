@@ -321,6 +321,7 @@
 - (AssetsTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     AssetsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AssetsTableViewCell"];
+    [cell setModel:[self.itemArray objectAtIndex:indexPath.row]];
     return cell;
 }
 

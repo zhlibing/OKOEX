@@ -157,7 +157,10 @@ static NSString * NodataCellID = @"NodataCell";
 -(void)loginToken:(NSNotification *)notifa
 {
     self.headerView.wallone_usdt = @"0";
+    [self presentLoginController];
+    
 }
+
 #pragma mark - 通知（进入后台，进入后台）
 
 -(void)applicationDidBecomeActive:(NSNotification *)notification
@@ -175,6 +178,8 @@ static NSString * NodataCellID = @"NodataCell";
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
+    
    //开启推送
    if (self.model.code > 0)
    {
@@ -189,6 +194,7 @@ static NSString * NodataCellID = @"NodataCell";
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
 
     self.sectionView.allOrderBtn.hidden = !kLogin;
+    self.sectionView.imageView.hidden = !kLogin;
 
     
     
@@ -197,7 +203,11 @@ static NSString * NodataCellID = @"NodataCell";
     [self refreshCodeDate];
 }
 
-- (void)viewWillDisappear:(BOOL)animated{
+
+
+
+- (void)viewWillDisappear:(BOOL)animated
+{
     [super viewWillDisappear:animated];
     
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
@@ -527,15 +537,17 @@ static NSString * NodataCellID = @"NodataCell";
     
 }
 
-// 请求资产信息
-- (void)requestAssetInfo{
+#pragma mark  请求资产信息
+- (void)requestAssetInfo
+{
     
     WS(weakSelf);
     [[WLHttpManager shareManager]requestWithURL_HTTPCode:Lion_Asset_URL RequestType:RequestTypeGet Parameters:nil Success:^(NSInteger statusCode, id responseObject) {
         
         WL_Network_Model * netWorkModel = [WL_Network_Model mj_objectWithKeyValues:responseObject];
         
-        if (netWorkModel.status.integerValue == SUCCESSED ) {
+        if (netWorkModel.status.integerValue == SUCCESSED )
+        {
             
             Lion_Assets_new_Model *assetModel = [Lion_Assets_new_Model mj_objectWithKeyValues:netWorkModel.data];
             
@@ -611,7 +623,8 @@ static NSString * NodataCellID = @"NodataCell";
 #pragma mark -- 网络请求 --
 
 #pragma mark -- 加载不同币种的杠杆和最小购买数 --
-- (void)requestGetLeverageURLURL{
+- (void)requestGetLeverageURLURL
+{
     if (self.model.code.length < 1)
     {
         return;

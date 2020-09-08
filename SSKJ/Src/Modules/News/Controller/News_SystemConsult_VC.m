@@ -58,7 +58,7 @@
     {
         _tableView=[[SSKJ_TableView alloc] initWitDeletage:self];
         [_tableView registerClass:[News_System_Cell class] forCellReuseIdentifier:@"News_System_Cell"];
-        _tableView.backgroundColor=kSubBgColor;
+        _tableView.backgroundColor=kBgColor;
         [self.view addSubview:_tableView];
         [_tableView mas_makeConstraints:^(MASConstraintMaker *make)
         {
@@ -191,7 +191,7 @@
     
     [self.dataSource addObjectsFromArray:array];
     
-    [SSKJ_NoDataView showNoData:self.dataSource.count toView:self.tableView offY:ScaleW(Height_NavBar)];
+    [SSKJ_NoDataView showNoData:self.dataSource.count toView:self.tableView offY:Height_NavBar];
     
     self.page++;
     

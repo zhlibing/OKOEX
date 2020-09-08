@@ -101,7 +101,7 @@ static NSString *cellID = @"AssetOtherRecord_Cell";
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     AssetOtherRecord_Cell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    ATEX_AssetOtherRecord_IndexModel *model = self.dataSource[indexPath.section];
+    ATEX_AssetOtherRecord_IndexModel *model = self.dataSource[indexPath.row];
     [cell setCellWithModel:model];
     return cell;
 }

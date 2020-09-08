@@ -105,7 +105,9 @@
 -(void)confirmEvent
 {
     [self hide];
-    if (self.confirmBlock) {
+    
+    if (self.confirmBlock)
+    {
         self.confirmBlock();
     }
 }

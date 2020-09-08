@@ -282,16 +282,7 @@ static NSString *safeCell = @"safeCell";
 #pragma mark case 2 身份认证
         case 2:
         {
-            if (![self judgeFristCertificate])
-            {
-                return;
-            }
-            
-            
-            Mine_PrimaryCertificate_ViewController *vc = [[Mine_PrimaryCertificate_ViewController alloc]init];
-            [self.navigationController pushViewController:vc animated:YES];
-            
-            
+            [self judgeFristCertificate];
         }
             break;
     }

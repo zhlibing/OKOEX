@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *handling_fee;  // 提笔手续费
 @property (nonatomic, copy) NSString *actual;  // 实际到账
 @property (nonatomic, copy) NSString *created_at;  // 创建时间
-@property (nonatomic, copy) NSString *checked_at;  // 审核时间
+@property (nonatomic, copy) NSString *updated_at;  // 审核时间
 @property (nonatomic, copy) NSString *status;  // 1 待审核 2到账中 3已拒绝 4已到账 5失败
 
 @property (nonatomic, copy) NSString *refuse_reason;    // 失败原因

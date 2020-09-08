@@ -8,8 +8,9 @@
 
 #import "ExtractRecord_Cell.h"
 @interface ExtractRecord_Cell ()
+
+
 @property (nonatomic, strong) UIView *backView;
-@property (nonatomic, strong) UIView *topView;
 @property (nonatomic, strong) UILabel *addressTitleLabel;
 @property (nonatomic, strong) UILabel *addressLabel;
 @property (nonatomic, strong) UILabel *numberTitleLabel;
@@ -25,6 +26,12 @@
 @property (nonatomic, strong) UIView *refuseView;   // 拒绝
 @property (nonatomic, strong) UIImageView *refuseImageView;
 @property (nonatomic, strong) UILabel *refuseLabel;
+@property (nonatomic, strong) UIView *lineView;
+
+
+
+
+
 @end
 @implementation ExtractRecord_Cell
 
@@ -34,10 +41,10 @@
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         self.backgroundColor = kBgColor;
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        
         [self addSubview:self.backView];
-        [self.backView addSubview:self.topView];
-        [self.topView addSubview:self.addressTitleLabel];
-        [self.topView addSubview:self.addressLabel];
+        [self.backView addSubview:self.addressTitleLabel];
+        [self.backView addSubview:self.addressLabel];
         [self.backView addSubview:self.numberTitleLabel];
         [self.backView addSubview:self.numberLabel];
         [self.backView addSubview:self.statusLabel];
@@ -47,10 +54,11 @@
         [self.backView addSubview:self.timeLabel];
         [self.backView addSubview:self.checkTitleLabel];
         [self.backView addSubview:self.checkLabel];
-        
+        [self.backView addSubview:self.lineView];
         [self.backView addSubview:self.refuseView];
         [self.refuseView addSubview:self.refuseImageView];
         [self.refuseView addSubview:self.refuseLabel];
+
     }
     return self;
 }
@@ -59,20 +67,10 @@
 -(UIView *)backView
 {
     if (nil == _backView) {
-        _backView = [[UIView alloc]initWithFrame:CGRectMake(ScaleW(15), 0, ScreenWidth - ScaleW(30), ScaleW(174))];
-        _backView.backgroundColor = kSubBgColor;
-        _backView.layer.masksToBounds = YES;
-        _backView.layer.cornerRadius = ScaleW(5);
+        _backView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth , ScaleW(180))];
+        _backView.backgroundColor = kBgColor;
     }
     return _backView;
-}
--(UIView *)topView
-{
-    if (nil == _topView) {
-        _topView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.backView.width, ScaleW(39))];
-        _topView.backgroundColor = UIColorFromRGB(0x1C2C44);
-    }
-    return _topView;
 }
 
 - (UILabel *)addressTitleLabel
@@ -85,9 +83,8 @@
             width = ScaleW(100);
         }
         
-        _addressTitleLabel = [WLTools allocLabel:SSKJLocalized(@"提币地址", nil) font:systemFont(ScaleW(14)) textColor:kSubTitleColor frame:CGRectMake(ScaleW(15), 0, width, ScaleW(20)) textAlignment:NSTextAlignmentLeft];
+        _addressTitleLabel = [WLTools allocLabel:SSKJLocalized(@"提币地址", nil) font:systemFont(ScaleW(14)) textColor:kSubTitleColor frame:CGRectMake(ScaleW(15), ScaleW(15), width, ScaleW(20)) textAlignment:NSTextAlignmentLeft];
         _addressTitleLabel.adjustsFontSizeToFitWidth = YES;
-        _addressTitleLabel.centerY = self.topView.height / 2;
     }
     return _addressTitleLabel;
 }
@@ -96,7 +93,7 @@
 - (UILabel *)addressLabel
 {
     if (nil == _addressLabel) {
-        _addressLabel = [WLTools allocLabel:SSKJLocalized(@"----", nil) font:systemFont(ScaleW(14)) textColor:kTitleColor frame:CGRectMake(self.addressTitleLabel.right + ScaleW(10), 0, self.topView.width - ScaleW(25) - self.addressTitleLabel.right, ScaleW(20)) textAlignment:NSTextAlignmentLeft];
+        _addressLabel = [WLTools allocLabel:SSKJLocalized(@"----", nil) font:systemFont(ScaleW(14)) textColor:kTitleColor frame:CGRectMake(self.addressTitleLabel.right + ScaleW(10),self.addressTitleLabel.y, self.backView.width - ScaleW(25) - self.addressTitleLabel.right, ScaleW(20)) textAlignment:NSTextAlignmentLeft];
         _addressLabel.centerY = self.addressTitleLabel.centerY;
         _addressLabel.adjustsFontSizeToFitWidth = YES;
     }
@@ -107,7 +104,7 @@
 - (UILabel *)numberTitleLabel
 {
     if (nil == _numberTitleLabel) {
-        _numberTitleLabel = [WLTools allocLabel:SSKJLocalized(@"提币数量", nil) font:systemFont(ScaleW(14)) textColor:kSubTitleColor frame:CGRectMake(ScaleW(15), self.topView.bottom + ScaleW(20), self.addressTitleLabel.width, ScaleW(14)) textAlignment:NSTextAlignmentLeft];
+        _numberTitleLabel = [WLTools allocLabel:SSKJLocalized(@"提币数量", nil) font:systemFont(ScaleW(14)) textColor:kSubTitleColor frame:CGRectMake(ScaleW(15), self.addressTitleLabel.bottom + ScaleW(13), self.addressTitleLabel.width, ScaleW(14)) textAlignment:NSTextAlignmentLeft];
         _numberTitleLabel.adjustsFontSizeToFitWidth = YES;
 
     }
@@ -126,10 +123,10 @@
 
 -(UILabel *)statusLabel
 {
-    if (nil == _statusLabel) {
-        _statusLabel = [WLTools allocLabel:SSKJLocalized(@"提币成功", nil) font:systemFont(ScaleW(14)) textColor:kBlueColor frame:CGRectMake(self.backView.width - ScaleW(15) - ScaleW(80), 0, ScaleW(80), ScaleW(20)) textAlignment:NSTextAlignmentRight];
-        _statusLabel.centerY = self.numberLabel.centerY;
-        _statusLabel.adjustsFontSizeToFitWidth = YES;
+    if (nil == _statusLabel)
+    {
+        _statusLabel = [WLTools allocLabel:SSKJLocalized(@"提币成功", nil) font:systemFont(ScaleW(14)) textColor:kBlueColor frame:CGRectMake(self.checkTitleLabel.left, self.checkTitleLabel.bottom+ScaleW(13), ScreenWidth-ScaleW(40), ScaleW(20)) textAlignment:NSTextAlignmentLeft];
+        
     }
     return _statusLabel;
 }
@@ -181,7 +178,6 @@
     if (nil == _checkTitleLabel) {
         _checkTitleLabel = [WLTools allocLabel:SSKJLocalized(@"审核时间", nil) font:systemFont(ScaleW(14)) textColor:kSubTitleColor frame:CGRectMake(ScaleW(15), self.timeTitleLabel.bottom + ScaleW(13), self.numberTitleLabel.width, ScaleW(14)) textAlignment:NSTextAlignmentLeft];
         _checkTitleLabel.adjustsFontSizeToFitWidth = YES;
-
     }
     return _checkTitleLabel;
 }
@@ -222,15 +218,28 @@
 }
 
 
+-(UIView *)lineView
+{
+    if (!_lineView)
+    {
+        _lineView = [[UIView alloc]initWithFrame:CGRectMake(0, self.backView.bottom, ScreenWidth, ScaleW(0.5))];
+        [_lineView setBackgroundColor:kLineColor];
+    }
+    return _lineView;
+}
+
 -(void)setCellWithModel:(ATEX_Extract_IndexModel *)model
 {
     self.addressLabel.text = model.address;
     self.numberLabel.text = [NSString stringWithFormat:@"%@ USDT",[WLTools noroundingStringWith:model.money.doubleValue afterPointNumber:2]];
     self.feeLabel.text = [NSString stringWithFormat:@"%@ USDT",[WLTools noroundingStringWith:model.handling_fee.doubleValue afterPointNumber:2]];
     self.timeLabel.text = model.created_at;
-    if (model.checked_at.length != 0) {
-        self.checkLabel.text = model.checked_at;
-    }else{
+    if (model.updated_at.length != 0)
+    {
+        self.checkLabel.text = model.updated_at;
+    }
+    else
+    {
         self.checkLabel.text = @"--";
     }
     

@@ -12,7 +12,7 @@
 
 @property (nonatomic,strong) UILabel * bottomLabel;
 @property (nonatomic,strong) UIView * lineView;
-@property (nonatomic, strong) UIImageView *imageView;
+
 
 
 @end
@@ -22,7 +22,8 @@
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
-    if (self) {
+    if (self)
+    {
         self.backgroundColor = kBgColor;
         
         [self addSubview:self.bottomLabel];
@@ -128,22 +129,20 @@
 
 
 
-- (void)setIsTimeHeyue:(BOOL)isTimeHeyue {
+- (void)setIsTimeHeyue:(BOOL)isTimeHeyue
+{
     _isTimeHeyue = isTimeHeyue;
-    if (isTimeHeyue) {
+    if (isTimeHeyue)
+    {
         self.bottomLabel.text = SSKJLocalized(@"当前持仓", nil);
-    } else {
+    }
+    else
+    {
         self.bottomLabel.text = SSKJLocalized(@"当前委托", nil);
     }
 }
 
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
+
 
 @end

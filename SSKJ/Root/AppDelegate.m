@@ -44,10 +44,7 @@
     [[AFNetworkReachabilityManager sharedManager]startMonitoring];
     // 初始化语言
     [[SSKJLocalized sharedInstance]initLanguage];
-    
-    //监听token是否过期
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginToken:) name:@"LoginToken" object:nil];
-    
+
     // 防crash
     [self aviodCreash];
         

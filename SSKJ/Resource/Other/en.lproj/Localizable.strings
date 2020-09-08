@@ -1,4 +1,11 @@
 
+"初级未认证"="Junior uncertified";
+"初级认证"="Primary certification";
+"高级认证待审核"="Advanced certification pending";
+"高级认证通过"="Advanced certification passed";
+"请输入您的姓名"="Please enter your name";
+"请输入您的证件号码"="Please enter your ID number";
+"您还未完成身份认证，去完成?"="You have not completed the identity verification, go to complete?";
 "注册协议"="Registration Agreement";
 "进入全球团队分红模式"="Enter the global team dividend mode";
 "交易"="Transaction";
@@ -246,6 +253,7 @@
 "待审核" = "To be audited";
 "网络错误" = "network error";
 "申请成为商家" = "Apply to be a merchant";
+
 "服务器请求异常" = "Server request exception";
 "修改成功" = "Modified success";
 "商家认证" = "Merchant certification";

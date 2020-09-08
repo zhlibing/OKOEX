@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SSKJ_Logout_AlertView : UIView
 @property (nonatomic, copy) void (^confirmBlock)(void);
+
 @property (nonatomic, assign) BOOL isShow;
 -(void)showWithMessage:(NSString *)message;
 @end

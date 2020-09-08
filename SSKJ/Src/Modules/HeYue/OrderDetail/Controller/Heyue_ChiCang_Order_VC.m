@@ -75,7 +75,7 @@ static NSString *ChiCangOrderID = @"ChiCangOrderID";
     [self requestChiCangOrder_URL];
     
     
-    [self openTimer];
+    
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
 }
@@ -102,6 +102,7 @@ static NSString *ChiCangOrderID = @"ChiCangOrderID";
     [super viewWillAppear:animated];
     //开启推送
 //    [self openSocket];
+    [self openTimer];
 }
 #pragma mark -- Socket --
 //打开推送
@@ -131,7 +132,7 @@ static NSString *ChiCangOrderID = @"ChiCangOrderID";
 }
 - (void)openTimer{
     if (!self.timer) {
-        _timer = [NSTimer scheduledTimerWithTimeInterval:2.f target:self selector:@selector(reloadTimer) userInfo:nil repeats:YES];
+        _timer = [NSTimer scheduledTimerWithTimeInterval:5.f target:self selector:@selector(reloadTimer) userInfo:nil repeats:YES];
     }
 }
 
@@ -415,7 +416,8 @@ static NSString *ChiCangOrderID = @"ChiCangOrderID";
 
 #pragma mark - 更新父视图数据
 - (void)updateSuperVC{
-    if (self.updateBlock) {
+    if (self.updateBlock)
+    {
         self.updateBlock(self.dataSource);
     }
 }
@@ -515,7 +517,8 @@ static NSString *ChiCangOrderID = @"ChiCangOrderID";
 
 #pragma mark -- 平仓 --
 - (HeYue_PingCang_AlertView *)pingCangAlertView{
-    if (_pingCangAlertView == nil) {
+    if (_pingCangAlertView == nil)
+    {
         _pingCangAlertView = [[HeYue_PingCang_AlertView alloc]initWithFrame:self.view.bounds];
         WS(weakSelf);
         
@@ -561,10 +564,11 @@ static NSString *ChiCangOrderID = @"ChiCangOrderID";
 #pragma mark 键平仓 
 - (Heyue_AllPingCang_AlertView *)allPingCangAlertView
 {
-    if (_allPingCangAlertView == nil) {
+    if (_allPingCangAlertView == nil)
+    {
         _allPingCangAlertView = [[Heyue_AllPingCang_AlertView alloc]initWithFrame:self.view.bounds];
         WS(weakSelf);
-        self.allPingCangAlertView.AllPingCangBlock = ^{
+        _allPingCangAlertView.AllPingCangBlock = ^{
             [weakSelf allPingCangRequstion];
         };
     }
@@ -583,11 +587,14 @@ static NSString *ChiCangOrderID = @"ChiCangOrderID";
         [hud hideAnimated:YES];
         
         WL_Network_Model *netModel = [WL_Network_Model mj_objectWithKeyValues:responseObject];
-        if (netModel.status.integerValue == 200) {
+        if (netModel.status.integerValue == 200)
+        {
             [weakSelf.allPingCangAlertView removeFromSuperview];
             [MBProgressHUD showError:SSKJLocalized(@"平仓成功", nil)];
             [weakSelf headerRefresh];
-        }else{
+        }
+        else
+        {
             [MBProgressHUD showError:SSKJLocalized(@"平仓失败", nil)];
         }
         

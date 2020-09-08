@@ -86,7 +86,8 @@ typedef NS_ENUM(NSUInteger, PhotoType)
 {
     if (nil == _nameView)
     {
-        _nameView = [[SSKJ_TextFieldView alloc]initWithFrame:CGRectMake(0, ScaleW(30), ScreenWidth, ScaleW(70))];
+        _nameView = [[SSKJ_TextFieldView alloc]init];
+        [_nameView setFrame:CGRectMake(0, ScaleW(30), ScreenWidth, ScaleW(70))];
         [_nameView setTitle:SSKJLanguage(@"姓名") placeholder:SSKJLanguage(@"请输入您的姓名") secureTextEntry:NO];
     }
     return _nameView;
@@ -97,7 +98,8 @@ typedef NS_ENUM(NSUInteger, PhotoType)
 {
     if (!_idView)
     {
-        _idView = [[SSKJ_TextFieldView alloc]initWithFrame:CGRectMake(0, self.nameView.bottom+ScaleW(20), ScreenWidth, self.nameView.height)];
+        _idView = [[SSKJ_TextFieldView alloc]init];
+        [_idView setFrame:CGRectMake(0, self.nameView.bottom+ScaleW(20), ScreenWidth, self.nameView.height)];
         [_idView setTitle:SSKJLanguage(@"证件号码") placeholder:SSKJLanguage(@"请输入您的证件号码") secureTextEntry:NO];
     }
     return _idView;

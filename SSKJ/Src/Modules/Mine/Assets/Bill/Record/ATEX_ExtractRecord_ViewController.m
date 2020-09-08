@@ -103,24 +103,16 @@ static NSString *cellID = @"ExtractRecord_Cell";
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ATEX_Extract_IndexModel *model = self.dataSource[indexPath.section];
-    if (model.status.integerValue == 3 || model.status.integerValue == 5) {
+    if (model.status.integerValue == 3 || model.status.integerValue == 5)
+    {
         return ScaleW(204);
-    }else{
-        return ScaleW(174);
+    }
+    else
+    {
+        return ScaleW(185);
     }
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return ScaleW(10);
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScaleW(10))];
-    view.backgroundColor = kBgColor;
-    return view;
-}
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {

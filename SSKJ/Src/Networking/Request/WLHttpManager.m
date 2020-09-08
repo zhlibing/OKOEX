@@ -10,6 +10,7 @@
 #import "AFHTTPSessionManager.h"
 #import "SSKJ_Logout_AlertView.h"
 #define TimeOutSecond 30
+#define logoutCode 401
 
 @interface WLHttpManager ()
 @property (nonatomic, strong) SSKJ_Logout_AlertView *logoutAlertView;
@@ -123,7 +124,7 @@
              {
                  WL_Network_Model *network_Model=[WL_Network_Model mj_objectWithKeyValues:responseObject];
                  
-                 if ([network_Model.status integerValue]==401)
+                 if ([network_Model.status integerValue]==logoutCode)
                  {
 //                     [MBProgressHUD showError:network_Model.msg];
        
@@ -184,7 +185,7 @@
              {
                  WL_Network_Model *network_Model=[WL_Network_Model mj_objectWithKeyValues:responseObject];
                 
-                 if ([network_Model.status integerValue]==401)
+                 if ([network_Model.status integerValue]==logoutCode)
                  {
 //                     [MBProgressHUD showError:network_Model.msg];
 
@@ -292,11 +293,12 @@
 }
 -(SSKJ_Logout_AlertView *)logoutAlertView
 {
-    if (nil == _logoutAlertView) {
+    if (nil == _logoutAlertView)
+    {
         _logoutAlertView = [[SSKJ_Logout_AlertView alloc]init];
         _logoutAlertView.confirmBlock = ^{
             NSDictionary *dic = [NSDictionary dictionaryWithObject:@"401" forKey:@"status"];
-            
+
             [[NSNotificationCenter defaultCenter] postNotificationName:@"LoginToken" object:nil userInfo:dic];
         };
     }
@@ -305,10 +307,14 @@
 
 -(void)showLogoutViewWithMessage:(NSString *)message
 {
-    if (!self.logoutAlertView.isShow)
-    {
-        [self.logoutAlertView showWithMessage:message];
-    }
+    /**
+     解决双弹屏的问题
+     if (!self.logoutAlertView.isShow)
+     {
+         [self.logoutAlertView showWithMessage:message];
+     }
+     */
+    
 }
 
 #pragma mark - 系统自带Get请求接口

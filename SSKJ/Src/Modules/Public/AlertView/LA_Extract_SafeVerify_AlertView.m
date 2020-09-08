@@ -306,8 +306,7 @@
     } completion:^(BOOL finished)
     {
         [weakSelf removeFromSuperview];
-    }];
-    
+    }];    
 }
 
 

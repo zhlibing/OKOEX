@@ -106,10 +106,10 @@
 
     [self.smsCodeButton mas_makeConstraints:^(MASConstraintMaker *make)
     {
-        make.bottom.equalTo(self.phoneView.mas_bottom);
+        make.centerY.equalTo(self.phoneView.field.mas_centerY);
         make.width.equalTo(@(ScaleW(99)));
         make.right.equalTo(@(-15));
-        make.height.equalTo(@(ScaleW(44)));
+        make.height.equalTo(@(44));
     }];
     
     [self.submitButton mas_makeConstraints:^(MASConstraintMaker *make)

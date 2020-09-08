@@ -53,9 +53,15 @@ static NSString *WeiTuoOrderID = @"WeiTuoOrderID";
 
     [self requestWeiTuoOrder_URL];
 
-    [self openTimer];
+    
     
     [self allBtn];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self openTimer];
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -65,7 +71,7 @@ static NSString *WeiTuoOrderID = @"WeiTuoOrderID";
 
 - (void)openTimer{
     if (!self.timer) {
-        _timer = [NSTimer scheduledTimerWithTimeInterval:5.f target:self selector:@selector(reloadTimer) userInfo:nil repeats:YES];
+        _timer = [NSTimer scheduledTimerWithTimeInterval:1.f target:self selector:@selector(reloadTimer) userInfo:nil repeats:YES];
     }
 }
 

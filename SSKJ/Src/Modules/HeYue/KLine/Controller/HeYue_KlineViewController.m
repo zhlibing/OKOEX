@@ -482,8 +482,9 @@ static NSString *marketSocketIdentifier = @"maekSocketIdentifier";
          WL_Network_Model *network_Model=[WL_Network_Model mj_objectWithKeyValues:responseObject];
          if (network_Model.status.integerValue == SUCCESSED)
          {
-             [weakSelf.depthView setDeepData:[network_Model.data firstObject]];
-             if (weakSelf.introductHeaderView.selectedIndex == 0) {
+             [weakSelf.depthView setDeepData:network_Model.data];
+             if (weakSelf.introductHeaderView.selectedIndex == 0)
+             {
                  weakSelf.scrollView.contentSize = CGSizeMake(ScreenWidth, self.depthView.bottom + ScaleW(60));
              }
          }else{
